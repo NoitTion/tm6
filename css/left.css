@@ -1,0 +1,56 @@
+#left_page{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f4fbe2;
+}
+div{
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+#logo img{
+    width: 36px;
+    height: 36px;
+}
+div{
+    height: 42px;
+    width: 48px;
+}
+
+#star_hover_wrap, #notes_hover_wrap, #books_hover_wrap, #label_hover_wrap{
+    display: none;
+    position: absolute;
+}
+#new_hover_wrap{
+    display: none;
+    position: absolute;
+
+}
+#star{
+    margin: 72px 0 0 0;
+}
+#logo{
+    margin: 12px 0;
+}
+#new {
+    cursor: pointer;
+    margin: 36px 0;
+    height:42px;
+    width: 36px;
+}
+#star, #notes, #books, #label{
+    cursor: pointer;
+}
+#user_img{
+    bottom: 50px;
+    height: 36px;
+    width: 35px;
+    position: fixed;
+
+}
+#user_img img{
+    height: 36px;
+    width: 35px;
+    cursor: pointer;
+}

@@ -1,0 +1,24 @@
+#left{
+    width: 60px;
+    height: 100%;
+    float: left;
+}
+#middle{
+    width: 20%;
+    height: 100%;
+    float: left;
+
+
+}#edit{
+     width: 60%;
+     height: 100%;
+     float: left;
+ }
+ .new{
+     height: 100%;
+     width: 100%;
+     background-color: white;
+ }
+ #middle2{
+     display: none;
+ }
