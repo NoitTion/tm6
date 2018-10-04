@@ -8,9 +8,10 @@ html{
     float: left;
 }
 #middle{
-    width: 20%;
+    width: 270px;
     height: 100%;
     float: left;
+    margin: 0;
 
 
 }#edit{
@@ -23,6 +24,13 @@ html{
      width: 100%;
      background-color: white;
  }
+ #middle1{
+     width: 100%;
+     height: 100%;
+ }
  #middle2{
      display: none;
+ }
+ .clear{
+     clear: both;
  }

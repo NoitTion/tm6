@@ -31,8 +31,8 @@
 <body>
 <div id="left"><?php include("left.php")?>  </div>
 <div id="middle">
-    <div id="middle1"><?php include("star.php") ?></div>
-    <div id="middle2"><?php include("notes.php") ?></div>
+    <div id="middle1"><?php include("notes.php") ?></div>
+    <div id="middle2"><?php include("star.php") ?></div>
 </div>
 
 <div id="edit"><?php include ("edit.php")?></div>
