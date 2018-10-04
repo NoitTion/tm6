@@ -22,25 +22,25 @@
             var x2 = x1 + div.width();
             return x < x1 || x > x2 || y < y1 || y > y2;
         }
-
         $(document).ready(function () {
-
-            $(document).mousemove(function(e){
+            arrs = $("div").filter('.hover_wrap').toArray();
+            divs = Array();
+            for(var i = 0;i < arrs.length;++i){
+                divs.join($(arrs[i]).prev());
+            }
+            $(document).mousemove(function(e) {
                 x = e.pageX;
                 y = e.pageY;
-                arrs = $("div").filter('.hover_wrap').toArray();
-
-                //缓解两个div都出现的bug,仍需要更好的方法
-                for(var i = 0;i < arrs.length;++i){
-                    var hoverdi = arrs[i];//假的hoverdiv,,,不能直接用他的方法
-                    var div = $(hoverdi).prev();
-                    var hoverdiv = $(div).next();
-                    if((mousenotindiv(hoverdiv) && hoverdiv.css('display') === "block")){
+                //缓解两个div都出现的bug,仍需要更好的方法,cpu占用较高15%,就几个方法就占4-5%的cpu
+                for (var i = 0; i < arrs.length; ++i) {
+                    var hoverdiv = $(arrs[i]);
+                    var div = $(divs[i]);
+                    if ((mousenotindiv(hoverdiv) && hoverdiv.css('display') === "block")) {
                         hoverdiv.fadeOut(0, function () {
                             $(this).prev().fadeIn(0);
                         })
                     }
-                    if(div.css('display') === 'block' && hoverdiv.css('display') === 'block'){
+                    if (div.css('display') === 'block' && hoverdiv.css('display') === 'block') {
                         hoverdiv.css('display', 'none');
                     }
                 }
@@ -94,8 +94,8 @@
     </script>
 
         </head>
-<body id="left_page">
-    <div>
+<body>
+    <div id="main_div">
         <div id="logo">
             <img src="img/logo.png" id="logo_img">
         </div>
