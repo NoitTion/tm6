@@ -21,21 +21,31 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/notes.css" type="text/css">
     <script type="text/javascript">
+        $(window).resize(function(){
+            $('#notes_list').css('height', $(window).height() - $('#middle_top').height() - 54)
+        });
         $(window).ready(function () {
-            var winHeight = $(window).height();//winHeight即浏览器高度
-            var menuHeight = $("#notes_list").offsetHeight;//菜单高度;其中menu_div为菜单所在标签的id
-            if(menuHeight<winHeight){
-                $("#notes_list").css("height",winHeight);
-            }
-            else if(menuHeight>=winHeight){
-                $("#notes_list").css("height",auto);
-            }
-        })
+            $('#notes_list').css('height', $(window).height() - $('#middle_top').height() - 54 )
+
+            $('.glyphicon-star-empty').hover(function () {
+                $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+            }, function () {
+                $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+            });
+            $('.glyphicon-trash').hover(function () {
+                $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
+            },function () {
+                $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
+            })
+        });
+
+
     </script>
 </head>
 <body id="note_true_body">
     <div id="note_body">
-        <div id="note_title"><span id="title_content" class="canoselected lead">笔记</span></div>
+        <div id="middle_top">
+        <div id="notes_title"><span id="title_content" class="canoselected lead">笔记</span></div>
         <div id="option">
             <p id="notes_num" class="notes_num canoselected">4条笔记</p>
             <div class="dropdown optionTab">
@@ -65,32 +75,29 @@
                 </ul>
             </div>
         </div>
-        <hr class="clear">
-        <div id="note_list_wrap">
-        <div id="notes_list">
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
-            <p>fdsjlkfd</p>
         </div>
+        <hr class="clear">
+
+        <div id="notes_list">
+            <div id="note_1" class="note">
+                <span id="note_title">标题</span>
+                <span class="glyphicon glyphicon-trash  pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
+                <span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
+                <br>
+                <p id="note_excerpt">部分内容aaaaaaaaa</p>
+            </div>
+            <hr>
+
+            <div id="note_1" class="note">
+                <span id="note_title">标题</span>
+                <span class="glyphicon glyphicon-trash pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
+                <span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
+                <br>
+                <p id="note_excerpt">部分内容aaaaaaaaa</p>
+            </div>
+            <hr>
+
+
         </div>
     </div>
 </body>

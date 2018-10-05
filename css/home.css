@@ -3,19 +3,19 @@ html{
 }
 
 #left{
-    width: 60px;
+    width: 48px;
     height: 100%;
     float: left;
 }
 #middle{
-    width: 270px;
+    width: 276px;
     height: 100%;
     float: left;
     margin: 0;
 
 
 }#edit{
-     width: 60%;
+     width: 70%;
      height: 100%;
      float: left;
  }
