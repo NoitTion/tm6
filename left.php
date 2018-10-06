@@ -31,7 +31,7 @@
             $(document).mousemove(function(e) {
                 x = e.pageX;
                 y = e.pageY;
-                //缓解两个div都出现的bug,仍需要更好的方法,cpu占用较高15%,就几个方法就占4-5%的cpu
+                //缓解两个div都出现的bug,仍需要更好的方法,cpu占用较高15%
                 for (var i = 0; i < arrs.length; ++i) {
                     var hoverdiv = $(arrs[i]);
                     var div = $(divs[i]);

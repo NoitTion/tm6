@@ -24,21 +24,90 @@
         $(window).resize(function(){
             $('#notes_list').css('height', $(window).height() - $('#middle_top').height() - 54)
         });
+
         $(window).ready(function () {
-            $('#notes_list').css('height', $(window).height() - $('#middle_top').height() - 54 )
+            notesarr = "";
+            $('#notes_list').css('height', $(window).height() - $('#middle_top').height() - 54 );
 
-            $('.glyphicon-star-empty').hover(function () {
-                $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
-            }, function () {
-                $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
-            });
-            $('.glyphicon-trash').hover(function () {
-                $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
-            },function () {
-                $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
-            })
+            var xmlhttp;
+            function loadXMLDoc(url,cfunc)
+            {
+                if (window.XMLHttpRequest)
+                {// IE7+, Firefox, Chrome, Opera, Safari 代码
+                    xmlhttp=new XMLHttpRequest();
+                }
+                else
+                {// IE6, IE5 代码
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange=cfunc;
+                xmlhttp.open("POST",url,true);
+
+                xmlhttp.send();
+            }
+            function getAllNotes(notes)
+            {
+                loadXMLDoc("ajax/getAllnotes.php",function()
+                {
+                    if (xmlhttp.readyState===4 && xmlhttp.status===200)
+                    {
+                        //$('#notesscript').html(xmlhttp.responseText);
+                        // notes.getnotes($.parseJSON(xmlhttp.responseText));
+                        var nnotes = $.parseJSON(xmlhttp.responseText);
+                        notes.getnotes(nnotes);
+                        notes.print2NoteList();
+
+                    }
+                });
+            }
+            function Notes() {
+                this.getnotes = function (notes) {
+                    this.notes = notes;
+                };
+                this.print2NoteList = function() {
+                    console.log(this.notes);
+                    for(i = 0;i < this.notes.length;++i) {
+                        $('#notes_list').html($('#notes_list').html() + '<div id="note_1" class="note">' +
+                            '<span id="note_title">' + this.notes[i]['title']+ '</span>' +
+                            '<span class="glyphicon glyphicon-trash pull-right smallicon" style="color: rgb(255, 255, 255);"></span>' +
+                            '<span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>' +
+                            '<br>' +
+                            '<p id="note_excerpt">' + this.notes[i]['content'] +
+                            '</div>' +
+                            '<hr>');
+                    }
+                    lightit();
+
+                }
+            }
+            function Books(books) {
+                this.books = books;
+                this.notes.push(note);
+                this.print_notes = function () {
+                    var i = 0;
+                    for (i = 0; i < this.notes.length; ++i) {
+                        this.notes[i].print();
+                    }
+                };
+            }
+            var notes = new Notes();
+            getAllNotes(notes);
+
+
+            //要放下面
+            function lightit() {
+                $('.glyphicon-star-empty').hover(function () {
+                    $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+                }, function () {
+                    $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+                });
+                $('.glyphicon-trash').hover(function () {
+                    $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
+                }, function () {
+                    $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
+                });
+            }
         });
-
 
     </script>
 </head>
@@ -50,7 +119,7 @@
             <p id="notes_num" class="notes_num canoselected">4条笔记</p>
             <div class="dropdown optionTab">
                 <button type="button" class="btn dropdown-toggle" id="dropDownOption" data-toggle="dropdown" style="background-color: white">选项
-                    <span class="caret"></span>
+                    <span class="caret"/>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropDownOption">
                     <li role="presentation" class="dropdown-header">排序方式</li>
@@ -87,18 +156,19 @@
                 <p id="note_excerpt">部分内容aaaaaaaaa</p>
             </div>
             <hr>
-
-            <div id="note_1" class="note">
-                <span id="note_title">标题</span>
-                <span class="glyphicon glyphicon-trash pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
-                <span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
-                <br>
-                <p id="note_excerpt">部分内容aaaaaaaaa</p>
-            </div>
-            <hr>
-
-
+<!---->
+<!--            <div id="note_1" class="note">-->
+<!--                <span id="note_title">标题</span>-->
+<!--                <span class="glyphicon glyphicon-trash pull-right smallicon" style="color: rgb(255, 255, 255);"></span>-->
+<!--                <span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>-->
+<!--                <br>-->
+<!--                <p id="note_excerpt">部分内容aaaaaaaaa</p>-->
+<!--            </div>-->
+<!--            <hr>-->
+<!---->
         </div>
     </div>
+
+<div id="notesscript" style="display: none"></div>
 </body>
 </html>
