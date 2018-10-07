@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--    <script src="js/jquery.min.js"></script>-->
+<!--    <script src="js/bootstrap.min.js"></script>-->
     <title>Document</title>
     <link rel="stylesheet" href="css/notes.css" type="text/css">
     <script type="text/javascript">
@@ -57,6 +59,7 @@
                         var nnotes = $.parseJSON(xmlhttp.responseText);
                         notes.getnotes(nnotes);
                         notes.print2NoteList();
+                        lightit(notes);
 
                     }
                 });
@@ -65,25 +68,45 @@
                 this.getnotes = function (notes) {
                     this.notes = notes;
                 };
+                this.pushnote = function (note) {
+                    this.notes.push(note);
+                };
                 this.print2NoteList = function() {
-                    console.log(this.notes);
                     for(i = 0;i < this.notes.length;++i) {
-                        $('#notes_list').html($('#notes_list').html() + '<div id="note_1" class="note">' +
-                            '<span id="note_title">' + this.notes[i]['title']+ '</span>' +
-                            '<span class="glyphicon glyphicon-trash pull-right smallicon" style="color: rgb(255, 255, 255);"></span>' +
-                            '<span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>' +
-                            '<br>' +
-                            '<p id="note_excerpt">' + this.notes[i]['content'] +
-                            '</div>' +
-                            '<hr>');
+                        if(this.notes[i]['isdelete'] === '0') {
+                            $('#notes_list').html($('#notes_list').html() +
+                                '<div id="' + this.notes[i]['id'] + '"" class="note">' +
+                                '<span id="note_title">' + this.notes[i]['title'] + '</span>' +
+                                '<span class="glyphicon glyphicon-trash pull-right smallicon trash" style="color: rgb(255, 255, 255);"/>' +
+                                '<span class="glyphicon glyphicon-star-empty pull-right smallicon star" style="color: rgb(255, 255, 255);"/>' +
+                                '<br>' +
+                                '<p id="note_excerpt">' + this.notes[i]['content'] +
+                                '</div>' +
+                                '<hr>');
+                        }
                     }
-                    lightit();
-
-                }
+                };
+                this.clearNoteList = function () {
+                    $('#notes_list').html('');
+                };
+                this.deletenote = function(id){
+                    var i = 0;
+                    for(i = 0;i < this.notes.length;++i){
+                        if(this.notes[i]['id'] === id){
+                            this.notes.shift(i);
+                            //this.clearNoteList();
+                            //this.print2NoteList();
+                            //lightit(this);
+                            break;
+                        }
+                    }
+                };
             }
-            function Books(books) {
+
+
+            function Books(books, notes) {
                 this.books = books;
-                this.notes.push(note);
+                this.notes = notes;
                 this.print_notes = function () {
                     var i = 0;
                     for (i = 0; i < this.notes.length; ++i) {
@@ -95,8 +118,12 @@
             getAllNotes(notes);
 
 
-            //要放下面
-            function lightit() {
+            // $('#anote').click(function () {
+            //     alert($(this).children().eq(1).html());
+            // });
+
+            //给note加上动画
+            function lightit(notes) {
                 $('.glyphicon-star-empty').hover(function () {
                     $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
                 }, function () {
@@ -107,6 +134,30 @@
                 }, function () {
                     $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
                 });
+                $('.note').click(function () {
+                    var str = $(this).children().eq(0).html();
+                    var str2 = $(this).children().eq(4).html();
+                    $('#edit_eara').html(str + '\n' +str2);
+                });
+                $('.trash').click(function (event) {
+
+                    var id = $(this).parent().attr('id');
+                    alert(id);
+                    if(prompt('确认要删除?')==='1'){
+                        //!!!这里要向服务器端请求删除便签
+                        $.get("ajax/deleteAnote.php?id=" + id, function (status) {
+                            console.log(status);
+                        });
+                        notes.deletenote(id);
+                        $(this).parent().remove();
+
+                    }
+                    return false;//组织事件冒泡,阻止事件默认行为
+                });
+                $('.star').click(function (event) {
+                    alert(211);
+                    return false;
+                })
             }
         });
 
@@ -149,18 +200,9 @@
         <hr class="clear">
 
         <div id="notes_list">
-            <div id="note_1" class="note">
-                <span id="note_title">标题</span>
-                <span class="glyphicon glyphicon-trash  pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
-                <span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>
-                <br>
-                <p id="note_excerpt">部分内容aaaaaaaaa</p>
-            </div>
-            <hr>
-<!---->
-<!--            <div id="note_1" class="note">-->
+<!--            <div id="anote" class="note">-->
 <!--                <span id="note_title">标题</span>-->
-<!--                <span class="glyphicon glyphicon-trash pull-right smallicon" style="color: rgb(255, 255, 255);"></span>-->
+<!--                <span class="glyphicon glyphicon-trash  pull-right smallicon" style="color: rgb(255, 255, 255);"></span>-->
 <!--                <span class="glyphicon glyphicon-star-empty pull-right smallicon" style="color: rgb(255, 255, 255);"></span>-->
 <!--                <br>-->
 <!--                <p id="note_excerpt">部分内容aaaaaaaaa</p>-->

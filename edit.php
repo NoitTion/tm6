@@ -17,6 +17,6 @@
     <title>Document</title>
 </head>
 <body>
-<textarea style="width: 100%; height: 100%;"></textarea>
+<textarea style="width: 100%; height: 100%;" id="edit_eara"></textarea>
 </body>
 </html>

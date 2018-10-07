@@ -46,6 +46,7 @@ body{
     height: auto;
     /*要用js....*/
     overflow: hidden scroll;
+    user-select: none;
 }
 .canoselected{
     user-select: none;
@@ -77,7 +78,6 @@ body{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
-
 }
 #note_excerpt{
     color: #646464;
@@ -85,7 +85,6 @@ body{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
-
 }
 hr{
     margin: 0;
