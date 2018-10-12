@@ -2,31 +2,32 @@
     margin: 0;
     padding: 0;
 }
+
+#left div{
+    text-align: center;
+    height: 42px;
+    width: 48px;
+
+}
+#left{
+    background-color: #f4fbe2;
+
+}
 html, body{
     height: 100%;
+
 }
 
 #main_div{
     margin: 0;
     width: 48px;
-    height: 100%;
-    background-color: #f4fbe2;
-}
-div{
-    margin: 0 auto;
-    width: 100%;
-    text-align: center;
+    height: auto;
 }
 #logo img{
     margin: 10px 0 0 0;
     width: 36px;
     height: 36px;
 }
-div{
-    height: 42px;
-    width: 48px;
-}
-
 #star_hover_wrap, #notes_hover_wrap, #books_hover_wrap, #label_hover_wrap{
     display: none;
     position: absolute;
@@ -34,7 +35,6 @@ div{
 #new_hover_wrap{
     display: none;
     position: absolute;
-
 }
 #star{
     margin: 72px 0 0 0;

@@ -25,10 +25,10 @@
         $(document).ready(function () {
             arrs = $("div").filter('.hover_wrap').toArray();
             divs = Array();
-            for(var i = 0;i < arrs.length;++i){
+            for (var i = 0; i < arrs.length; ++i) {
                 divs.join($(arrs[i]).prev());
             }
-            $(document).mousemove(function(e) {
+            $(document).mousemove(function (e) {
                 x = e.pageX;
                 y = e.pageY;
                 //缓解两个div都出现的bug,仍需要更好的方法,cpu占用较高15%
@@ -46,18 +46,19 @@
                 }
             });
 
-            var duringTime = 80;
-            $("div").filter(".wrap").mouseenter(function(){
-                $(this).fadeOut(duringTime, function(){
+            var duringTime = 200;
+            $("div").filter(".wrap").mouseenter(function () {
+                $(this).fadeOut(50, function () {
                     $(this).next().fadeIn(duringTime);
                 });
-                $(this).next().mouseleave(function(){
-                    $(this).fadeOut(duringTime, function(){
+                $(this).next().mouseleave(function () {
+                    $(this).fadeOut(50, function () {
                         $(this).prev().fadeIn(duringTime);
                     })
                 })
             });
-            function changetonormal(){
+
+            function changetonormal() {
                 $('#star_normal').attr('src', 'img/star_normal.png');
                 $('#notes_normal').attr('src', 'img/note_normal.png');
                 $('#label_normal').attr('src', 'img/label_normal.png');
@@ -65,6 +66,7 @@
                 $('#new_normal').attr('src', 'img/new_normal.png');
 
             }
+
             $('#star').click(function () {
                 changetonormal();
                 $('#star_normal').attr('src', 'img/star_selected.png');
@@ -87,8 +89,19 @@
             $('#new').click(function () {
                 changetonormal();
 
-                $('#new_normal').attr('src', 'img/new_hover.png');
             });
+
+            $('.leftTable').click(function () {
+                var thatMiddleDiv = $('#middle_' + $(this).attr('id'));
+                // if($(this).attr('id') === 'star')
+                //     return;
+                $('.middles').each(function () {
+                    if ($(this).css('display') === 'block' && $(this).attr('id') !== thatMiddleDiv.attr('id'))
+                        $(this).fadeOut(0);
+                });
+                //console.log('#middle_' + $(this).attr('id'));
+                thatMiddleDiv.fadeIn(250);
+            })
         });
 
     </script>
@@ -107,25 +120,25 @@
             <div id="new_hover_wrap" class="hover_wrap"><img src="img/new_hover.png" id="new_hover"></div>
         </div>
 
-        <div id="star">
+        <div id="star" class="leftTable">
             <div id="star_wrap" class="wrap"><img src="img/star_normal.png" id="star_normal"></div>
             <div id="star_hover_wrap" class="hover_wrap"><img src="img/star_hover.png" id="star_hover"></div>
         </div>
 
-        <div id="notes">
+        <div id="notes" class="leftTable">
             <div id="notes_wrap" class="wrap"><img src="img/note_normal.png" id="notes_normal"></div>
             <div id="notes_hover_wrap" class="hover_wrap"><img src="img/note_hover.png" id="note_hover"></div>
         </div>
-        <div id="books">
+        <div id="books" class="leftTable">
             <div id="books_wrap" class="wrap"><img src="img/books_normal.png" id="books_normal"></div>
             <div id="books_hover_wrap" class="hover_wrap"><img src="img/books_hover.png" id="books_hover"></div>
         </div>
-        <div id="label">
+        <div id="label" class="leftTable">
             <div id="label_hover" class="wrap"><img src="img/label_normal.png" id="label_normal"></div>
             <div id="label_hover_wrap" class="hover_wrap"><img src="img/label_hover.png" id="label_hover"></div>
         </div>
 
-        <div id="user_info">
+        <div id="user_info" class="left_User_info">
             <div id="user_img"><img src="img/user_info.png"> </div>
         </div>
     </div>
