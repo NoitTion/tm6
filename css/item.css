@@ -1,0 +1,101 @@
+
+.optionTab{
+    margin: 0 25px 0 0;
+    float: right;
+}
+#middle_top{
+    margin: 0;
+
+}
+*{
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#items_title{
+    margin: 10px 10px 0;
+    font-size: 21px;
+    width: 100px;
+    text-align: left;
+}
+body{
+    margin: 0;
+    overflow-y: hidden;
+}
+
+#item_body{
+    width: 100%;
+    height: 100%;
+}
+.items_num{
+    margin: 3px 8px;
+    float: left;
+    color: #787878;
+}
+.clear{
+    width: 270px;
+    clear: both;
+    margin: 0;
+}
+#option{
+    position: relative;
+    margin: 0;
+    width: 270px;
+    height: 34px;
+}
+#items_list{
+    width: 275px;
+    height: auto;
+    /*要用js....*/
+    overflow: hidden scroll;
+    user-select: none;
+}
+.canoselected{
+    user-select: none;
+}
+.lead{
+    font-size: 21px;
+}
+.item{
+    cursor: pointer;
+    color: #000000;
+    text-align: left;
+    height: 68px;
+    width: 265px;
+    padding: 10px 10px;
+    transition: background 0.2s;
+}
+.item:hover {
+    background-color: #2dce60;
+    color: #FFFFFF;
+    transition: background 0.2s;
+}
+
+#item_title{
+     display: inline-block;
+     padding: 0;
+     margin: 0;
+     width: 160px;
+     font-size: 20px;
+     white-space:nowrap;
+     overflow:hidden;
+     text-overflow:ellipsis;
+ }
+#item_excerpt{
+    color: #646464;
+    margin: 0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+hr{
+    margin: 0;
+}
+.smallicon{
+    margin: 0 3px;
+}
+.clicked{
+    border: 3px solid #d9d9d9;
+}
