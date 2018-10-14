@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="css/item.css" type="text/css">
     <script type="text/javascript" src="js/NBLS.js"></script>
 </head>
-<body id="item_true_body">
+<body>
     <div id="item_body">
         <div id="middle_top">
         <div id="items_title"><span id="title_content" class="canoselected lead" style="font-size: 23px">笔记</span></div>

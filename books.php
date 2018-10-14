@@ -21,7 +21,7 @@
 
 
 </head>
-<body id="book_true_body">
+<body>
     <div id="book_body">
         <div id="middle_top">
         <div id="books_title"><span id="title_content" class="canoselected lead">笔记本</span></div>

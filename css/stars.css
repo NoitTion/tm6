@@ -1,0 +1,25 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+#star_true_body{
+    margin: 0;
+    padding: 0;
+
+}
+#stars_title{
+    margin: 10px 10px;
+}
+hr{
+    margin: 0;
+    padding: 0;
+}
+#star_single{
+    padding: 1px 5px;
+}
+#star_name{
+    float: left;
+}
+.clear{
+    clear:both;
+}

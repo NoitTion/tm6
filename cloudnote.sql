@@ -1,182 +1,142 @@
--- MySQL dump 10.13  Distrib 5.7.21, for Win64 (x86_64)
---
--- Host: localhost    Database: cloudnote
--- ------------------------------------------------------
--- Server version	5.7.21
+/*
+ Navicat Premium Data Transfer
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+ Source Server         : mysql
+ Source Server Type    : MySQL
+ Source Server Version : 50721
+ Source Host           : localhost:3306
+ Source Schema         : cloudnote
 
---
--- Table structure for table `comment`
---
+ Target Server Type    : MySQL
+ Target Server Version : 50721
+ File Encoding         : 65001
 
+ Date: 13/10/2018 10:47:23
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for comment
+-- ----------------------------
 DROP TABLE IF EXISTS `comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `comment` (
+CREATE TABLE `comment`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `noteid` int(11) NOT NULL,
-  `content` text NOT NULL,
-  `filename` text,
-  `ext` text,
-  `type` text,
-  `filepath` text,
-  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `userid` (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `filename` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `ext` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `type` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `filepath` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `createTime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `userid`(`userid`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `comment`
---
-
-LOCK TABLES `comment` WRITE;
-/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `mark`
---
-
+-- ----------------------------
+-- Table structure for mark
+-- ----------------------------
 DROP TABLE IF EXISTS `mark`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `mark` (
+CREATE TABLE `mark`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) DEFAULT NULL,
-  `markName` text NOT NULL,
-  `isStart` tinyint(4) NOT NULL,
-  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `isdelete` tinyint(4) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `userid` (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `userid` int(11) NULL DEFAULT NULL,
+  `markName` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `isStar` tinyint(4) NOT NULL,
+  `createTime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updateTime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `isdelete` tinyint(4) NULL DEFAULT 0,
+  `notesnum` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `userid`(`userid`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `mark`
---
+-- ----------------------------
+-- Records of mark
+-- ----------------------------
+INSERT INTO `mark` VALUES (1, 1, 'bj', 0, '2018-10-09 21:05:04', '2018-10-09 21:05:04', 0, 0);
+INSERT INTO `mark` VALUES (2, 1, '笔记2', 0, '2018-10-09 21:05:38', '2018-10-13 00:24:51', 1, 0);
 
-LOCK TABLES `mark` WRITE;
-/*!40000 ALTER TABLE `mark` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mark` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `note`
---
-
+-- ----------------------------
+-- Table structure for note
+-- ----------------------------
 DROP TABLE IF EXISTS `note`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `note` (
+CREATE TABLE `note`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) DEFAULT NULL,
-  `title` text NOT NULL,
-  `content` text NOT NULL,
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `markID` text,
-  `notebookID` int(11) DEFAULT NULL,
-  `remindTime` timestamp NULL DEFAULT NULL,
-  `isStart` tinyint(4) NOT NULL,
+  `userid` int(11) NULL DEFAULT NULL,
+  `title` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `createtime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updatetime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `markID` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `notebookID` int(11) NULL DEFAULT NULL,
+  `remindTime` timestamp(0) NULL DEFAULT NULL,
+  `isStar` tinyint(4) NOT NULL,
   `isShare` tinyint(4) NOT NULL,
   `isdelete` tinyint(4) NOT NULL,
-  `sharedpeople` text,
-  PRIMARY KEY (`id`),
-  KEY `notebookID` (`notebookID`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `sharedpeople` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `notebookID`(`notebookID`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `note`
---
+-- ----------------------------
+-- Records of note
+-- ----------------------------
+INSERT INTO `note` VALUES (1, 1, '笔记1', 'jflkdsj房间都是快乐福建省的快乐金坷垃', '2018-10-06 10:05:08', '2018-10-11 10:40:44', NULL, 1, NULL, 1, 0, 0, '');
+INSERT INTO `note` VALUES (2, 2, '笔记2', 'jfds辅导教师小刺猬', '2018-10-06 10:26:30', '2018-10-09 23:29:30', NULL, 1, NULL, 1, 0, 0, NULL);
+INSERT INTO `note` VALUES (3, 1, '笔记3', '积分都快累死我', '2018-10-06 10:28:43', '2018-10-11 10:40:48', NULL, 2, NULL, 1, 0, 0, NULL);
+INSERT INTO `note` VALUES (4, 1, '笔记4房间都说了卡飞机快乐撒地方建立卡萨丁', 'fjlksdajviocxjioewrmn,x附近的开始来附近开了大三 按实际调查v继续哦附近扫粉底霜', '2018-10-06 19:24:18', '2018-10-11 10:40:46', NULL, 1, NULL, 1, 0, 0, NULL);
+INSERT INTO `note` VALUES (5, 1, 'fun', '附近的史莱克', '2018-10-08 00:15:21', '2018-10-11 10:45:31', NULL, 2, NULL, 0, 0, 0, NULL);
+INSERT INTO `note` VALUES (6, 1, '123啊', '富士达', '2018-10-08 01:15:51', '2018-10-11 10:45:58', NULL, 1, NULL, 0, 0, 0, NULL);
+INSERT INTO `note` VALUES (7, 1, 'fad给对方', '放大热点', '2018-10-11 15:30:14', '2018-10-11 15:30:14', NULL, 1, NULL, 0, 0, 0, NULL);
+INSERT INTO `note` VALUES (8, 1, '发送', '风', '2018-10-11 15:30:44', '2018-10-11 15:30:44', NULL, 1, NULL, 1, 1, 0, NULL);
+INSERT INTO `note` VALUES (9, 1, '范德萨额', '法尔', '2018-10-11 15:31:09', '2018-10-11 15:31:09', NULL, 1, NULL, 0, 0, 0, NULL);
+INSERT INTO `note` VALUES (10, 1, 'fV字形认为dsa', '而且认为人体', '2018-10-11 23:53:22', '2018-10-11 23:53:22', NULL, 1, NULL, 0, 0, 0, NULL);
 
-LOCK TABLES `note` WRITE;
-/*!40000 ALTER TABLE `note` DISABLE KEYS */;
-INSERT INTO `note` VALUES (1,1,'笔记1','jflkdsj房间都是快乐福建省的快乐金坷垃','2018-10-06 02:05:08','2018-10-06 02:05:08',NULL,1,NULL,0,0,0,''),(2,2,'笔记2','jfds辅导教师小刺猬','2018-10-06 02:26:30','2018-10-06 02:26:30',NULL,1,NULL,0,0,0,NULL),(3,1,'笔记3','积分都快累死我','2018-10-06 02:28:43','2018-10-06 02:28:43',NULL,1,NULL,0,0,0,NULL),(4,1,'笔记4房间都说了卡飞机快乐撒地方建立卡萨丁','fjlksdajviocxjioewrmn,x附近的开始来附近开了大三 按实际调查v继续哦附近扫粉底霜','2018-10-06 11:24:18','2018-10-06 11:24:18',NULL,1,NULL,0,0,0,NULL);
-/*!40000 ALTER TABLE `note` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `notebook`
---
-
+-- ----------------------------
+-- Table structure for notebook
+-- ----------------------------
 DROP TABLE IF EXISTS `notebook`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notebook` (
+CREATE TABLE `notebook`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
-  `bookName` text NOT NULL,
-  `isShare` tinyint(4) NOT NULL,
-  `isDelete` tinyint(4) DEFAULT '0',
-  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `isStart` tinyint(4) NOT NULL,
-  `noteNumber` int(11) NOT NULL DEFAULT '0',
-  `sharedpeople` text,
-  PRIMARY KEY (`id`),
-  KEY `userid` (`userid`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `bookName` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `isShare` tinyint(4) UNSIGNED NOT NULL,
+  `isdelete` tinyint(4) NULL DEFAULT 0,
+  `createTime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updateTime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `isStar` tinyint(4) UNSIGNED NOT NULL,
+  `noteNumber` int(11) NOT NULL DEFAULT 0,
+  `sharedpeople` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `userid`(`userid`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `notebook`
---
+-- ----------------------------
+-- Records of notebook
+-- ----------------------------
+INSERT INTO `notebook` VALUES (1, 1, '笔记本1', 0, 0, '2018-10-06 10:05:00', '2018-10-11 10:45:38', 0, 0, NULL);
+INSERT INTO `notebook` VALUES (2, 1, '笔记本2', 0, 0, '2018-10-09 22:44:59', '2018-10-11 00:36:24', 0, 0, '');
+INSERT INTO `notebook` VALUES (3, 2, 'fds3', 0, 0, '2018-10-10 09:37:21', '2018-10-10 09:37:21', 0, 0, NULL);
+INSERT INTO `notebook` VALUES (4, 1, 'fsda4', 0, 0, '2018-10-10 09:38:17', '2018-10-11 00:36:29', 0, 0, NULL);
 
-LOCK TABLES `notebook` WRITE;
-/*!40000 ALTER TABLE `notebook` DISABLE KEYS */;
-INSERT INTO `notebook` VALUES (1,1,'笔记本1',0,0,'2018-10-06 02:05:00','2018-10-06 02:05:00',0,0,NULL);
-/*!40000 ALTER TABLE `notebook` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
-
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
 DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` text NOT NULL,
-  `password` text NOT NULL,
-  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `username` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `password` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `createTime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
---
--- Dumping data for table `user`
---
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'admin', 'admin', '2018-10-06 10:02:24');
+INSERT INTO `user` VALUES (2, 'euty', 'euty', '2018-10-06 10:02:24');
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','admin','2018-10-06 02:02:24'),(2,'euty','euty','2018-10-06 02:02:24');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-10-06 20:02:45
+SET FOREIGN_KEY_CHECKS = 1;
