@@ -3,7 +3,7 @@ $db_name = "team6_note";
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$con = mysqli_connect("localhost","root","root","mysql");
+$con = mysqli_connect("localhost","root","root","cloudnote");
 if(!$con){
     die('Could not connect: ' . mysql_error());
 }
@@ -32,7 +32,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 mysqli_close($con);
 
 if($status == 1){
-    echo "<meta http-equiv='refresh' content='0;note.php'/>";
+    echo "<meta http-equiv='refresh' content='0;home.php'/>";
 }
 else{
     echo "<meta charset='utf-8'>";

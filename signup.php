@@ -3,7 +3,7 @@ $db_name = "team6_note";
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$con = mysqli_connect("localhost","root","root","mysql");
+$con = mysqli_connect("localhost","root","root","cloudnote");
 if(!$con){
     die('Could not connect: ' . mysql_error());
 }
