@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+}
+html{
+    height: 100%;
+}
+
+#left{
+    width: 48px;
+    height: 100%;
+    float: left;
+}
+#middle{
+    width: 276px;
+    height: 100%;
+    float: left;
+    margin: 0;
+
+
+}#edit{
+     width: 70%;
+     height: 100%;
+     float: left;
+ }
+.new{
+     height: 100%;
+     width: 100%;
+     background-color: white;
+ }
+ #middle_notes{
+     width: 100%;
+     height: 100%;
+     margin: 0;
+     display: block;
+ }
+ #middle_star, #middle_books, #middle_label{
+     width: 100%;
+     height: 100%;
+     margin: 0;
+     display: none;
+ }
+ .clear{
+     clear: both;
+ }

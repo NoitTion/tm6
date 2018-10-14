@@ -1,0 +1,29 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: admin
+ * Date: 2018/10/1
+ * Time: 23:43
+ */
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>team6笔记</title>
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+
+</head>
+<body>
+<div id="left"><?php include "left.php"?>  </div>
+<div id="middle">
+    <div id="middle_star" class="middles"><?php include "star.php"?></div>
+    <div id="middle_notes" class="middles"><?php include "notes.php"?></div>
+    <div id="middle_books" class="middles"><?php include "books.php"?></div>
+    <div id="middle_label" class="middles"><?php include "marks.php"?></div>
+</div>
+<div id="edit"><?php include "edit.php"?></div>
+
+</body>
+</html>
