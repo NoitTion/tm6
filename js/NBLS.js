@@ -159,6 +159,12 @@ $(window).ready(function () {
             }
             this.lightBooks();
         };
+
+        this.starbook = function(bookid){
+            var index = IndexOf(this.book, 'id', bookid);
+            //TODO:server
+        }
+
         this.lightBooks = function () {
             $('#books_list .trash').click(function () { //删除笔记,标签,笔记本,星标
                 var id = $(this).parent().attr('id');
@@ -274,6 +280,7 @@ $(window).ready(function () {
         }
 
         function alterName(str) {
+            //TODO: server
             this.markName = str;
             $('#markid_' + this.id + '  .mark_name').html(str);
         }
@@ -300,7 +307,7 @@ $(window).ready(function () {
                 var str = prompt("enter your new label name", that.markName); //LADO:jq弹出层插件
                 if (str != null && str.trim() !== '') {
                     that.alterName(str);
-                    //TODO: server
+
                 }
             });
             console.log('lightme:delete' + this.id);
@@ -309,6 +316,14 @@ $(window).ready(function () {
                 if (confirm('确认删除标签?')) {
                     that.removemyself();
                 }
+            });
+
+            $('.mark').click(function () {
+                var str = $(this).attr('id').split('_')[1];
+                // console.log('这个便签的id为' + str);
+                item.listinit('mark_note_show', str, 1); //通过id要知道真正的id
+                $('#middle_label').fadeOut(0);
+                $('#middle_notes').fadeIn(200);
             });
 
         }
@@ -504,7 +519,7 @@ $(window).ready(function () {
             for (i = 0; i < this.lists.length; ++i) {
                 var star = '';
                 if (this.lists[i]['isStar'] === '1') {
-                    star = 'glyphicon-star';
+                    star = 'glyphicon-star stared';
                 } else if (this.lists[i]['isStar'] === '0') {
                     star = 'glyphicon-star-empty';
                 }
@@ -519,7 +534,6 @@ $(window).ready(function () {
                         '<p id="item_excerpt">' + this.lists[i]['content'] +
                         '</div>' +
                         '<hr class="clear">');
-
                 }
             }
             this.lightnotes();

@@ -47,7 +47,7 @@
             });
 
             var duringTime = 200;
-            $("div").filter(".wrap").mouseenter(function () {
+            $("div").filter(".wrap").mouseenter(function () {//TODO:只管star不就行了???
                 $(this).fadeOut(50, function () {
                     $(this).next().fadeIn(duringTime);
                 });
