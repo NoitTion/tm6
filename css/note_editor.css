@@ -1,0 +1,48 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+/* 编辑框样式 */
+#main{
+    width: 100%;
+    position: relative;
+}
+/* 工具栏样式 */
+#main #toolbar{
+    width: 100%;
+    height: 35px;
+    background-color: rgb(223, 217, 217);
+}
+
+#main #toolbar ul{
+    margin: 0;
+    margin-right: 20px;
+    padding: 5px;
+    padding-top: 5px;
+    list-style: none;
+}
+
+#toolbar a{
+    width: 15px;
+    text-align: center;
+    font-size: 15px;
+    float: left;
+    margin: 2px;
+    padding: 3px;
+    padding-top: 2px;
+    border-radius: 20%;
+    color: black;
+}
+#toolbar a:hover{
+    border-bottom: 1px solid #aaa;
+}
+#toolbar select{
+    margin-left: 5px;
+    height:25px;
+    background-color:rgb(241, 237, 237);
+}
+iframe{
+    width: 100%;
+    height: calc(100vh - 50px);
+    position: absolute;
+}

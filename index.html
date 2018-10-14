@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./css/grib.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="intro">
+            <h1>Cloud Note</h1>
+        </div>
+        <div class="form-wrapper">
+            <form action="./login.php" method="post" onsubmit="return fnCheckBlank()">
+                <div class="login_box box">
+                    <!-- 输入用户名 -->
+                    <div class="input">
+                        <input id="username" class="text" type="text" placeholder="请输入账号" onclick="fnClearError()" name="username">
+                    </div>
+                    <!-- 输入密码 -->
+                    <div class="input">
+                        <input id="password" class="text" type="password" placeholder="请输入密码" onclick="fnClearError()" name="password">
+                    </div>
+                    <!-- 用来显示错误信息 -->
+                    <div id="error_box"></div>
+                    <div>
+                        <button type="submit">登录</button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <!-- 创建新账户 -->
+            <div class="signup_box box">
+                <p>还没有账户？
+                    <a href="./signup.html">注册一个</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

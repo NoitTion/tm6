@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./css/grib.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="intro">
+            <h1>加入 Cloud Note</h1>
+        </div>
+        <div class="form-wrapper">
+            <form action="./signup.php" method="post" onsubmit="return fnSignUp();fnCheckBlank();">
+                <div class="login_box box">
+                    <!-- 输入用户名 -->
+                    <div class="input">
+                        <input id="username" class="text" type="text" placeholder="请输入账户名" onclick="fnClearError()" name="username" onblur="xajax_check(this.value);">
+                    </div>
+                    <!-- 输入密码 -->
+                    <div class="input">
+                        <input id="password" class="text" type="password" placeholder="请输入密码" onclick="fnClearError()" name="password">
+                    </div>
+                    <!-- 再次输入密码 -->
+                    <div class="input">
+                        <input id="password1" class="text" type="password" placeholder="请再次输入密码" onclick="fnClearError()">
+                    </div>
+                    <!-- 用来显示错误的 -->
+                    <div id="error_box"></div>
+                    <div>
+                        <button type="submit" id="submitbtn">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="./js/signup.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>
