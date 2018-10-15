@@ -1,5 +1,5 @@
 //for item(note), book, label, star
-
+document.write('<script language=javascript src=’/js/functions.js’></script>');
 
 lastclicktip = '#itemid_0'; //上一次item被点击的id
 
@@ -34,19 +34,12 @@ $(window).ready(function () {
                 // notes.setnotesnum();
                 //lightit(notes);
                 item.displaylist(); //有延迟啊小老弟
-
+                
 
             }
         });
     }
 
-    function IndexOf(arr, key, value) {
-        for (var i = 0; i < arr.length; ++i) {
-            if (arr[i][key] === value) {
-                return i;
-            }
-        }
-    }
 
     function Notes() {
         this.getnotes = function (notes) {
@@ -367,13 +360,6 @@ $(window).ready(function () {
         };
     };
 
-    function getstarlist(arr, des) {
-        for (var i = 0; i < arr.length; ++i) {
-            if (arr[i]['isStar'] === '1' && arr[i]['isdelete'] === '0') {
-                des.push(arr[i]);
-            }
-        }
-    }
 
     function Stars() {
         this.list = [];
@@ -407,16 +393,9 @@ $(window).ready(function () {
         }
     };
 
-    function findInfoFromArray(arr, id, want) {
-        for (var i = 0; i < arr.length; ++i) {
-            if (arr[i]['id'] === id) {
-                return arr[i][want];
-            }
-        }
-    }
 
     function ItemsContainer() { //将会接受label,books,items传来的参数,并根据情况输出给note_list还是起错名字了-_-
-        this.notes = notes; //re既拿来用的意思
+        this.notes = notes; 
         this.mark = marks;
         this.reaction = 'notes_all_show'; //mark_note_show, book_note_show, star_note_show, trash_note_show
         this.lists = [];
@@ -509,7 +488,7 @@ $(window).ready(function () {
         }
         this.displaylist = function () { //bookid, markid这个只用管list notes
             $('#items_list').html('');
-            if (this.isinit === 0) {
+            if (this.isinit === 0) {//第一次displaylist
                 this.isinit += 1;
                 this.listinit('notes_all_show', 0);
             }
@@ -622,19 +601,14 @@ $(window).ready(function () {
         }
     };
 
-
     //Main:
     var notes = new Notes();
     var books = new Books(notes);
-    var item = new ItemsContainer(notes);
+    var item = new ItemsContainer();
     var marks = new Marks();
     getAllnotes();
     books.getbooks();
     marks.getmarks();
-
-
-
-
 
     $('#notes').click(function () {
         item.listinit('notes_all_show', 0, 1);
@@ -646,54 +620,5 @@ $(window).ready(function () {
         books.printbooks();
     });
     //给item加上动画,只能加一次
-
-    function lightit() {
-        $('.glyphicon-star-empty').hover(function () {
-            $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
-        }, function () {
-            $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
-        });
-        $('.glyphicon-trash').hover(function () {
-            $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
-        }, function () {
-            $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
-        });
-        $('.item').click(function () { //将笔记内容标题给编辑器
-            var str = $(this).children().eq(0).html();
-            var str2 = $(this).children().eq(4).html();
-            $('#edit_eara').html(str + '\n' + str2);
-            $(lastclicktip).removeClass('clicked');
-            $(this).addClass('clicked');
-            lastclicktip = this;
-        });
-        $('.trash').click(function () { //删除笔记,标签,笔记本,星标
-            var id = $(this).parent().attr('id');
-            id = id.split('_');
-            if (id[0] === 'itemid') {
-                item.deleteitem(id[1], $(this));
-            } else if (id[0] === 'book') {
-                books.deletebook(id[1], $(this));
-            }
-            return false; //阻止事件冒泡,阻止事件默认行为
-        });
-        $('.star').click(function () {
-            alert(211);
-            return false;
-        });
-        $('.book').click(function () {
-            var str = $(this).attr('id').split('_')[1];
-            // console.log('这个笔记本的id为' + str);
-            item.listinit('book_note_show', str, 1) //通过id要知道真正的id
-            $('#middle_books').fadeOut(0);
-            $('#middle_notes').fadeIn(200);
-        });
-        $('#notes').click(function () {
-            item.listinit('notes_all_show', 1);
-        });
-        $('.sortfor').click(function () {
-            item.changesort($(this).attr('id'), 1);
-        })
-    }
-
 
 });
