@@ -6,13 +6,27 @@ function IndexOf(arr, key, value) {
     }
 }
 
+function findmark(notemark, markid) {
+    if (notemark !== null) {
+        marks = notemark.split('_');
+        console.log(marks);
+        for (var i = 0; i < marks.length; ++i) {
+            if (marks[i] === markid) {
+                return true;
+            }
+        }
+    }
+    return false;
+    
+}
+
 function getstarlist(arr, des) {
     for (var i = 0; i < arr.length; ++i) {
         if (arr[i]['isStar'] === '1' && arr[i]['isdelete'] === '0') {
             des.push(arr[i]);
         }
     }
-}    
+}
 
 function findInfoFromArray(arr, id, want) {
     for (var i = 0; i < arr.length; ++i) {

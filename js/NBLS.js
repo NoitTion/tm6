@@ -1,5 +1,5 @@
 //for item(note), book, label, star
-document.write('<script language=javascript src=’/js/functions.js’></script>');
+document.write('<script language=javascript src="js/functions.js"></script>');
 
 lastclicktip = '#itemid_0'; //上一次item被点击的id
 
@@ -382,17 +382,9 @@ $(window).ready(function () {
             thatlabel.parent().remove();
         }
 
-        function findmark(notemark, markid) {
-            marks = notemark.split('_');
-            for (var i = 0; i < marks.length; ++i) {
-                if (marks[i] === markid) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        
     };
-
+    
 
     function ItemsContainer() { //将会接受label,books,items传来的参数,并根据情况输出给note_list还是起错名字了-_-
         this.notes = notes; 
@@ -415,9 +407,13 @@ $(window).ready(function () {
                     }
                 }
             } else if (reaction === 'mark_note_show' || this.reaction === 'star_note_show') {
-                this.notes_info = findInfoFromArray(this.marks.marks, this.markid, 'markName');
+                console.log(marks.marks);
+                this.notes_info = findInfoFromArray(marks.marks, this.markid, 'markName');
+
                 for (i = 0; i < this.notes.notes.length; ++i) {
-                    if (this.notes.notes[i]['isdelete'] === '0' && findmark(notelist[i]['markID'], this.markid)) {
+                    //console.log(findmark(notes.notes[i]['markID'], this.markid));
+                    if (this.notes.notes[i]['isdelete'] === '0' && findmark(notes.notes[i]['markID'], this.markid)) {
+                        console.log('marks push');
                         this.lists.push(this.notes.notes[i]);
                     }
                 }
