@@ -19,6 +19,29 @@ function findmark(notemark, markid) {
     return false;
     
 }
+function typeofStars(aItem){
+    var typearr = [];
+
+    if(typeof aItem['title'] !== 'undefined'){
+        typearr[0] = aItem['title'];
+        typearr[1] = 'glyphicon-file';
+        typearr[2] = 'note';
+    }else if(typeof aItem['markName'] !== 'undefined'){
+        typearr[0] = aItem['markName'];
+        typearr[1] = 'glyphicon-bookmark';
+        typearr[2] = 'mark';
+
+    }else if(typeof aItem['bookName'] !== 'undefined'){
+        typearr[0] = aItem['bookName'];
+        typearr[1] = 'glyphicon-book';
+        typearr[2] = 'book';
+    }else{
+        alert('unknown type aItem');
+        return false;
+    }
+    return typearr;
+
+}
 
 function getstarlist(arr, des) {
     if(typeof arr === 'undefined')

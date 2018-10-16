@@ -15,7 +15,7 @@ function update($type){
         $query = 'insert into note (userid
                 , title
                 , content
-                , createtime
+                , createTime
                 , notebookID
                 , remindTime
                 , isStar

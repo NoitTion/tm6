@@ -359,7 +359,7 @@ $(window).ready(function () {
         }
         this.sort = function () {
             this.list.sort(function (a, b) {
-                return -Date.parse(a.updatetime) + Date.parse(b.updatetime);
+                return -Date.parse(a.updateTime) + Date.parse(b.updateTime);
             })
         };
         this.display = function () {
@@ -377,29 +377,34 @@ $(window).ready(function () {
                 );
             }
         }
-        function typeofStars(aItem){
-            var typearr = [];
-
-            if(typeof aItem['title'] !== 'undefined'){
-                typearr[0] = aItem['title'];
-                typearr[1] = 'glyphicon-file';
-            }else if(typeof aItem['markName'] !== 'undefined'){
-                typearr[0] = aItem['markName'];
-                typearr[1] = 'glyphicon-bookmark';
-            }else if(typeof aItem['bookName'] !== 'undefined'){
-                typearr[0] = aItem['bookName'];
-                typearr[1] = 'glyphicon-book';
-            }else{
-                alert('unknown type aItem');
-                return false;
-            }
-            return typearr;
-
-        }
+        
         this.fresh = function(){
             this.getstars();
+            console.log(this.list);
             this.sort();
+            console.log(this.list);
+
             this.display();
+        }
+        this.lightStar = function(){
+            that = this;
+            for(var i = 0;i < this.list.length;++i){
+                $('#starid_'+ i + ' .glyphicon-remove-circle').click(function(){
+                    that.deletestar(i);
+                })
+            }
+        }
+        this.deletestar = function(listid){
+            var itemStr = typeofStars(this.list[listid])[2];
+            var tid = this.list[listid]['id'];
+            if(itemStr === 'book'){
+                books.starbook(tid);
+            }else if(itemStr === 'note'){
+                listid = IndexOf(item.lists, 'id', tid);
+                notes.starnote(listid, tid);
+            }else if(itemStr === 'mask'){
+                //TODO:marks.star
+            }
         }
 
         function delete_page_label(thatlabel) {
@@ -573,22 +578,22 @@ $(window).ready(function () {
 
             if (sortfor === 'createAsc') {
                 list.sort(function (a, b) {
-                    return Date.parse(a.createtime) - Date.parse(b.createtime);
+                    return Date.parse(a.createTime) - Date.parse(b.createTime);
                 });
 
             } else if (sortfor === 'createDec') {
                 list.sort(function (a, b) {
-                    return -Date.parse(a.createtime) + Date.parse(b.createtime);
+                    return -Date.parse(a.createTime) + Date.parse(b.createTime);
                 });
 
             } else if (sortfor === 'updateAsc') {
                 list.sort(function (a, b) {
-                    return Date.parse(a.updatetime) - Date.parse(b.updatetime);
+                    return Date.parse(a.updateTime) - Date.parse(b.updateTime);
                 });
 
             } else if (sortfor === 'updateDec') {
                 list.sort(function (a, b) {
-                    return -Date.parse(a.updatetime) + Date.parse(b.updatetime);
+                    return -Date.parse(a.updateTime) + Date.parse(b.updateTime);
                 });
             } else if (sortfor === 'nameAsc') {
                 list.sort(function (a, b) {
