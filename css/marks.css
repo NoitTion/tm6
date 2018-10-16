@@ -41,9 +41,6 @@ body{
 .canoselected{
     user-select: none;
 }
-.lead{
-    font-size: 21px;
-}
 
 #mark_title{
     display: inline-block;

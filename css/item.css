@@ -1,6 +1,6 @@
 
 .optionTab{
-    margin: 0 25px 0 0;
+    margin: 0 0 0 0;
     float: right;
 }
 #middle_top{
@@ -15,7 +15,7 @@
 }
 #items_title{
     margin: 10px 10px 0;
-    font-size: 21px;
+    font-size: 16px;
     width: 100px;
     text-align: left;
 }
@@ -54,9 +54,6 @@ body{
 .canoselected{
     user-select: none;
 }
-.lead{
-    font-size: 21px;
-}
 .item{
     cursor: pointer;
     color: #000000;
@@ -77,7 +74,7 @@ body{
      padding: 0;
      margin: 0;
      width: 160px;
-     font-size: 20px;
+     font-size: 16px;
      white-space:nowrap;
      overflow:hidden;
      text-overflow:ellipsis;

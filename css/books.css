@@ -43,6 +43,7 @@ body{
 }
 .lead{
     font-size: 23px;
+    color: #878787;
 }
 .book{
     cursor: pointer;
@@ -63,7 +64,7 @@ body{
     padding: 0;
     margin: 0;
     width: 70px;
-    font-size: 18px;
+    font-size: 16px;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;

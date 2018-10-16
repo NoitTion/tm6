@@ -10,12 +10,31 @@ html, body{
 #stars_title{
     margin: 10px 10px;
 }
+#stars_title #title_content{
+    padding: 24px 24px 10px 0;
+    color: #878787;
+    cursor: default;
+    font-size: 23px;
+}
 hr{
     margin: 0;
     padding: 0;
 }
-#star_single{
-    padding: 1px 5px;
+.star_single{
+    padding: 10px 10px;
+    height: auto;
+    cursor: pointer;
+
+    transition: background 0.2s;
+
+}
+.star_single:hover{
+    background-color: #2dce60;
+    color: #FFFFFF;
+    transition: background 0.2s;
+}
+.glyphicon-remove-circle:hover{
+    color: black;
 }
 #star_name{
     float: left;
