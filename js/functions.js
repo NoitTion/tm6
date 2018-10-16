@@ -21,6 +21,8 @@ function findmark(notemark, markid) {
 }
 
 function getstarlist(arr, des) {
+    if(typeof arr === 'undefined')
+        return false;
     for (var i = 0; i < arr.length; ++i) {
         if (arr[i]['isStar'] === '1' && arr[i]['isdelete'] === '0') {
             des.push(arr[i]);

@@ -32,14 +32,32 @@
         </div>
         <div class='clear'></div>
         <hr/>
-    </div>
-    <div id="stars_list">
+
+        <div id="stars_list">
+
             <div id="starid_1" class="star_single">
                 <span class="glyphicon glyphicon-book pull-left">&nbsp</span>
                 <div id="star_name" class="pull-left">xm1d</div>
                 <span class="glyphicon glyphicon-remove-circle pull-right"></span>
                 <div class="clear"></div>
             </div>
+
+            <div id="starid_1" class="star_single">
+                <span class="glyphicon glyphicon-file pull-left">&nbsp</span>
+                <div id="star_name" class="pull-left">xm1d</div>
+                <span class="glyphicon glyphicon-remove-circle pull-right"></span>
+                <div class="clear"></div>
+            </div>
+
+            <div id="starid_1" class="star_single">
+                <span class="glyphicon glyphicon-bookmark pull-left">&nbsp</span>
+                <div id="star_name" class="pull-left">xm1d</div>
+                <span class="glyphicon glyphicon-remove-circle pull-right"></span>
+                <div class="clear"></div>
+            </div>
+
         </div>
+    </div>
+
 </body>
 </html>

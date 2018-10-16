@@ -4,7 +4,6 @@ document.write('<script language=javascript src="js/functions.js"></script>');
 lastclicktip = '#itemid_0'; //上一次item被点击的id
 
 $(window).resize(function () {
-    console.log($('.listScroll').offset().top);
     $('.listScroll').css('height', $(window).height() - $('#items_list').offset().top) //给scroll设置高度
 });
 
@@ -52,11 +51,9 @@ $(window).ready(function () {
 
             if (this.notes[trueid].isStar === '0') {
                 this.notes[trueid].isStar = '1';
-                console.log('this.notes[tureid]:' + this.notes[trueid].isStar + ' ' + trueid)
                 $('#itemid_' + listid + ' .star').addClass('stared');
             } else if (this.notes[trueid].isStar === '1') {
                 this.notes[trueid].isStar = '0';
-                console.log('this.notes[tureid]:' + this.notes[trueid].isStar)
                 $('#itemid_' + listid + ' .star').removeClass('stared');
             } else {
                 alert('starnote error');
@@ -98,7 +95,6 @@ $(window).ready(function () {
 
                         // item.getlist(item.reaction);
                         // item.changesort(item.sortfor, 1);//等到服务器回应后才能删除成功
-                        // console.log(item.lists);
                         item.listrefresh();
                     } else {
                         alert('Error, check out your Internet. ERROR CODE:' + status);
@@ -116,10 +112,9 @@ $(window).ready(function () {
             $.post("ajax/getNBCL.php", {
                 action: 'notebook'
             }, function (data, status) {
-                // console.log(data);
                 that.books = $.parseJSON(data);
-                console.log(that.books);
                 that.printbooks();
+                stars.fresh();//maybe there are more good method
             })
         };
         this.booklength = function (id) {
@@ -136,7 +131,6 @@ $(window).ready(function () {
 
             $('#books_list').html('');
             that = this;
-            console.log(this.books);
             for (var i = 0; i < this.books.length; ++i) {
                 if (this.books[i]['isdelete'] === '0') {
                     $('#books_list').html($('#books_list').html() +
@@ -181,7 +175,6 @@ $(window).ready(function () {
             });
             $('.book').click(function () {
                 var str = $(this).attr('id').split('_')[1];
-                // console.log('这个笔记本的id为' + str);
                 item.listinit('book_note_show', str, 1); //通过id要知道真正的id
                 $('#middle_books').fadeOut(0);
                 $('#middle_notes').fadeIn(200);
@@ -215,6 +208,7 @@ $(window).ready(function () {
 
     function Marks() {
         //actually it's init
+        //TODO: deletemark.把所有note里的mark删掉
         this.getmarks = function () {
             const that = this;
             $.post("ajax/getNBCL.php", {
@@ -222,7 +216,6 @@ $(window).ready(function () {
             }, function (data, status) {
                 that.marks = $.parseJSON(data);
                 // that.printmarks();
-                console.log(that.marks);
                 for (var i = 0; i < that.marks.length; ++i) {
                     that.marks[i].print_mark_to = Fprint_mark_to;
                     that.marks[i].star = star;
@@ -238,6 +231,7 @@ $(window).ready(function () {
                     }
                 }
                 that.printAllmark();
+                stars.fresh();//maybe there are more good method
                 // that.marks[0].print_mark_to('#marks_list');
             })
         };
@@ -257,7 +251,6 @@ $(window).ready(function () {
         }
 
         function star(ooe) { //one or zero '1' or '0'
-            console.log(ooe);
             if (ooe === '1') {
                 //TODO:向服务器发送请求 if success:
                 this.isStar = '1';
@@ -280,7 +273,6 @@ $(window).ready(function () {
 
         function lightme() {
             const that = this;
-            console.log('lightme:' + this.id);
 
             $('#markid_' + this.id + '+ #mark_operate .glyphicon-star').click(function () { //.glyphicon-star
                 if (that.isStar === '0') {
@@ -293,17 +285,14 @@ $(window).ready(function () {
                     alert('light error');
                 }
             });
-            console.log('lightme:click' + this.id);
 
             $('#markid_' + this.id + '+ #mark_operate .glyphicon-pencil').click(function () {
-                console.log('clicked');
                 var str = prompt("enter your new label name", that.markName); //LADO:jq弹出层插件
                 if (str != null && str.trim() !== '') {
                     that.alterName(str);
 
                 }
             });
-            console.log('lightme:delete' + this.id);
 
             $('#markid_' + this.id + '+ #mark_operate .glyphicon-trash').click(function () {
                 if (confirm('确认删除标签?')) {
@@ -313,7 +302,6 @@ $(window).ready(function () {
 
             $('.mark').click(function () {
                 var str = $(this).attr('id').split('_')[1];
-                // console.log('这个便签的id为' + str);
                 item.listinit('mark_note_show', str, 1); //通过id要知道真正的id
                 $('#middle_label').fadeOut(0);
                 $('#middle_notes').fadeIn(200);
@@ -364,6 +352,7 @@ $(window).ready(function () {
     function Stars() {
         this.list = [];
         this.getstars = function () {
+            this.list = [];
             getstarlist(notes.notes, this.list);
             getstarlist(books.books, this.list);
             getstarlist(marks.marks, this.list);
@@ -374,12 +363,48 @@ $(window).ready(function () {
             })
         };
         this.display = function () {
+            $('#stars_list').html('');
+            
+            for(var i = 0;i < this.list.length;++i){
+                var iconType = typeofStars(this.list[i]);
+                $('#stars_list').html($('#stars_list').html() + 
+                '<div id="starid_'+ i +'" class="star_single">'+
+                '<span class="glyphicon ' + iconType[1] +' pull-left">&nbsp</span>'+
+                '<div id="star_name" class="pull-left">'+ iconType[0] +'</div>'+
+                '<span class="glyphicon glyphicon-remove-circle pull-right"></span>'+
+                '<div class="clear"></div>'+
+                '</div>'
+                );
+            }
+        }
+        function typeofStars(aItem){
+            var typearr = [];
+
+            if(typeof aItem['title'] !== 'undefined'){
+                typearr[0] = aItem['title'];
+                typearr[1] = 'glyphicon-file';
+            }else if(typeof aItem['markName'] !== 'undefined'){
+                typearr[0] = aItem['markName'];
+                typearr[1] = 'glyphicon-bookmark';
+            }else if(typeof aItem['bookName'] !== 'undefined'){
+                typearr[0] = aItem['bookName'];
+                typearr[1] = 'glyphicon-book';
+            }else{
+                alert('unknown type aItem');
+                return false;
+            }
+            return typearr;
 
         }
-
+        this.fresh = function(){
+            this.getstars();
+            this.sort();
+            this.display();
+        }
 
         function delete_page_label(thatlabel) {
             thatlabel.parent().remove();
+            
         }
 
         
@@ -402,23 +427,18 @@ $(window).ready(function () {
             if (reaction === 'notes_all_show') {
                 for (var i = 0; i < this.notes.notes.length; ++i) {
                     if (this.notes.notes[i]['isdelete'] === '0') {
-                        // console.log(1);
                         this.lists.push(this.notes.notes[i]);
                     }
                 }
             } else if (reaction === 'mark_note_show' || this.reaction === 'star_note_show') {
-                console.log(marks.marks);
                 this.notes_info = findInfoFromArray(marks.marks, this.markid, 'markName');
 
                 for (i = 0; i < this.notes.notes.length; ++i) {
-                    //console.log(findmark(notes.notes[i]['markID'], this.markid));
                     if (this.notes.notes[i]['isdelete'] === '0' && findmark(notes.notes[i]['markID'], this.markid)) {
-                        console.log('marks push');
                         this.lists.push(this.notes.notes[i]);
                     }
                 }
             } else if (reaction === 'book_note_show') {
-                // console.log('book_note_show getlist:' + this.bookid);
 
                 for (i = 0; i < this.notes.notes.length; ++i) {
                     if (this.notes.notes[i]['isdelete'] === '0' && this.notes.notes[i]['notebookID'] === this.bookid) {
@@ -432,13 +452,9 @@ $(window).ready(function () {
                     }
                 }
             } else {
-                console.log('get list failed');
             }
-            // console.log(this.lists);
         };
         this.setlist = function () {
-            // console.log('lists.length' + this.lists.length);
-            // console.log('books' + books);
 
             $('#items_num').html(this.lists.length + '条笔记');
         };
@@ -447,14 +463,12 @@ $(window).ready(function () {
             this.changesort(this.sortfor, 1); //等到服务器回应后才能删除成功
         };
         this.setTitle = function () {
-            // console.log('this.reaction' + this.reaction);
             if (this.reaction === 'notes_all_show') {
                 $('#items_title #title_content').html('笔记');
             } else if (this.reaction === 'mark_note_show') {
                 $('#items_title #title_content').html('标签 ' + this.notes_info);
             } else if (this.reaction === 'book_note_show') {
                 var bookname = findInfoFromArray(books.books, this.bookid, 'bookName');
-                console.log('settitle' + bookname);
                 $('#items_title #title_content').html(bookname + ':');
 
             } else if (this.reaction === 'trash_noteAndLabel_show') {
@@ -475,11 +489,9 @@ $(window).ready(function () {
             this.bookid = need_id;
             this.reaction = reaction;
             this.getlist(reaction);
-            console.log(autodisplay);
             this.changesort(this.sortfor, autodisplay);
         };
         this.star = function (strid) {
-            console.log(this.lists[parseInt(strid)].id);
             notes.starnote(strid, this.lists[parseInt(strid)].id);
         }
         this.displaylist = function () { //bookid, markid这个只用管list notes
@@ -490,7 +502,6 @@ $(window).ready(function () {
             }
             var i = 0;
             // console.log('我寻思能跑');
-            // console.log(this.lists);
             for (i = 0; i < this.lists.length; ++i) {
                 var star = '';
                 if (this.lists[i]['isStar'] === '1') {
@@ -498,7 +509,6 @@ $(window).ready(function () {
                 } else if (this.lists[i]['isStar'] === '0') {
                     star = 'glyphicon-star-empty';
                 }
-                console.log('star: ' + star);
                 if (this.lists[i]['isdelete'] === '0') {
                     $('#items_list').html($('#items_list').html() +
                         '<div id="itemid_' + i + '"" class="item">' +
@@ -559,7 +569,6 @@ $(window).ready(function () {
 
         this.changesort = function (sortfor, autoDisplay) { //updateAsc,updateDec,createAsc,updateDec,nameAsc,nameDec;
             var list = this.lists;
-            // console.log(list);
             this.sortfor = sortfor;
 
             if (sortfor === 'createAsc') {
@@ -602,9 +611,13 @@ $(window).ready(function () {
     var books = new Books(notes);
     var item = new ItemsContainer();
     var marks = new Marks();
+    var stars = new Stars();
     getAllnotes();
     books.getbooks();
     marks.getmarks();
+
+    
+
 
     $('#notes').click(function () {
         item.listinit('notes_all_show', 0, 1);

@@ -70,6 +70,7 @@
             $('#star').click(function () {
                 changetonormal();
                 $('#star_normal').attr('src', 'img/star_selected.png');
+                
             });
             $('#notes').click(function () {
                 changetonormal();
