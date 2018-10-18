@@ -26,21 +26,29 @@ function typeofStars(aItem){
         typearr[0] = aItem['title'];
         typearr[1] = 'glyphicon-file';
         typearr[2] = 'note';
+        typearr[3] = aItem['id'];
+
     }else if(typeof aItem['markName'] !== 'undefined'){
         typearr[0] = aItem['markName'];
         typearr[1] = 'glyphicon-bookmark';
         typearr[2] = 'mark';
+        typearr[3] = aItem['id'];
 
     }else if(typeof aItem['bookName'] !== 'undefined'){
         typearr[0] = aItem['bookName'];
         typearr[1] = 'glyphicon-book';
         typearr[2] = 'book';
+        typearr[3] = aItem['id'];
+
     }else{
         alert('unknown type aItem');
         return false;
     }
     return typearr;
-
+}
+function starHideItemIn(){
+    $('#middle_star').fadeOut(0);
+    $('#middle_notes').fadeIn(200);
 }
 
 function getstarlist(arr, des) {
@@ -59,6 +67,14 @@ function findInfoFromArray(arr, id, want) {
             return arr[i][want];
         }
     }
+}
+function updateTips(action, mes, func){
+    $.post("ajax/setNBCL.php", {
+        type: action,
+        data: mes
+    }, function (data, status) {
+        func(data, status);
+    })
 }
 
 
