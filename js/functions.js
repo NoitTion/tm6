@@ -68,6 +68,11 @@ function findInfoFromArray(arr, id, want) {
         }
     }
 }
+/*
+action:newnote, updatenote, newbook, updatebook, newmark, updatemark
+mes:book, note, mark
+func:callbackfunc
+*/
 function updateTips(action, mes, func){
     $.post("ajax/setNBCL.php", {
         type: action,

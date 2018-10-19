@@ -43,13 +43,32 @@ $(window).ready(function () {
         this.starnote = function (listid, trueid) {
             //TODO server
             trueid = IndexOf(this.notes, 'id', trueid);
-
+            that = this;
             if (this.notes[trueid].isStar === '0') {
                 this.notes[trueid].isStar = '1';
-                $('#itemid_' + listid + ' .star').addClass('stared');
+                var note = this.notes[trueid];
+                console.log(this.notes[trueid]);
+                note['updateTime'] = '\'' + note['updateTime'] + '\'';
+                updateTips('updatenote', this.notes[trueid], function (data, status) {
+                    console.log(data);
+                    if (status === 'success') {
+                        $('#itemid_' + listid + ' .star').addClass('stared');
+                    } else {
+                        console.log('net error');
+                        that.notes[trueid] = '0';
+                    }
+                });
             } else if (this.notes[trueid].isStar === '1') {
                 this.notes[trueid].isStar = '0';
-                $('#itemid_' + listid + ' .star').removeClass('stared');
+                updateTips('updatenote', this.notes[trueid], function (data, status) {
+                    if (status === 'success') {
+                        $('#itemid_' + listid + ' .star').removeClass('stared');
+                    } else {
+                        console.log('net error');
+                        that.notes[trueid] = '0';
+                    }
+
+                });
             } else {
                 alert('starnote error');
             }
@@ -109,7 +128,7 @@ $(window).ready(function () {
             }, function (data, status) {
                 that.books = $.parseJSON(data);
                 that.printbooks();
-                stars.fresh();//maybe there are more good method
+                stars.fresh(); //maybe there will be better method
             })
         };
         this.booklength = function (id) {
@@ -123,14 +142,14 @@ $(window).ready(function () {
             return counts;
         };
         this.printbooks = function () {
-            
+
             $('#books_list').html('');
             that = this;
             for (var i = 0; i < this.books.length; ++i) {
                 var isStard = '';
-                if(this.books[i].isStar === '1'){
+                if (this.books[i].isStar === '1') {
                     isStard = 'glyphicon-star';
-                }else{
+                } else {
                     isStard = 'glyphicon-star-empty';
 
                 }
@@ -139,7 +158,7 @@ $(window).ready(function () {
                         '<div id="book_' + this.books[i]['id'] + '" class="book">' +
                         '<span id="book_title">' + this.books[i]['bookName'] + '</span>' +
                         '<span class="glyphicon glyphicon-trash pull-right smallicon trash" style="color: rgb(255, 255, 255);"/>' +
-                        '<span class="glyphicon '+ isStard +' pull-right smallicon star" style="color: rgb(255, 255, 255);"/>' +
+                        '<span class="glyphicon ' + isStard + ' pull-right smallicon star" style="color: rgb(255, 255, 255);"/>' +
                         '<br>' +
                         '<p id="book_num">' + that.booklength(that.books[i]['id']) + '个笔记' +
                         '</div>' +
@@ -149,23 +168,23 @@ $(window).ready(function () {
             this.lightBooks();
         };
 
-        this.starbook = function(bookid){
+        this.starbook = function (bookid) {
             that = this;
             var index = IndexOf(this.books, 'id', bookid);
-            if(this.books[index].isStar === '0'){
+            if (this.books[index].isStar === '0') {
                 this.books[index].isStar = '1';
                 console.log(this.books[index]);
-                updateTips('updatebook', this.books[index], function(data, status){
+                updateTips('updatebook', this.books[index], function (data, status) {
                     console.log(data);
                     console.log(status);
-                    if(status !== 'success'){
+                    if (status !== 'success') {
                         that.isStar = '0';
                         alert("error can't update book")
                     }
                 })
-            }else if(this.books[index].isStar === '1'){
+            } else if (this.books[index].isStar === '1') {
                 this.books[index].isStar = '0';
-            }else {
+            } else {
                 console.log('known error ');
             }
             //TODO:server
@@ -177,7 +196,7 @@ $(window).ready(function () {
                 id = id.split('_');
                 if (id[0] === 'book') {
                     books.deletebook(id[1], $(this));
-                }else{
+                } else {
                     alert('unknown action');
                 }
                 return false; //阻止事件冒泡,阻止事件默认行为
@@ -185,24 +204,24 @@ $(window).ready(function () {
             $('#books_list .star').click(function () {
                 var id = $(this).parent().attr('id');
                 id = id.split('_');
-                if(id[0] === 'book'){
+                if (id[0] === 'book') {
                     books.starbook(id[1]);
-                }else{
+                } else {
                     alert('unknown action');
                 }
 
                 return false;
-              });
+            });
 
             $('#books_list .star').hover(function () {
                 $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
             }, function () {
                 var id = $(this).parent().attr('id').split('_')[1];
                 var booksIndex = IndexOf(books.books, 'id', id);
-                if(books.books[booksIndex].isStar === '0')
+                if (books.books[booksIndex].isStar === '0')
                     $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
             });
-            
+
             $('#books_list .glyphicon-trash').hover(function () {
                 $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
             }, function () {
@@ -267,7 +286,7 @@ $(window).ready(function () {
                     }
                 }
                 that.printAllmark();
-                stars.fresh();//maybe there are more good method
+                stars.fresh(); //maybe there are more good method
                 // that.marks[0].print_mark_to('#marks_list');
             })
         };
@@ -278,8 +297,9 @@ $(window).ready(function () {
             this.isdelete = '1';
             $('#markid_' + this.id).parent().remove();
         }
-        this.unstar = function (id){
+        this.unstar = function (id) {
             var tid = IndexOf(this.marks, 'id', id);
+            $('#markid_' + id + '+ #mark_operate .glyphicon-star').removeClass('mark_smallicon_selected').addClass('mark_smallicon');
             this.marks[tid].star('0');
         }
 
@@ -353,7 +373,7 @@ $(window).ready(function () {
             if (this.isdelete === '1')
                 return;
             var isSelected = '';
-            if(this.isStar === '1'){
+            if (this.isStar === '1') {
                 isSelected = 'mark_smallicon_selected';
             }
             this.namebb = thatlabel;
@@ -368,7 +388,7 @@ $(window).ready(function () {
                 '        </div>' +
                 '    </div>' +
                 '    <div id="mark_operate">' +
-                '        <span class="glyphicon glyphicon-star mark_smallicon pull-left '+ isSelected +'"></span>' +
+                '        <span class="glyphicon glyphicon-star mark_smallicon pull-left ' + isSelected + '"></span>' +
                 '        <span class="glyphicon glyphicon-pencil mark_smallicon pull-left"></span>' +
                 '        <span class="glyphicon glyphicon-trash mark_smallicon pull-left"></span>' +
                 '    </div>' +
@@ -408,67 +428,67 @@ $(window).ready(function () {
         };
         this.display = function () {
             $('#stars_list').html('');
-            
-            for(var i = 0;i < this.list.length;++i){
+
+            for (var i = 0; i < this.list.length; ++i) {
                 var iconType = typeofStars(this.list[i]);
-                $('#stars_list').html($('#stars_list').html() + 
-                '<div id="starid_'+ i +'" class="star_single">'+
-                '<span class="glyphicon ' + iconType[1] +' pull-left">&nbsp</span>'+
-                '<div id="star_name" class="pull-left">'+ iconType[0] +'</div>'+
-                '<span class="glyphicon glyphicon-remove-circle pull-right"></span>'+
-                '<div class="clear"></div>'+
-                '</div>'
+                $('#stars_list').html($('#stars_list').html() +
+                    '<div id="starid_' + i + '" class="star_single canoselected">' +
+                    '<span class="glyphicon ' + iconType[1] + ' pull-left">&nbsp</span>' +
+                    '<div id="star_name" class="pull-left">' + iconType[0] + '</div>' +
+                    '<span class="glyphicon glyphicon-remove-circle pull-right"></span>' +
+                    '<div class="clear"></div>' +
+                    '</div>'
                 );
             }
         }
-        
-        this.fresh = function(){
+
+        this.fresh = function () {
             this.getstars();
             this.sort();
             this.display();
             this.lightStar();
         }
-        this.lightStar = function(){
+        this.lightStar = function () {
             const that = this;
-            for(var i = 0;i < this.list.length;++i){
-                $('#starid_'+ i + ' .glyphicon-remove-circle').click(i, function(event){
+            for (var i = 0; i < this.list.length; ++i) {
+                $('#starid_' + i + ' .glyphicon-remove-circle').click(i, function (event) {
                     var i = event.data;
-                    console.log('#starid_' + i  +' .glyphicon-remove-circle');
+                    console.log('#starid_' + i + ' .glyphicon-remove-circle');
                     console.log(i);
 
                     that.deletestar(i);
                     $(this).parent().remove();
                 });
             }
-            $('.star_single').click(function(){
+            $('.star_single').click(function () {
                 var str = $(this).attr('id').split('_')[1];
                 var type = typeofStars(that.list[str]);
                 console.log(type);
-                if(type[2] === 'book'){
+                if (type[2] === 'book') {
                     item.listinit('book_note_show', type[3], 1);
                     starHideItemIn();
-                }else if(type[2] === 'mark'){
+                } else if (type[2] === 'mark') {
                     item.listinit('mark_note_show', type[3], 1);
                     starHideItemIn();
 
-                }else if(type[2] === 'note'){
+                } else if (type[2] === 'note') {
                     //TODO: notes.notes[i].display(1);//fullscreen:1 or 0
                     starHideItemIn();
 
                 }
             })
         }
-        this.deletestar = function(listid){
+        this.deletestar = function (listid) {
 
             var itemStr = typeofStars(this.list[listid])[2];
             console.log('type of star is ' + itemStr);
             var tid = this.list[listid]['id'];
-            if(itemStr === 'book'){
+            if (itemStr === 'book') {
                 books.starbook(tid);
-            }else if(itemStr === 'note'){
+            } else if (itemStr === 'note') {
                 listid = IndexOf(item.lists, 'id', tid);
                 notes.starnote(listid, tid);
-            }else if(itemStr === 'mark'){
+            } else if (itemStr === 'mark') {
                 //TODO:marks.star
                 marks.unstar(this.list[listid]['id']);
             }
@@ -476,15 +496,15 @@ $(window).ready(function () {
 
         function delete_page_label(thatlabel) {
             thatlabel.parent().remove();
-            
+
         }
 
-        
+
     };
-    
+
 
     function ItemsContainer() { //将会接受label,books,items传来的参数,并根据情况输出给note_list还是起错名字了-_-
-        this.notes = notes; 
+        this.notes = notes;
         this.mark = marks;
         this.reaction = 'notes_all_show'; //mark_note_show, book_note_show, star_note_show, trash_note_show
         this.lists = [];
@@ -523,8 +543,7 @@ $(window).ready(function () {
                         this.lists.push(this.notes.notes[i]);
                     }
                 }
-            } else {
-            }
+            } else {}
         };
         this.setlist = function () {
 
@@ -568,7 +587,7 @@ $(window).ready(function () {
         }
         this.displaylist = function () { //bookid, markid这个只用管list notes
             $('#items_list').html('');
-            if (this.isinit === 0) {//第一次displaylist
+            if (this.isinit === 0) { //第一次displaylist
                 this.isinit += 1;
                 this.listinit('notes_all_show', 0);
             }
@@ -688,9 +707,9 @@ $(window).ready(function () {
     books.getbooks();
     marks.getmarks();
 
-    
 
-    $('#star').click(function (){
+
+    $('#star').click(function () {
         stars.fresh();
     })
     $('#notes').click(function () {
