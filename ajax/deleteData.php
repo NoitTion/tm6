@@ -17,7 +17,7 @@ $userid = 1;
 if($action == 'note') {
     $query = 'update note set isdelete=1 where id = ' . $id;
 }
-elseif($action == 'book'){
+else if($action == 'book'){
     $query = 'update notebook set isDelete=1 where id = ' . $id;
 }
 $result = mysqli_query($connection, $query);

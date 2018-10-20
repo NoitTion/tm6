@@ -1,10 +1,7 @@
 //for item(note), book, label, star
-
-
 lastclicktip = '#itemid_0'; //上一次item被点击的id
 
 $(window).resize(function () {
-    console.log($('.listScroll').offset().top);
     $('.listScroll').css('height', $(window).height() - $('#items_list').offset().top) //给scroll设置高度
 });
 
@@ -30,23 +27,11 @@ $(window).ready(function () {
             if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
                 var nnotes = $.parseJSON(xmlhttp.responseText);
                 notes.getnotes(nnotes);
-                // notes.print2noteList();
-                // notes.setnotesnum();
-                //lightit(notes);
                 item.displaylist(); //有延迟啊小老弟
-
-
             }
         });
     }
 
-    function IndexOf(arr, key, value) {
-        for (var i = 0; i < arr.length; ++i) {
-            if (arr[i][key] === value) {
-                return i;
-            }
-        }
-    }
 
     function Notes() {
         this.getnotes = function (notes) {
@@ -54,17 +39,33 @@ $(window).ready(function () {
         };
 
         this.starnote = function (listid, trueid) {
-            //TODO server
+            //TODO server fix?
             trueid = IndexOf(this.notes, 'id', trueid);
-
+            that = this;
             if (this.notes[trueid].isStar === '0') {
                 this.notes[trueid].isStar = '1';
-                console.log('this.notes[tureid]:' + this.notes[trueid].isStar + ' ' + trueid)
-                $('#itemid_' + listid + ' .star').addClass('stared');
+                var mnote = getMysqlquery(this.notes[trueid], true);
+                // note['updateTime'] = '\'' + note['updateTime'] + '\'';
+                updateTips('updatenote', mnote, function (data, status) {
+                    if (status === 'success') {
+                        $('#itemid_' + listid + ' .star').addClass('stared');
+                    } else {
+                        console.log('net error');
+                        that.notes[trueid] = '0';
+                    }
+                });
             } else if (this.notes[trueid].isStar === '1') {
                 this.notes[trueid].isStar = '0';
-                console.log('this.notes[tureid]:' + this.notes[trueid].isStar)
-                $('#itemid_' + listid + ' .star').removeClass('stared');
+                var mnote = getMysqlquery(this.notes[trueid], true);
+                updateTips('updatenote', mnote, function (data, status) {
+                    if (status === 'success') {
+                        $('#itemid_' + listid + ' .star').removeClass('stared');
+                    } else {
+                        console.log('net error');
+                        that.notes[trueid] = '0';
+                    }
+
+                });
             } else {
                 alert('starnote error');
             }
@@ -105,7 +106,6 @@ $(window).ready(function () {
 
                         // item.getlist(item.reaction);
                         // item.changesort(item.sortfor, 1);//等到服务器回应后才能删除成功
-                        // console.log(item.lists);
                         item.listrefresh();
                     } else {
                         alert('Error, check out your Internet. ERROR CODE:' + status);
@@ -123,10 +123,9 @@ $(window).ready(function () {
             $.post("ajax/getNBCL.php", {
                 action: 'notebook'
             }, function (data, status) {
-                // console.log(data);
                 that.books = $.parseJSON(data);
-                console.log(that.books);
                 that.printbooks();
+                stars.fresh(); //maybe there will be better method
             })
         };
         this.booklength = function (id) {
@@ -143,14 +142,20 @@ $(window).ready(function () {
 
             $('#books_list').html('');
             that = this;
-            console.log(this.books);
             for (var i = 0; i < this.books.length; ++i) {
+                var isStard = '';
+                if (this.books[i].isStar === '1') {
+                    isStard = 'glyphicon-star';
+                } else {
+                    isStard = 'glyphicon-star-empty';
+
+                }
                 if (this.books[i]['isdelete'] === '0') {
                     $('#books_list').html($('#books_list').html() +
                         '<div id="book_' + this.books[i]['id'] + '" class="book">' +
                         '<span id="book_title">' + this.books[i]['bookName'] + '</span>' +
                         '<span class="glyphicon glyphicon-trash pull-right smallicon trash" style="color: rgb(255, 255, 255);"/>' +
-                        '<span class="glyphicon glyphicon-star-empty pull-right smallicon star" style="color: rgb(255, 255, 255);"/>' +
+                        '<span class="glyphicon ' + isStard + ' pull-right smallicon star" style="color: rgb(255, 255, 255);"/>' +
                         '<br>' +
                         '<p id="book_num">' + that.booklength(that.books[i]['id']) + '个笔记' +
                         '</div>' +
@@ -160,8 +165,30 @@ $(window).ready(function () {
             this.lightBooks();
         };
 
-        this.starbook = function(bookid){
-            var index = IndexOf(this.book, 'id', bookid);
+        this.starbook = function (bookid) {
+            that = this;
+            var index = IndexOf(this.books, 'id', bookid);
+            if (this.books[index].isStar === '0') {
+                this.books[index].isStar = '1';
+                console.log(this.books[index]);
+                updateTips('updatebook', this.books[index], function (data, status) {
+                    if (status !== 'success') {
+                        that.isStar = '0';
+                        alert("error can't update book")
+                    }
+                })
+            } else if (this.books[index].isStar === '1') {
+                this.books[index].isStar = '0';
+                updateTips('updatebook', this.books[index], function (data, status) {
+                    if (status !== 'success') {
+                        that.isStar = '1';
+                        alert("error can't update book")
+                    }
+                })
+
+            } else {
+                console.log('known error ');
+            }
             //TODO:server
         }
 
@@ -169,18 +196,34 @@ $(window).ready(function () {
             $('#books_list .trash').click(function () { //删除笔记,标签,笔记本,星标
                 var id = $(this).parent().attr('id');
                 id = id.split('_');
-                if (id[0] === 'itemid') {
-                    item.deleteitem(id[1], $(this));
-                } else if (id[0] === 'book') {
+                if (id[0] === 'book') {
                     books.deletebook(id[1], $(this));
+                } else {
+                    alert('unknown action');
                 }
                 return false; //阻止事件冒泡,阻止事件默认行为
             });
-            $('#books_list .glyphicon-star-empty').hover(function () {
+            $('#books_list .star').click(function () {
+                var id = $(this).parent().attr('id');
+                id = id.split('_');
+                if (id[0] === 'book') {
+                    books.starbook(id[1]);
+                } else {
+                    alert('unknown action');
+                }
+
+                return false;
+            });
+
+            $('#books_list .star').hover(function () {
                 $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
             }, function () {
-                $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+                var id = $(this).parent().attr('id').split('_')[1];
+                var booksIndex = IndexOf(books.books, 'id', id);
+                if (books.books[booksIndex].isStar === '0')
+                    $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
             });
+
             $('#books_list .glyphicon-trash').hover(function () {
                 $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
             }, function () {
@@ -188,11 +231,11 @@ $(window).ready(function () {
             });
             $('.book').click(function () {
                 var str = $(this).attr('id').split('_')[1];
-                // console.log('这个笔记本的id为' + str);
                 item.listinit('book_note_show', str, 1); //通过id要知道真正的id
                 $('#middle_books').fadeOut(0);
                 $('#middle_notes').fadeIn(200);
             });
+
 
         };
 
@@ -202,7 +245,7 @@ $(window).ready(function () {
                 //这里要向服务器端请求删除便签
                 $.get("ajax/deleteData.php?id=" + id + "&action=book", function (status) {
                     if (status === '1') {
-                        delete_page_label(thatLabel); //在网页上删除那个标签
+                        thatlabel.remove(); //在网页上删除那个标签
                         for (var i = 0; i < that.books.length; ++i) { //在本地删除那个
                             // 本(set isdeleted 1)
                             if (that.books[i]['id'] === id) {
@@ -222,6 +265,7 @@ $(window).ready(function () {
 
     function Marks() {
         //actually it's init
+        //TODO: deletemark.把所有note里的mark删掉
         this.getmarks = function () {
             const that = this;
             $.post("ajax/getNBCL.php", {
@@ -229,7 +273,6 @@ $(window).ready(function () {
             }, function (data, status) {
                 that.marks = $.parseJSON(data);
                 // that.printmarks();
-                console.log(that.marks);
                 for (var i = 0; i < that.marks.length; ++i) {
                     that.marks[i].print_mark_to = Fprint_mark_to;
                     that.marks[i].star = star;
@@ -245,15 +288,31 @@ $(window).ready(function () {
                     }
                 }
                 that.printAllmark();
+                stars.fresh(); //maybe there are more good method
                 // that.marks[0].print_mark_to('#marks_list');
             })
         };
 
         function removemyself() {
-            //TODO: send a request to server
+            //REDO: send a request to server
             //interface: update(key, content);
             this.isdelete = '1';
-            $('#markid_' + this.id).parent().remove();
+            const that = this;
+            var tb = getMysqlquery(that)
+            updateTips('updatemark', tb, function(data, status) {
+                if(status === 'success'){
+                  $('#markid_' + that.id).parent().remove();
+                }else{
+                    console.log('mark delete error');
+                    that.isdelete = '0';
+                }
+            })
+        }
+        
+        this.unstar = function (id) {
+            var tid = IndexOf(this.marks, 'id', id);
+            $('#markid_' + id + '+ #mark_operate .glyphicon-star').removeClass('mark_smallicon_selected').addClass('mark_smallicon');
+            this.marks[tid].star('0');
         }
 
         function update(content) {
@@ -264,14 +323,32 @@ $(window).ready(function () {
         }
 
         function star(ooe) { //one or zero '1' or '0'
-            console.log(ooe);
+        const that = this;
             if (ooe === '1') {
-                //TODO:向服务器发送请求 if success:
+                //REDO:向服务器发送请求 if success:
                 this.isStar = '1';
+                var tb = getMysqlquery(that)
+                updateTips('updatemark', tb, function(data, status) {
+                    if(status === 'success'){
+                        //pass
+                    }else{
+                        console.log('mark star error');
+                        that.isStar = '0';
+                    }
+                })
 
             } else if (ooe === '0') {
-                //TODO:向服务器发送请求 if success:
+                //REDO:向服务器发送请求 if success:
                 this.isStar = '0';
+                var tb = getMysqlquery(that)
+                updateTips('updatemark', tb, function(data, status) {
+                    if(status === 'success'){
+                        //pass
+                    }else{
+                        console.log('mark star error');
+                        that.isStar = '1';
+                    }
+                })
 
             } else {
                 alert(this.id + 'star error');
@@ -281,13 +358,23 @@ $(window).ready(function () {
 
         function alterName(str) {
             //TODO: server
+            const that = this;
+            var tdmarkname = this.markName;//td都是副本的意思
             this.markName = str;
-            $('#markid_' + this.id + '  .mark_name').html(str);
+                var tb = getMysqlquery(that)
+                updateTips('updatemark', tb, function(data, status) {
+                    if(status === 'success'){
+                        $('#markid_' + that.id + '  .mark_name').html(str);
+                    }else{
+                        console.log('mark alter error');
+                        that.markName = tdmarkname;
+
+                    }
+                })
         }
 
         function lightme() {
             const that = this;
-            console.log('lightme:' + this.id);
 
             $('#markid_' + this.id + '+ #mark_operate .glyphicon-star').click(function () { //.glyphicon-star
                 if (that.isStar === '0') {
@@ -300,17 +387,24 @@ $(window).ready(function () {
                     alert('light error');
                 }
             });
-            console.log('lightme:click' + this.id);
 
             $('#markid_' + this.id + '+ #mark_operate .glyphicon-pencil').click(function () {
-                console.log('clicked');
                 var str = prompt("enter your new label name", that.markName); //LADO:jq弹出层插件
+                if(str == null){
+                    return;
+                }
+                for(var i = 0;i < marks.marks.length;++i){//confirm 名字重复.
+                    if(marks.marks[i].markName === str){
+                        alert('命名失败,标签名重复');
+                        return;
+                    }
+                }
                 if (str != null && str.trim() !== '') {
                     that.alterName(str);
-
+                }else{
+                    alert('请输入有意义的名字');
                 }
             });
-            console.log('lightme:delete' + this.id);
 
             $('#markid_' + this.id + '+ #mark_operate .glyphicon-trash').click(function () {
                 if (confirm('确认删除标签?')) {
@@ -320,7 +414,6 @@ $(window).ready(function () {
 
             $('.mark').click(function () {
                 var str = $(this).attr('id').split('_')[1];
-                // console.log('这个便签的id为' + str);
                 item.listinit('mark_note_show', str, 1); //通过id要知道真正的id
                 $('#middle_label').fadeOut(0);
                 $('#middle_notes').fadeIn(200);
@@ -331,6 +424,10 @@ $(window).ready(function () {
         function Fprint_mark_to(thatlabel) {
             if (this.isdelete === '1')
                 return;
+            var isSelected = '';
+            if (this.isStar === '1') {
+                isSelected = 'mark_smallicon_selected';
+            }
             this.namebb = thatlabel;
             $(thatlabel).html($(thatlabel).html() +
                 '<div id="mark_wrap">' +
@@ -343,7 +440,7 @@ $(window).ready(function () {
                 '        </div>' +
                 '    </div>' +
                 '    <div id="mark_operate">' +
-                '        <span class="glyphicon glyphicon-star mark_smallicon pull-left"></span>' +
+                '        <span class="glyphicon glyphicon-star mark_smallicon pull-left ' + isSelected + '"></span>' +
                 '        <span class="glyphicon glyphicon-pencil mark_smallicon pull-left"></span>' +
                 '        <span class="glyphicon glyphicon-trash mark_smallicon pull-left"></span>' +
                 '    </div>' +
@@ -367,56 +464,99 @@ $(window).ready(function () {
         };
     };
 
-    function getstarlist(arr, des) {
-        for (var i = 0; i < arr.length; ++i) {
-            if (arr[i]['isStar'] === '1' && arr[i]['isdelete'] === '0') {
-                des.push(arr[i]);
-            }
-        }
-    }
 
     function Stars() {
         this.list = [];
         this.getstars = function () {
+            this.list = [];
             getstarlist(notes.notes, this.list);
             getstarlist(books.books, this.list);
             getstarlist(marks.marks, this.list);
         }
         this.sort = function () {
             this.list.sort(function (a, b) {
-                return -Date.parse(a.updatetime) + Date.parse(b.updatetime);
+                return -Date.parse(a.updateTime) + Date.parse(b.updateTime);
             })
         };
         this.display = function () {
+            $('#stars_list').html('');
 
+            for (var i = 0; i < this.list.length; ++i) {
+                var iconType = typeofStars(this.list[i]);
+                $('#stars_list').html($('#stars_list').html() +
+                    '<div id="starid_' + i + '" class="star_single canoselected">' +
+                    '<span class="glyphicon ' + iconType[1] + ' pull-left">&nbsp</span>' +
+                    '<div id="star_name" class="pull-left">' + iconType[0] + '</div>' +
+                    '<span class="glyphicon glyphicon-remove-circle pull-right"></span>' +
+                    '<div class="clear"></div>' +
+                    '</div>'
+                );
+            }
         }
 
+        this.fresh = function () {
+            this.getstars();
+            this.sort();
+            this.display();
+            this.lightStar();
+        }
+        this.lightStar = function () {
+            const that = this;
+            for (var i = 0; i < this.list.length; ++i) {
+                $('#starid_' + i + ' .glyphicon-remove-circle').click(i, function (event) {
+                    var i = event.data;
+                    console.log('#starid_' + i + ' .glyphicon-remove-circle');
+                    console.log(i);
+
+                    that.deletestar(i);
+                    $(this).parent().remove();
+                });
+            }
+            $('.star_single').click(function () {
+                var str = $(this).attr('id').split('_')[1];
+                var type = typeofStars(that.list[str]);
+                console.log(type);
+                if (type[2] === 'book') {
+                    item.listinit('book_note_show', type[3], 1);
+                    starHideItemIn();
+                } else if (type[2] === 'mark') {
+                    item.listinit('mark_note_show', type[3], 1);
+                    starHideItemIn();
+
+                } else if (type[2] === 'note') {
+                    //TODO: notes.notes[i].display(1);//fullscreen:1 or 0
+                    starHideItemIn();
+
+                }
+            })
+        }
+        this.deletestar = function (listid) {
+
+            var itemStr = typeofStars(this.list[listid])[2];
+            console.log('type of star is ' + itemStr);
+            var tid = this.list[listid]['id'];
+            if (itemStr === 'book') {
+                books.starbook(tid);
+            } else if (itemStr === 'note') {
+                listid = IndexOf(item.lists, 'id', tid);
+                notes.starnote(listid, tid);
+            } else if (itemStr === 'mark') {
+                //TODO:marks.star
+                marks.unstar(this.list[listid]['id']);
+            }
+        }
 
         function delete_page_label(thatlabel) {
             thatlabel.parent().remove();
+
         }
 
-        function findmark(notemark, markid) {
-            marks = notemark.split('_');
-            for (var i = 0; i < marks.length; ++i) {
-                if (marks[i] === markid) {
-                    return true;
-                }
-            }
-            return false;
-        }
+
     };
 
-    function findInfoFromArray(arr, id, want) {
-        for (var i = 0; i < arr.length; ++i) {
-            if (arr[i]['id'] === id) {
-                return arr[i][want];
-            }
-        }
-    }
 
     function ItemsContainer() { //将会接受label,books,items传来的参数,并根据情况输出给note_list还是起错名字了-_-
-        this.notes = notes; //re既拿来用的意思
+        this.notes = notes;
         this.mark = marks;
         this.reaction = 'notes_all_show'; //mark_note_show, book_note_show, star_note_show, trash_note_show
         this.lists = [];
@@ -431,19 +571,18 @@ $(window).ready(function () {
             if (reaction === 'notes_all_show') {
                 for (var i = 0; i < this.notes.notes.length; ++i) {
                     if (this.notes.notes[i]['isdelete'] === '0') {
-                        // console.log(1);
                         this.lists.push(this.notes.notes[i]);
                     }
                 }
-            } else if (reaction === 'mark_note_show' || this.reaction === 'star_note_show') {
-                this.notes_info = findInfoFromArray(this.marks.marks, this.markid, 'markName');
+            } else if (reaction === 'mark_note_show') {
+                this.notes_info = findInfoFromArray(marks.marks, this.markid, 'markName');
+
                 for (i = 0; i < this.notes.notes.length; ++i) {
-                    if (this.notes.notes[i]['isdelete'] === '0' && findmark(notelist[i]['markID'], this.markid)) {
+                    if (this.notes.notes[i]['isdelete'] === '0' && findmark(notes.notes[i]['markID'], this.markid)) {
                         this.lists.push(this.notes.notes[i]);
                     }
                 }
             } else if (reaction === 'book_note_show') {
-                // console.log('book_note_show getlist:' + this.bookid);
 
                 for (i = 0; i < this.notes.notes.length; ++i) {
                     if (this.notes.notes[i]['isdelete'] === '0' && this.notes.notes[i]['notebookID'] === this.bookid) {
@@ -456,14 +595,9 @@ $(window).ready(function () {
                         this.lists.push(this.notes.notes[i]);
                     }
                 }
-            } else {
-                console.log('get list failed');
-            }
-            // console.log(this.lists);
+            } else {}
         };
         this.setlist = function () {
-            // console.log('lists.length' + this.lists.length);
-            // console.log('books' + books);
 
             $('#items_num').html(this.lists.length + '条笔记');
         };
@@ -472,14 +606,12 @@ $(window).ready(function () {
             this.changesort(this.sortfor, 1); //等到服务器回应后才能删除成功
         };
         this.setTitle = function () {
-            // console.log('this.reaction' + this.reaction);
             if (this.reaction === 'notes_all_show') {
                 $('#items_title #title_content').html('笔记');
             } else if (this.reaction === 'mark_note_show') {
                 $('#items_title #title_content').html('标签 ' + this.notes_info);
             } else if (this.reaction === 'book_note_show') {
                 var bookname = findInfoFromArray(books.books, this.bookid, 'bookName');
-                console.log('settitle' + bookname);
                 $('#items_title #title_content').html(bookname + ':');
 
             } else if (this.reaction === 'trash_noteAndLabel_show') {
@@ -500,22 +632,19 @@ $(window).ready(function () {
             this.bookid = need_id;
             this.reaction = reaction;
             this.getlist(reaction);
-            console.log(autodisplay);
             this.changesort(this.sortfor, autodisplay);
         };
         this.star = function (strid) {
-            console.log(this.lists[parseInt(strid)].id);
             notes.starnote(strid, this.lists[parseInt(strid)].id);
         }
         this.displaylist = function () { //bookid, markid这个只用管list notes
             $('#items_list').html('');
-            if (this.isinit === 0) {
+            if (this.isinit === 0) { //第一次displaylist
                 this.isinit += 1;
                 this.listinit('notes_all_show', 0);
             }
             var i = 0;
             // console.log('我寻思能跑');
-            // console.log(this.lists);
             for (i = 0; i < this.lists.length; ++i) {
                 var star = '';
                 if (this.lists[i]['isStar'] === '1') {
@@ -523,7 +652,6 @@ $(window).ready(function () {
                 } else if (this.lists[i]['isStar'] === '0') {
                     star = 'glyphicon-star-empty';
                 }
-                console.log('star: ' + star);
                 if (this.lists[i]['isdelete'] === '0') {
                     $('#items_list').html($('#items_list').html() +
                         '<div id="itemid_' + i + '"" class="item">' +
@@ -584,27 +712,26 @@ $(window).ready(function () {
 
         this.changesort = function (sortfor, autoDisplay) { //updateAsc,updateDec,createAsc,updateDec,nameAsc,nameDec;
             var list = this.lists;
-            // console.log(list);
             this.sortfor = sortfor;
 
             if (sortfor === 'createAsc') {
                 list.sort(function (a, b) {
-                    return Date.parse(a.createtime) - Date.parse(b.createtime);
+                    return Date.parse(a.createTime) - Date.parse(b.createTime);
                 });
 
             } else if (sortfor === 'createDec') {
                 list.sort(function (a, b) {
-                    return -Date.parse(a.createtime) + Date.parse(b.createtime);
+                    return -Date.parse(a.createTime) + Date.parse(b.createTime);
                 });
 
             } else if (sortfor === 'updateAsc') {
                 list.sort(function (a, b) {
-                    return Date.parse(a.updatetime) - Date.parse(b.updatetime);
+                    return Date.parse(a.updateTime) - Date.parse(b.updateTime);
                 });
 
             } else if (sortfor === 'updateDec') {
                 list.sort(function (a, b) {
-                    return -Date.parse(a.updatetime) + Date.parse(b.updatetime);
+                    return -Date.parse(a.updateTime) + Date.parse(b.updateTime);
                 });
             } else if (sortfor === 'nameAsc') {
                 list.sort(function (a, b) {
@@ -622,20 +749,21 @@ $(window).ready(function () {
         }
     };
 
-
     //Main:
     var notes = new Notes();
     var books = new Books(notes);
-    var item = new ItemsContainer(notes);
+    var item = new ItemsContainer();
     var marks = new Marks();
+    var stars = new Stars();
     getAllnotes();
     books.getbooks();
     marks.getmarks();
 
 
 
-
-
+    $('#star').click(function () {
+        stars.fresh();
+    })
     $('#notes').click(function () {
         item.listinit('notes_all_show', 0, 1);
     });
@@ -646,54 +774,5 @@ $(window).ready(function () {
         books.printbooks();
     });
     //给item加上动画,只能加一次
-
-    function lightit() {
-        $('.glyphicon-star-empty').hover(function () {
-            $(this).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
-        }, function () {
-            $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
-        });
-        $('.glyphicon-trash').hover(function () {
-            $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
-        }, function () {
-            $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
-        });
-        $('.item').click(function () { //将笔记内容标题给编辑器
-            var str = $(this).children().eq(0).html();
-            var str2 = $(this).children().eq(4).html();
-            $('#edit_eara').html(str + '\n' + str2);
-            $(lastclicktip).removeClass('clicked');
-            $(this).addClass('clicked');
-            lastclicktip = this;
-        });
-        $('.trash').click(function () { //删除笔记,标签,笔记本,星标
-            var id = $(this).parent().attr('id');
-            id = id.split('_');
-            if (id[0] === 'itemid') {
-                item.deleteitem(id[1], $(this));
-            } else if (id[0] === 'book') {
-                books.deletebook(id[1], $(this));
-            }
-            return false; //阻止事件冒泡,阻止事件默认行为
-        });
-        $('.star').click(function () {
-            alert(211);
-            return false;
-        });
-        $('.book').click(function () {
-            var str = $(this).attr('id').split('_')[1];
-            // console.log('这个笔记本的id为' + str);
-            item.listinit('book_note_show', str, 1) //通过id要知道真正的id
-            $('#middle_books').fadeOut(0);
-            $('#middle_notes').fadeIn(200);
-        });
-        $('#notes').click(function () {
-            item.listinit('notes_all_show', 1);
-        });
-        $('.sortfor').click(function () {
-            item.changesort($(this).attr('id'), 1);
-        })
-    }
-
 
 });

@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="css/stars.css" type="text/css">
 
 <!-- 不能重复引用,主页面的时候删掉 -->
+    <script>
+        $(document).ready(function () {
+            
+        });
+    </script>
 </head>
 
 <body>
@@ -27,13 +32,32 @@
         </div>
         <div class='clear'></div>
         <hr/>
-        <div id="stars_list" style="padding = 5px 10px;">
-            <div id="star_single">
-            <span class="glyphicon glyphicon-book pull-left" style="color: rgb(51, 41, 47);">&nbsp</span>
-            <div id="star_name" class="pull-left">xm1d</div>
-            <span class="glyphicon glyphicon-remove-circle pull-right" style="color: rgb(51, 41, 47);"></span>
+
+        <div id="stars_list">
+
+            <div id="starid_1" class="star_single">
+                <span class="glyphicon glyphicon-book pull-left">&nbsp</span>
+                <div id="star_name" class="pull-left">xm1d</div>
+                <span class="glyphicon glyphicon-remove-circle pull-right"></span>
+                <div class="clear"></div>
             </div>
+
+            <div id="starid_1" class="star_single">
+                <span class="glyphicon glyphicon-file pull-left">&nbsp</span>
+                <div id="star_name" class="pull-left">xm1d</div>
+                <span class="glyphicon glyphicon-remove-circle pull-right"></span>
+                <div class="clear"></div>
+            </div>
+
+            <div id="starid_1" class="star_single">
+                <span class="glyphicon glyphicon-bookmark pull-left">&nbsp</span>
+                <div id="star_name" class="pull-left">xm1d</div>
+                <span class="glyphicon glyphicon-remove-circle pull-right"></span>
+                <div class="clear"></div>
+            </div>
+
         </div>
     </div>
+
 </body>
 </html>

@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <title>team6笔记</title>
     <link rel="stylesheet" type="text/css" href="css/home.css">
-
+    <script language=javascript src="js/functions.js"></script>
 </head>
 <body>
 <div id="left"><?php include "left.php"?>  </div>

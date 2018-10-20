@@ -8,7 +8,11 @@
  */
 
 require_once '../include/connection.php';
+// if(isset($_SESSION['userid']))
 //$userid = $_SESSION['userid'];
+//else
+//echo 'error, please login first
+//
 $userid = 1;
 
 function getinfo($tab, $connection, $userid){
