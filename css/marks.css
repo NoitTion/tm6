@@ -138,13 +138,3 @@ hr{
     align-content: center;
     margin: 12px 10px;
 }
-#mark_search_div{
-    margin: 10px 0 0 0;
-    width: 100%;
-    padding: 0 0 12px;
-    text-align: center;
-}
-#mark_search{
-    width: 75%;
-    height: 35px
-}

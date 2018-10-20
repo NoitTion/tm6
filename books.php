@@ -26,8 +26,10 @@
         <div id="middle_top">
         <div id="books_title"><span id="title_content" class="canoselected lead">笔记本</span></div>
         </div>
+        <div id="book_search_div">
+            <input type="text" class="form-control center-block" id="book_search" placeholder="search">
+        </div>
         <hr class="clear">
-
         <div id="books_list" class="listScroll">
 <!--            '<div id="book_' + this.books[i]['id'] + '" class="book">' +-->
 <!--                '<span id="book_title">' + this.books[i]['bookName'] + '</span>' +-->

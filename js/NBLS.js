@@ -1,6 +1,4 @@
 //for item(note), book, label, star
-document.write('<script language=javascript src="js/functions.js"></script>');
-
 lastclicktip = '#itemid_0'; //上一次item被点击的id
 
 $(window).resize(function () {
@@ -41,16 +39,14 @@ $(window).ready(function () {
         };
 
         this.starnote = function (listid, trueid) {
-            //TODO server
+            //TODO server fix?
             trueid = IndexOf(this.notes, 'id', trueid);
             that = this;
             if (this.notes[trueid].isStar === '0') {
                 this.notes[trueid].isStar = '1';
-                var note = this.notes[trueid];
-                console.log(this.notes[trueid]);
-                note['updateTime'] = '\'' + note['updateTime'] + '\'';
-                updateTips('updatenote', this.notes[trueid], function (data, status) {
-                    console.log(data);
+                var mnote = getMysqlquery(this.notes[trueid], true);
+                // note['updateTime'] = '\'' + note['updateTime'] + '\'';
+                updateTips('updatenote', mnote, function (data, status) {
                     if (status === 'success') {
                         $('#itemid_' + listid + ' .star').addClass('stared');
                     } else {
@@ -60,7 +56,8 @@ $(window).ready(function () {
                 });
             } else if (this.notes[trueid].isStar === '1') {
                 this.notes[trueid].isStar = '0';
-                updateTips('updatenote', this.notes[trueid], function (data, status) {
+                var mnote = getMysqlquery(this.notes[trueid], true);
+                updateTips('updatenote', mnote, function (data, status) {
                     if (status === 'success') {
                         $('#itemid_' + listid + ' .star').removeClass('stared');
                     } else {
@@ -175,8 +172,6 @@ $(window).ready(function () {
                 this.books[index].isStar = '1';
                 console.log(this.books[index]);
                 updateTips('updatebook', this.books[index], function (data, status) {
-                    console.log(data);
-                    console.log(status);
                     if (status !== 'success') {
                         that.isStar = '0';
                         alert("error can't update book")
@@ -184,6 +179,13 @@ $(window).ready(function () {
                 })
             } else if (this.books[index].isStar === '1') {
                 this.books[index].isStar = '0';
+                updateTips('updatebook', this.books[index], function (data, status) {
+                    if (status !== 'success') {
+                        that.isStar = '1';
+                        alert("error can't update book")
+                    }
+                })
+
             } else {
                 console.log('known error ');
             }
@@ -243,7 +245,7 @@ $(window).ready(function () {
                 //这里要向服务器端请求删除便签
                 $.get("ajax/deleteData.php?id=" + id + "&action=book", function (status) {
                     if (status === '1') {
-                        delete_page_label(thatLabel); //在网页上删除那个标签
+                        thatlabel.remove(); //在网页上删除那个标签
                         for (var i = 0; i < that.books.length; ++i) { //在本地删除那个
                             // 本(set isdeleted 1)
                             if (that.books[i]['id'] === id) {
@@ -292,11 +294,21 @@ $(window).ready(function () {
         };
 
         function removemyself() {
-            //TODO: send a request to server
+            //REDO: send a request to server
             //interface: update(key, content);
             this.isdelete = '1';
-            $('#markid_' + this.id).parent().remove();
+            const that = this;
+            var tb = getMysqlquery(that)
+            updateTips('updatemark', tb, function(data, status) {
+                if(status === 'success'){
+                  $('#markid_' + that.id).parent().remove();
+                }else{
+                    console.log('mark delete error');
+                    that.isdelete = '0';
+                }
+            })
         }
+        
         this.unstar = function (id) {
             var tid = IndexOf(this.marks, 'id', id);
             $('#markid_' + id + '+ #mark_operate .glyphicon-star').removeClass('mark_smallicon_selected').addClass('mark_smallicon');
@@ -311,13 +323,32 @@ $(window).ready(function () {
         }
 
         function star(ooe) { //one or zero '1' or '0'
+        const that = this;
             if (ooe === '1') {
-                //TODO:向服务器发送请求 if success:
+                //REDO:向服务器发送请求 if success:
                 this.isStar = '1';
+                var tb = getMysqlquery(that)
+                updateTips('updatemark', tb, function(data, status) {
+                    if(status === 'success'){
+                        //pass
+                    }else{
+                        console.log('mark star error');
+                        that.isStar = '0';
+                    }
+                })
 
             } else if (ooe === '0') {
-                //TODO:向服务器发送请求 if success:
+                //REDO:向服务器发送请求 if success:
                 this.isStar = '0';
+                var tb = getMysqlquery(that)
+                updateTips('updatemark', tb, function(data, status) {
+                    if(status === 'success'){
+                        //pass
+                    }else{
+                        console.log('mark star error');
+                        that.isStar = '1';
+                    }
+                })
 
             } else {
                 alert(this.id + 'star error');
@@ -327,8 +358,19 @@ $(window).ready(function () {
 
         function alterName(str) {
             //TODO: server
+            const that = this;
+            var tdmarkname = this.markName;//td都是副本的意思
             this.markName = str;
-            $('#markid_' + this.id + '  .mark_name').html(str);
+                var tb = getMysqlquery(that)
+                updateTips('updatemark', tb, function(data, status) {
+                    if(status === 'success'){
+                        $('#markid_' + that.id + '  .mark_name').html(str);
+                    }else{
+                        console.log('mark alter error');
+                        that.markName = tdmarkname;
+
+                    }
+                })
         }
 
         function lightme() {
@@ -348,9 +390,19 @@ $(window).ready(function () {
 
             $('#markid_' + this.id + '+ #mark_operate .glyphicon-pencil').click(function () {
                 var str = prompt("enter your new label name", that.markName); //LADO:jq弹出层插件
+                if(str == null){
+                    return;
+                }
+                for(var i = 0;i < marks.marks.length;++i){//confirm 名字重复.
+                    if(marks.marks[i].markName === str){
+                        alert('命名失败,标签名重复');
+                        return;
+                    }
+                }
                 if (str != null && str.trim() !== '') {
                     that.alterName(str);
-
+                }else{
+                    alert('请输入有意义的名字');
                 }
             });
 

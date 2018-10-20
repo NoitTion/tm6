@@ -5,7 +5,35 @@ function IndexOf(arr, key, value) {
         }
     }
 }
-
+function getMysqlquery(instance, autoUpdateTime = false){
+    var o = JSON.parse(JSON.stringify(instance));
+    if(autoUpdateTime)
+        o.updateTime = getNowFormatDate();
+    if(o.updateTime){
+        o.updateTime = '\'' + o.updateTime + '\'';
+    }
+    if(o.createTime){
+        o.createTime = '\'' + o.createTime + '\'';
+    }//然后另外的都已经改过了在.php里,我并不是很清楚我为什么要写这个方法....为了增大维护难度么?
+    return o;
+}
+function getNowFormatDate() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+    return currentdate;
+}
 function findmark(notemark, markid) {
     if (notemark !== null) {
         marks = notemark.split('_');

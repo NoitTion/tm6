@@ -109,7 +109,7 @@ function update($type, $data){
         ', \''.$data['sharedpeople'].'\')';
     }else if($type == 'updatemark'){
         $query = 'update mark set '.
-        '  markname=\''.$data['markname'].
+        '  markName=\''.$data['markName'].
         '\', isStar='.$data['isStar'].
         ', isdelete='.$data['isdelete'].
         ', notesnum='.$data['notesnum'].        
@@ -120,7 +120,7 @@ print_r($data);
 update($type, $data);
 echo $query;
 $result = mysqli_query($connection, $query);
-echo $result;
+echo '\n' . $result;
 
 
 ?>

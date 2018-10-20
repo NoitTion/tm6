@@ -83,3 +83,13 @@ body{
 hr{
     margin: 0;
 }
+#book_search_div{
+    margin: 10px 0 0 0;
+    width: 100%;
+    padding: 0 0 12px;
+    text-align: center;
+}
+#book_search{
+    width: 75%;
+    height: 35px
+}

@@ -28,10 +28,7 @@
         <div id="marks_title"><span id="title_content" class="canoselected lead">标签</span></div>
         </div>
 
-        <div id="mark_search_div">
-            <input type="text" class="form-control center-block" id="mark_search" placeholder="search">
-
-        </div>
+        
 
         <hr class="clear">
 
