@@ -5,7 +5,10 @@
  * Date: 2018/10/1
  * Time: 23:43
  */
-
+    require_once 'include/session.php';
+    // echo $_SESSION['user_id'];
+    confirm_logged_in();
+    
 ?>
 <!DOCTYPE html>
 <html>

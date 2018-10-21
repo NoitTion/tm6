@@ -58,7 +58,7 @@ a:link{
 a:hover{
     text-decoration: underline;
 }
-#error_box{
+#error_box, #checkName_box{
     color: red;
     
 }

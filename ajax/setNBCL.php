@@ -1,13 +1,13 @@
 <?php
 //new and update note book label //comments
 //
+require_once "../include/session.php";
+
 require_once '../include/connection.php';
-// if(isset($_SESSION['userid']))
-//$userid = $_SESSION['userid'];
-//else
-//echo 'error, please login first'
-//
-$userid = 1;
+
+confirm_logged_in();
+$userid = $_SESSION['user_id'];
+// $userid = 1;
 $data = $_POST['data'];
 $type = $_POST['type'];
 $query = '';

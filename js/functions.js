@@ -125,7 +125,7 @@ function lightit() {
     $('.item').click(function () { //将笔记内容标题给编辑器
         var str = $(this).children().eq(0).html();
         var str2 = $(this).children().eq(4).html();
-        $('#edit_eara').html(str + '\n' + str2);
+        $('#editor_content').html(str + '\n' + str2);
         $(lastclicktip).removeClass('clicked');
         $(this).addClass('clicked');
         lastclicktip = this;

@@ -11,8 +11,26 @@
 <body>
     <div id="main">
         <!-- 工具栏 -->
+        <div id="editor_function_bar">
+            <div id="small_function">
+                <span class="glyphicon glyphicon-time"></span>
+                <span class="glyphicon glyphicon-star-empty"></span>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <span class="glyphicon glyphicon-trash"></span>
+                <div class='clear'></div>
+            </div>
+        
+            <div id='small_function_right'>
+                <span class="glyphicon glyphicon-fullscreen"> </span>
+                <div class="complete">完成</div>
+                <div class="cancel">取消</div>
+
+            </div>
+
+            <div class='clear'></div>
+        </div>
         <div id="toolbar">
-            <ul>
+            <ul>    
                 <li>
                     <a href="javascript:void(0)" onclick="onEffect('Bold')" title="加粗">
                         <i class="fa fa-bold"></i>
@@ -67,13 +85,18 @@
                 </li>
             </ul>
         </div>
+        <!-- 标题 -->
+        <!-- <div id="note_title">
+            <input id="note_title_input" type="text" name="noteTitleInput" onkeydown="if(event.keyCode==13) document.all.editor.focus();>
+        </div> -->
+
         <!-- 编辑区 -->
         <iframe src="" frameborder="0" allowTransparency='true' id="editor">
         </iframe>
         <form id="forms" action="" method="post" enctype="multipart/form-data">
             <input id="inputobj" type="file" name="myFile" style=" display:none;" />
         </form>
-
+        
     </div>
 </body>
 <script type="text/javascript" src="js/note_editor.js"></script>

@@ -43,6 +43,46 @@ body{
 }
 iframe{
     width: 100%;
-    height: calc(100vh - 50px);
-    position: absolute;
+    height: calc(100vh - 88px);
+    position: inherit;
+}
+#editor_function_bar{
+    margin: 10px 0;
+}
+#small_function{
+    padding: 0 0 0 18px;
+    float: left;
+}
+#small_function_right{
+    padding: 0 18px 0 0;
+    float:right;
+    display: inline;
+}
+.complete ,.cancel{
+    display: none;
+}
+#small_function .glyphicon{
+    margin: 5px;
+    font-size: 21px;
+    color: rgb(162, 160, 159);
+    cursor: pointer;
+}
+#small_function_right .glyphicon{
+    font-size: 21px;
+    margin: 5px;
+    color: rgb(162, 160, 159);
+    cursor: pointer;
+}
+#editor_function_bar .glyphicon:hover{
+    color: #2dbe60;
+}
+#editor_function_bar .selected{
+    color: #2dbe60;
+}
+#note_title_input{
+    margin: 8px;
+    border: 0px;
+    outline:none;
+    font-size: 23px;
+    color: #2dbe60;
 }

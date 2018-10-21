@@ -6,7 +6,7 @@ var editPane = null;
     editPane.document.designMode = "on";
     editPane.document.contentEditable = true;
     editPane.document.open();
-    editPane.document.write('');
+    editPane.document.write("<div id=editor_content></div>");
     editPane.document.close();
     editPane.focus();
 })();

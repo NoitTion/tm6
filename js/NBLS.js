@@ -3,11 +3,15 @@ lastclicktip = '#itemid_0'; //上一次item被点击的id
 
 $(window).resize(function () {
     $('.listScroll').css('height', $(window).height() - $('#items_list').offset().top) //给scroll设置高度
+    $('#edit').css('width', $(window).width() - 325);
+
 });
 
 $(window).ready(function () {
     itemsarr = "";
     $('.listScroll').css('height', $(window).height() - $('#items_list').offset().top);
+    $('#edit').css('width', $(window).width() - 325);
+
     var xmlhttp;
 
     function loadXMLDoc(url, cfunc) {
@@ -703,11 +707,14 @@ $(window).ready(function () {
             $('.item').click(function () { //将笔记内容标题给编辑器TODO
                 var str = $(this).children().eq(0).html();
                 var str2 = $(this).children().eq(4).html();
-                $('#edit_eara').html(str + '\n' + str2);
+                console.log($('#editor_content'));
+                console.log($('#editor').html());
+                var editorcontent  = $('#editor').contentDocument;
+                console.log(editorcontent);
                 $(lastclicktip).removeClass('clicked');
                 $(this).addClass('clicked');
-                lastclicktip = this;
-            });
+            lastclicktip = this;
+        });
         };
 
         this.changesort = function (sortfor, autoDisplay) { //updateAsc,updateDec,createAsc,updateDec,nameAsc,nameDec;

@@ -6,7 +6,6 @@
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
     <title>注册</title>
     <link rel="stylesheet" type="text/css" href="./css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="./css/grib.css">
 </head>
 
 <body>
@@ -15,19 +14,23 @@
             <h1>加入 Cloud Note</h1>
         </div>
         <div class="form-wrapper">
-            <form action="./signup.php" method="post" onsubmit="return fnSignUp();fnCheckBlank();">
+            <form action="./signup.php" method="post" onsubmit="return fnSignUp()">
                 <div class="login_box box">
                     <!-- 输入用户名 -->
                     <div class="input">
-                        <input id="username" class="text" type="text" placeholder="请输入账户名" onclick="fnClearError()" name="username" onblur="xajax_check(this.value);">
+                        <input id="username" class="text" type="text" placeholder="请输入账户名" 
+                        onclick="fnClearError()" onblur="checkSameName()" name="username">
                     </div>
+                    <div id="checkName_box"></div>
                     <!-- 输入密码 -->
                     <div class="input">
-                        <input id="password" class="text" type="password" placeholder="请输入密码" onclick="fnClearError()" name="password">
+                        <input id="password" class="text" type="password" placeholder="请输入密码"
+                        onclick="fnClearError()" name="password">
                     </div>
                     <!-- 再次输入密码 -->
                     <div class="input">
-                        <input id="password1" class="text" type="password" placeholder="请再次输入密码" onclick="fnClearError()">
+                        <input id="password1" class="text" type="password" placeholder="请再次输入密码"
+                        onclick="fnClearError()">
                     </div>
                     <!-- 用来显示错误的 -->
                     <div id="error_box"></div>
@@ -38,8 +41,8 @@
             </form>
         </div>
     </div>
-    <script src="./js/signup.js"></script>
     <script src="./js/script.js"></script>
+    <script src="./js/ajax.js"></script>
 </body>
 
 </html>
