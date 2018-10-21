@@ -16,7 +16,7 @@ if(!$con){
 mysqli_set_charset($con,"utf8");
 // mysqli_query($con, "set names utf8");
 
-mysqli_select_db($con, $db_name);
+// mysqli_select_db($con, $db_name);
 
 //加密密码
 $password = md5($password);
