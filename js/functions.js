@@ -5,6 +5,10 @@ function IndexOf(arr, key, value) {
         }
     }
 }
+function deformat(str){
+    return str.replace(/<\/?.+?>/g,"").replace(/ /g,"");
+    
+}
 function getMysqlquery(instance, autoUpdateTime = false){
     var o = JSON.parse(JSON.stringify(instance));
     if(autoUpdateTime)
@@ -33,6 +37,39 @@ function getNowFormatDate() {
             + " " + date.getHours() + seperator2 + date.getMinutes()
             + seperator2 + date.getSeconds();
     return currentdate;
+}
+function subDate(faultDate,currenttime = (new Date()).getTime()){
+    var stime = Date.parse(new Date(faultDate));
+    // var etime = Date.parse(new Date(completeTime));
+    etime = currenttime;
+    var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+    var days=Math.floor(usedTime/(24*3600*1000));
+    var months = Math.floor(days / 30);
+    var years = Math.floor(months / 12);
+    months = months - 12 * years;
+    //计算出小时数
+    var leave1=usedTime%(24*3600*1000);    //计算天数后剩余的毫秒数
+    var hours=Math.floor(leave1/(3600*1000));
+    //计算相差分钟数
+    var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
+    var minutes=Math.floor(leave2/(60*1000));
+    var leave3 = leave2 % (60 * 1000);
+    var seconds = Math.floor(leave3 / 1000);
+    if(years >= 1){
+        return years + '年前';
+    }else if(months >= 1){
+        return months + '个月' + days + '天前';
+    }else if(days >= 1){
+        return days + '天前';
+    }else if(hours >= 1){
+        return hours + '小时' + minutes + '分钟前';
+    }else if(minutes >= 1){
+        return minutes + '分钟' + seconds + '秒前';
+    }else if(seconds >= 0){
+        return seconds + '秒前';
+    }else {
+        return '逻辑出错了';
+    }
 }
 function findmark(notemark, markid) {
     if (notemark !== null) {

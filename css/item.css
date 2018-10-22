@@ -64,7 +64,7 @@ body{
     cursor: pointer;
     color: #000000;
     text-align: left;
-    height: 68px;
+    height: 80px;
     width: 265px;
     padding: 10px 10px;
     transition: background 0.2s;
@@ -91,6 +91,8 @@ body{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    height: 16px;
+    padding: 0 0 1px 0;
 }
 hr{
     margin: 0;

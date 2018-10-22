@@ -48,6 +48,7 @@ iframe{
 }
 #editor_function_bar{
     margin: 10px 0;
+    border-bottom: 1px solid #eeeeee;
 }
 #small_function{
     padding: 0 0 0 18px;
@@ -58,9 +59,20 @@ iframe{
     float:right;
     display: inline;
 }
-.complete ,.cancel{
-    display: none;
+.complete{
+    float: right;
+    background-color: #2dbe60;
+    border: #eeeeee solid 1px;
+    color: white;
+    padding: 4px 10px 4px;
+    margin: 0 0 3px 10px;
+    border-radius:5px;
+    cursor: pointer;
 }
+.complete:hover{
+    background-color: #1dae50;
+}
+
 #small_function .glyphicon{
     margin: 5px;
     font-size: 21px;
@@ -85,4 +97,12 @@ iframe{
     outline:none;
     font-size: 23px;
     color: #2dbe60;
+}
+#note_input{
+    width: 100%;
+    padding: 0 0 0 10px;
+    font-size: 36px;
+    color: #2dbe60;
+    border: none;
+    outline:none;
 }

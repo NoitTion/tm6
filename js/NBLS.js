@@ -73,7 +73,7 @@ $(window).ready(function () {
             } else {
                 alert('starnote error');
             }
-        }
+        };
 
         this.notDelnum = function () {
             var nums = 0;
@@ -84,8 +84,20 @@ $(window).ready(function () {
             }
             return nums;
         };
-        this.addAnote = function (note) { //新建笔记的时候用
-            this.notes.push(note);
+        this.addAnote = function (newnote) { //新建笔记的时候用
+            const that = this;
+            var mysqlquery = getMysqlquery(newnote);
+            updateTips('newnote', mysqlquery, function(data, status){
+                //目前没有
+                id = data;
+                newnote.id = id;
+                that.notes.push(newnote);
+                console.log('addAnote');
+                console.log(newnote);
+                editor.setCurrentNote(newnote);
+                item.getlist('notes_all_show');
+                item.changesort(item.sortfor, 1);
+            });
         };
         this.deletenote = function (id, thatLabel, r_id) { //从标签那里传过来
             const that = this; //后面的不给传递,要在这里缓存一下
@@ -94,7 +106,7 @@ $(window).ready(function () {
                 $.get("ajax/deleteData.php?id=" + id + '&action=note', function (status) {
                     if (status === '1') {
                         // console.log('note服务器请求删除成功');
-                        if (typeof (thatLabel) !== 'undefined')
+                        if (typeof (thatLabel) != '-1')
                             thatLabel.parent().remove();
                         else {
                             $('#noteid' + r_id).remove();
@@ -116,6 +128,17 @@ $(window).ready(function () {
                     }
                 });
             }
+        };
+        this.updatenote = function(id){
+            var note = this.notes[IndexOf(this.notes, 'id', id)];
+            note.updateTime = getNowFormatDate();
+            updateTips('updatenote', getMysqlquery(note), function(data, status){
+                if(status === 'success'){
+                    console.log(data);
+                    item.getlist('notes_all_show');
+                    item.changesort(item.sortfor, 1);
+                }
+            })
         };
     }
 
@@ -306,6 +329,7 @@ $(window).ready(function () {
             updateTips('updatemark', tb, function(data, status) {
                 if(status === 'success'){
                   $('#markid_' + that.id).parent().remove();
+                  console.log(data);
                 }else{
                     console.log('mark delete error');
                     that.isdelete = '0';
@@ -559,16 +583,16 @@ $(window).ready(function () {
     };
 
 
-    function ItemsContainer() { //将会接受label,books,items传来的参数,并根据情况输出给note_list还是起错名字了-_-
+    function ItemsContainer() { 
+        this.reaction = 'notes_all_show'; //mark_note_show, book_note_show, star_note_show, trash_note_show
         this.notes = notes;
         this.mark = marks;
-        this.reaction = 'notes_all_show'; //mark_note_show, book_note_show, star_note_show, trash_note_show
         this.lists = [];
         this.markid = ''; //星标记得也要有
         this.bookid = '';
         this.notes_info = '';
         this.isinit = 0;
-        this.sortfor = 'updateAsc'; //updateAsc,updateDec,createAsc,createDec;
+        this.sortfor = 'createDec'; //updateAsc,updateDec,createAsc,createDec;
 
         this.getlist = function (reaction) {
             this.lists = [];
@@ -602,7 +626,6 @@ $(window).ready(function () {
             } else {}
         };
         this.setlist = function () {
-
             $('#items_num').html(this.lists.length + '条笔记');
         };
         this.listrefresh = function () {
@@ -627,8 +650,6 @@ $(window).ready(function () {
 
         this.deleteitem = function (id, thatlabel) {
             notes.deletenote(this.lists[id]['id'], thatlabel, id);
-
-
         }; //仅仅在books和notes时
 
         this.listinit = function (reaction, need_id, autodisplay) {
@@ -648,13 +669,18 @@ $(window).ready(function () {
                 this.listinit('notes_all_show', 0);
             }
             var i = 0;
-            // console.log('我寻思能跑');
             for (i = 0; i < this.lists.length; ++i) {
                 var star = '';
                 if (this.lists[i]['isStar'] === '1') {
                     star = 'glyphicon-star stared';
                 } else if (this.lists[i]['isStar'] === '0') {
                     star = 'glyphicon-star-empty';
+                }
+                var subdate = '';
+                if(this.sortfor === 'updateAsc' || this.sortfor === 'updateDec' || this.sortfor === 'nameAsc' || this.sortfor === 'nameDec'){
+                    subdate = subDate(this.lists[i]['updateTime']);
+                }else if(this.sortfor === 'createAsc' || this.sortfor === 'createDec' || this.sortfor === 'nameAsc' || this.sortfor === 'nameDec'){
+                    subdate = subDate(this.lists[i]['createTime']);
                 }
                 if (this.lists[i]['isdelete'] === '0') {
                     $('#items_list').html($('#items_list').html() +
@@ -663,7 +689,9 @@ $(window).ready(function () {
                         '<span class="glyphicon glyphicon-trash pull-right smallicon trash" style="color: rgb(255, 255, 255);"/>' +
                         '<span class="glyphicon pull-right smallicon star ' + star + '" style="color: rgb(255, 255, 255);"/>' +
                         '<br>' +
-                        '<p id="item_excerpt">' + this.lists[i]['content'] +
+                        '<p id="item_excerpt">' + subdate +
+                        '<br>' +
+                        '<p id="item_excerpt">' + deformat(this.lists[i]['content'])  +
                         '</div>' +
                         '<hr class="clear">');
                 }
@@ -671,7 +699,6 @@ $(window).ready(function () {
             this.lightnotes();
             this.setTitle();
             this.setlist();
-
         };
         this.lightnotes = function () {
             $('#items_list .trash').click(function () { //删除笔记,标签,笔记本,星标
@@ -705,18 +732,36 @@ $(window).ready(function () {
                 $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
             });
             $('.item').click(function () { //将笔记内容标题给编辑器TODO
-                var str = $(this).children().eq(0).html();
-                var str2 = $(this).children().eq(4).html();
-                console.log($('#editor_content'));
-                console.log($('#editor').html());
-                var editorcontent  = $('#editor').contentDocument;
-                console.log(editorcontent);
+                var str = $(this).attr('id').split('_')[1];
+
+                editor.setCurrentNote(notes.notes[IndexOf(notes.notes, 'id', item.lists[str]['id'])]);
                 $(lastclicktip).removeClass('clicked');
                 $(this).addClass('clicked');
-            lastclicktip = this;
-        });
+                lastclicktip = this;
+            });
         };
 
+        this.addEmptyitem = function(){
+            var newnote = jQuery.extend(true, {}, notes.notes[0]);
+
+            newnote['id'] = 'null';
+            newnote['title']  = '无标题';
+            newnote['content'] = '<p><br data-mce-bogus="1"></p>';
+            newnote['markID'] = '';
+            newnote['notebookID'] = '1';
+            newnote['remindTime'] = 'null';
+            newnote['createTime'] = getNowFormatDate();
+            newnote['updateTime'] = getNowFormatDate();
+            newnote['remindTime'] = 'null';
+            newnote['isShare'] = '0';
+            newnote['isdelete'] = '0';
+            newnote['sharedpeople'] = 'null';
+
+            notes.addAnote(newnote);
+            // this.lists.push(newServernote);
+            // this.getlist('notes_all_show');
+            // this.changesort(this.sortfor, 1);
+        }
         this.changesort = function (sortfor, autoDisplay) { //updateAsc,updateDec,createAsc,updateDec,nameAsc,nameDec;
             var list = this.lists;
             this.sortfor = sortfor;
@@ -755,6 +800,28 @@ $(window).ready(function () {
                 this.displaylist();
         }
     };
+    function Editor(){
+        this.setCurrentNote = function(note){
+            this.currentNote = note;
+            var editorArea = tinymce.get('mytextarea');
+            editorArea.setContent(this.currentNote.content);
+            $('#note_input').val(this.currentNote.title);
+            this.refresh();
+        }
+        this.refresh = function(){
+            if(this.currentNote.isStar === '1'){
+                $('#editor_function_bar #small_function glyphicon-star-empty').css('color', '#2dbe60');
+            }
+        }
+        this.complete = function(){
+            var editorArea = tinymce.get('mytextarea');
+            console.log(this.currentNote);  
+
+            this.currentNote.title = $('#note_input').val();
+            this.currentNote.content = editorArea.getContent();
+            notes.updatenote(this.currentNote.id);
+        }
+    }
 
     //Main:
     var notes = new Notes();
@@ -762,12 +829,19 @@ $(window).ready(function () {
     var item = new ItemsContainer();
     var marks = new Marks();
     var stars = new Stars();
+    var editor = new Editor(); 
     getAllnotes();
     books.getbooks();
     marks.getmarks();
 
 
-
+    $('.complete').click(function(){
+        console.log('click');
+        editor.complete();
+    })
+    $('#new').click(function() {
+        item.addEmptyitem();
+    })
     $('#star').click(function () {
         stars.fresh();
     })

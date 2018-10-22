@@ -21,6 +21,7 @@ html{
      width: 70%;
      height: 100%;
      float: left;
+     border-left: 1px solid #eeeeee;
  }
 .new{
      height: 100%;

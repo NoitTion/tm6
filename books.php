@@ -25,7 +25,10 @@
     <div id="book_body">
         <div id="middle_top">
         <div id="books_title"><span id="title_content" class="canoselected lead">笔记本</span></div>
+        <div id="add_book"><span class="glyphicon glyphicon-plus"></span></div>
+        <hr class="clear">
         </div>
+
         <div id="book_search_div">
             <input type="text" class="form-control center-block" id="book_search" placeholder="search">
         </div>

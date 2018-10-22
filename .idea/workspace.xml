@@ -2,25 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e62bc927-e9e2-4f14-a7cd-e719b839ff67" name="Default Changelist" comment="&lt;/&lt;! to &lt;!">
-      <change beforePath="$PROJECT_DIR$/ajax/deleteData.php" beforeDir="false" afterPath="$PROJECT_DIR$/ajax/deleteData.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ajax/getAllnotes.php" beforeDir="false" afterPath="$PROJECT_DIR$/ajax/getAllnotes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ajax/getNBCL.php" beforeDir="false" afterPath="$PROJECT_DIR$/ajax/getNBCL.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ajax/setNBCL.php" beforeDir="false" afterPath="$PROJECT_DIR$/ajax/setNBCL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/books.php" beforeDir="false" afterPath="$PROJECT_DIR$/books.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/books.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/books.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/item.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/item.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/marks.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/marks.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/normalize.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/normalize.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/note_editor.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/note_editor.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/edit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/stars.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/stars.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/home.php" beforeDir="false" afterPath="$PROJECT_DIR$/home.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/NBLS.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/NBLS.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/note_editor.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/note_editor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signup.php" beforeDir="false" afterPath="$PROJECT_DIR$/signup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/marks.php" beforeDir="false" afterPath="$PROJECT_DIR$/marks.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -103,13 +92,13 @@
     <session id="-1962538291">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="25" />
+          <entry key="project.closed" value="26" />
           <entry key="project.open.time.10" value="2" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.18" value="1" />
           <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.23" value="3" />
-          <entry key="project.open.time.24" value="5" />
+          <entry key="project.open.time.24" value="6" />
           <entry key="project.open.time.25" value="2" />
           <entry key="project.open.time.26" value="2" />
           <entry key="project.open.time.27" value="6" />
@@ -117,15 +106,15 @@
           <entry key="project.open.time.31" value="1" />
           <entry key="project.open.time.34" value="1" />
           <entry key="project.open.time.38" value="1" />
-          <entry key="project.opened" value="27" />
+          <entry key="project.opened" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="3485" />
           <entry key="html" value="696" />
-          <entry key="js" value="7484" />
-          <entry key="php" value="20491" />
+          <entry key="js" value="8210" />
+          <entry key="php" value="20562" />
           <entry key="txt" value="243" />
         </counts>
       </usages-collector>
@@ -133,8 +122,8 @@
         <counts>
           <entry key="CSS" value="3485" />
           <entry key="HTML" value="696" />
-          <entry key="JavaScript" value="7484" />
-          <entry key="PHP" value="20491" />
+          <entry key="JavaScript" value="8210" />
+          <entry key="PHP" value="20562" />
           <entry key="PLAIN_TEXT" value="243" />
         </counts>
       </usages-collector>
@@ -142,8 +131,8 @@
         <counts>
           <entry key="css" value="26" />
           <entry key="html" value="2" />
-          <entry key="js" value="12" />
-          <entry key="php" value="42" />
+          <entry key="js" value="13" />
+          <entry key="php" value="43" />
           <entry key="png" value="4" />
           <entry key="sql" value="1" />
         </counts>
@@ -153,8 +142,8 @@
           <entry key="CSS" value="26" />
           <entry key="HTML" value="2" />
           <entry key="Image" value="4" />
-          <entry key="JavaScript" value="12" />
-          <entry key="PHP" value="42" />
+          <entry key="JavaScript" value="13" />
+          <entry key="PHP" value="43" />
           <entry key="Scratch" value="1" />
         </counts>
       </usages-collector>
@@ -168,7 +157,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ajax/getNBCL.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
+            <state relative-caret-position="405">
               <caret line="27" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
@@ -177,7 +166,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/left.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1575">
+            <state relative-caret-position="537">
               <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
             </state>
           </provider>
@@ -197,25 +186,37 @@
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <caret column="5" selection-start-column="5" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/NBLS.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1321">
+              <caret line="664" column="56" lean-forward="true" selection-start-line="664" selection-start-column="56" selection-end-line="664" selection-end-column="56" />
               <folding>
-                <element signature="e#6#86#0#PHP" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#2;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/NBLS.js">
+        <entry file="file://$PROJECT_DIR$/js/functions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="709" column="42" selection-start-line="709" selection-start-column="42" selection-end-line="709" selection-end-column="42" />
-              <folding>
-                <element signature="n#style#0;n#span#1;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#2;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#2;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#2;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="901">
+              <caret line="53" column="28" lean-forward="true" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tinymce.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -232,8 +233,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/notes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+            <state relative-caret-position="180">
+              <caret line="17" column="67" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -241,8 +242,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/books.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="47" column="7" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
+            <state relative-caret-position="630">
+              <caret line="50" column="7" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -350,6 +351,8 @@
         <option value="$PROJECT_DIR$/css/left.css" />
         <option value="$PROJECT_DIR$/css/masks.css" />
         <option value="$PROJECT_DIR$/masks.php" />
+        <option value="$PROJECT_DIR$/tinymce.php" />
+        <option value="$PROJECT_DIR$/js/functions.js" />
         <option value="$PROJECT_DIR$/js/NBLS.js" />
       </list>
     </option>
@@ -460,11 +463,6 @@
             <path>
               <item name="Team_6" type="b2602c69:ProjectViewProjectNode" />
               <item name="Team_6" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Team_6" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Team_6" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -479,7 +477,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../mytest" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -550,6 +548,7 @@
       <workItem from="1539483557287" duration="834000" />
       <workItem from="1539504403997" duration="1029000" />
       <workItem from="1540100547395" duration="1250000" />
+      <workItem from="1540202578044" duration="6302000" />
     </task>
     <task id="LOCAL-00001" summary="ch first commit">
       <created>1538557899971</created>
@@ -625,13 +624,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="265468000" />
+    <option name="totallyTimeSpent" value="271770000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4951613" visible="true" weight="0.16717096" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4951613" visible="true" weight="0.16944024" />
       <window_info id="Structure" order="1" sideWeight="0.5032258" side_tool="true" weight="0.17776097" />
       <window_info id="Favorites" order="2" sideWeight="0.5048387" side_tool="true" weight="0.18154311" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -702,13 +701,7 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/pemail.php" />
-    <entry file="file://$PROJECT_DIR$/team6_note.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="30" selection-start-line="10" selection-end-line="10" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/team6_note.sql" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -723,13 +716,7 @@
     <entry file="file://$PROJECT_DIR$/img/descend_by_eegarim-dcdf821.jpg" />
     <entry file="file://$PROJECT_DIR$/register.php" />
     <entry file="file://$PROJECT_DIR$/login.php" />
-    <entry file="file://$PROJECT_DIR$/include/pemail6.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="21" lean-forward="true" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/include/pemail6.php" />
     <entry file="file://$PROJECT_DIR$/img/logo.svg" />
     <entry file="file://$PROJECT_DIR$/index.html" />
     <entry file="file://$PROJECT_DIR$/left.php.html" />
@@ -746,13 +733,7 @@
     <entry file="file://$PROJECT_DIR$/img/star_selected.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="5" column="142811" lean-forward="true" selection-start-line="5" selection-start-column="142811" selection-end-line="5" selection-end-column="142811" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/css/bootstrap.min.css" />
     <entry file="file://$PROJECT_DIR$/test.html" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/51b8f009-e933-4945-84a9-03e4ea738928/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
@@ -764,13 +745,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/star.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="1" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/css/star.css" />
     <entry file="file://$PROJECT_DIR$/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
@@ -781,16 +756,8 @@
     <entry file="file://$PROJECT_DIR$/js/jquery.min.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/bootstrap.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="6" column="36" lean-forward="true" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/css/bootstrap.css" />
+    <entry file="file://$PROJECT_DIR$/js/bootstrap.min.js" />
     <entry file="file://$PROJECT_DIR$/include/constants.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -849,17 +816,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/masks.css" />
     <entry file="file://$PROJECT_DIR$/masks.php" />
-    <entry file="file://$PROJECT_DIR$/ajax/getNBCL.php">
+    <entry file="file://$PROJECT_DIR$/js/jquery-3.3.1.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="360">
+          <caret line="10212" column="6" lean-forward="true" selection-start-line="10212" selection-start-column="6" selection-end-line="10212" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/left.php">
+    <entry file="file://$PROJECT_DIR$/books.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
+        <state relative-caret-position="630">
+          <caret line="50" column="7" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -870,13 +837,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/home.php">
+    <entry file="file://$PROJECT_DIR$/left.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="5" selection-start-column="5" selection-end-column="5" />
-          <folding>
-            <element signature="e#6#86#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="537">
+          <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ajax/getNBCL.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
@@ -889,36 +860,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/notes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+        <state relative-caret-position="180">
+          <caret line="17" column="67" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/books.php">
+    <entry file="file://$PROJECT_DIR$/home.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="47" column="7" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
+        <state>
+          <caret column="5" selection-start-column="5" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/jquery-3.3.1.js">
+    <entry file="file://$PROJECT_DIR$/tinymce.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="10212" column="6" lean-forward="true" selection-start-line="10212" selection-start-column="6" selection-end-line="10212" selection-end-column="6" />
+        <state relative-caret-position="450">
+          <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/NBLS.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="709" column="42" selection-start-line="709" selection-start-column="42" selection-end-line="709" selection-end-column="42" />
+        <state relative-caret-position="-1321">
+          <caret line="664" column="56" lean-forward="true" selection-start-line="664" selection-start-column="56" selection-end-line="664" selection-end-column="56" />
           <folding>
-            <element signature="n#style#0;n#span#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#2;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#2;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/functions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="901">
+          <caret line="53" column="28" lean-forward="true" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
         </state>
       </provider>
     </entry>

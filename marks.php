@@ -20,7 +20,7 @@
     <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<!--    不能重复引用,主页面的时候删掉-->
+    <!--    不能重复引用,主页面的时候删掉-->
 </head>
 <body>
     <div id="mark_body">
@@ -48,9 +48,7 @@
                     <span class="glyphicon glyphicon-pencil mark_smallicon pull-left"></span>
                     <span class="glyphicon glyphicon-trash mark_smallicon pull-left"></span>
                 </div>
-                <div id="update_complete">
-                    <span class="glyphicon glyphicon-ok mark_smallicon" style="color: rgb(170, 167, 167);"></span>
-                </div>
+                
             </div>
             
 

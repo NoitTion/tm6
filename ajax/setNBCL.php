@@ -5,19 +5,31 @@ require_once "../include/session.php";
 
 require_once '../include/connection.php';
 
-confirm_logged_in();
-$userid = $_SESSION['user_id'];
-// $userid = 1;
+// confirm_logged_in();
+// $userid = $_SESSION['user_id'];
+$userid = 1;
 $data = $_POST['data'];
 $type = $_POST['type'];
 $query = '';
+
+function ssttrr($str){
+    return '\''.$str.'\'';
+}
+
 function update($type, $data){
     global $query;
+    if($data['content'] == ''){
+        $data['content'] = '\'\'';
+    }
+    if($data['markID'] == ''){
+        $data['markID'] = 'null';
+    }
     if($type == 'newnote'){
         $query = 'insert into note (userid
                 , title
                 , content
-                , createtime
+                , createTime
+                , updateTime
                 , markID
                 , notebookID
                 , remindTime
@@ -29,15 +41,16 @@ function update($type, $data){
                 'values('.
                 $data['userid'].
                 ', \''.$data['title'].
-                '\', '.$data['content'].
-                ', '.$data['createtime'].
-                ', \''.$data['markID'].
-                '\', '.$data['notebookID'].
+                '\', \''.$data['content'].
+                '\', '.$data['createTime'].
+                ', '.$data['updateTime'].
+                ','.$data['markID'].
+                ', '.$data['notebookID'].
                 ', '.$data['remindTime'].
                 ', '.$data['isStar'].
                 ', '.$data['isShare'].
                 ', '.$data['isdelete'].
-                '\', '.$data['sharedpeople'].'\')';
+                ', '.$data['sharedpeople'].');';
     }
     else if($type == 'updatenote'){
         $nullstr = 'null';
@@ -48,6 +61,12 @@ function update($type, $data){
         if($data['updateTime'] == ''){
             $data['updateTime'] = $nullstr;
         }
+        if($data['sharedpeople'] == ''){
+            $data['sharedpeople'] = $nullstr;
+        }else{
+            strstr($data['sharedpeople']);
+        }
+        
         $query = 'update note set title=\''.$data['title'].
         '\', content=\''.$data['content'].
         '\', notebookID = '.$data['notebookID'].
@@ -55,8 +74,8 @@ function update($type, $data){
         ', remindTime='.$data['remindTime'].
         ', isStar='.$data['isStar'].
         ', isShare='.$data['isShare'].
-        ', sharedpeople=\''.$data['sharedpeople'].
-        '\' where id = ' .$data['id'];
+        ', sharedpeople='.$data['sharedpeople'].
+        ' where id = ' .$data['id'];
     }
     else if($type == 'newbook'){
         $query = 'insert into notebook (
@@ -121,6 +140,10 @@ update($type, $data);
 echo $query;
 $result = mysqli_query($connection, $query);
 echo '\n' . $result;
+$query = 'SELECT LAST_INSERT_ID()';
+$result = mysqli_query($connection, $query);
+$row = mysqli_fetch_array($result);
 
+echo $row[0];
 
 ?>

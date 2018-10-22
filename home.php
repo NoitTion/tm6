@@ -7,7 +7,7 @@
  */
     require_once 'include/session.php';
     // echo $_SESSION['user_id'];
-    confirm_logged_in();
+    //confirm_logged_in();
     
 ?>
 <!DOCTYPE html>
@@ -26,7 +26,7 @@
     <div id="middle_books" class="middles"><?php include "books.php"?></div>
     <div id="middle_label" class="middles"><?php include "marks.php"?></div>
 </div>
-<div id="edit"><?php include "edit.php"?></div>
+<div id="edit"><?php include "tinymce.php"?></div>
 
 </body>
 </html>
