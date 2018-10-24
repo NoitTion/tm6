@@ -9,6 +9,7 @@ function deformat(str){
     return str.replace(/<\/?.+?>/g,"").replace(/ /g,"");
     
 }
+
 function getMysqlquery(instance, autoUpdateTime = false){
     var o = JSON.parse(JSON.stringify(instance));
     if(autoUpdateTime)
@@ -45,6 +46,7 @@ function subDate(faultDate,currenttime = (new Date()).getTime()){
     var usedTime = etime - stime;  //两个时间戳相差的毫秒数
     var days=Math.floor(usedTime/(24*3600*1000));
     var months = Math.floor(days / 30);
+    days = days - months * 30;
     var years = Math.floor(months / 12);
     months = months - 12 * years;
     //计算出小时数
@@ -55,10 +57,14 @@ function subDate(faultDate,currenttime = (new Date()).getTime()){
     var minutes=Math.floor(leave2/(60*1000));
     var leave3 = leave2 % (60 * 1000);
     var seconds = Math.floor(leave3 / 1000);
-    if(years >= 1){
+    if(years >= 1 && months >= 1){
+        return years + '年' + months + "月前"; 
+    }else if(years >= 1){
         return years + '年前';
-    }else if(months >= 1){
+    }else if(months >= 1 && days >= 1){
         return months + '个月' + days + '天前';
+    }else if(months >= 1){
+        return months + '个月前';
     }else if(days >= 1){
         return days + '天前';
     }else if(hours >= 1){

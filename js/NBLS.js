@@ -7,7 +7,7 @@ $(window).resize(function () {
 
 });
 
-$(window).ready(function () {
+$(document).ready(function () {
     itemsarr = "";
     $('.listScroll').css('height', $(window).height() - $('#items_list').offset().top);
     $('#edit').css('width', $(window).width() - 325);
@@ -52,23 +52,25 @@ $(window).ready(function () {
                 // note['updateTime'] = '\'' + note['updateTime'] + '\'';
                 updateTips('updatenote', mnote, function (data, status) {
                     if (status === 'success') {
-                        $('#itemid_' + listid + ' .star').addClass('stared');
+
+                        $('#itemid_' + listid + ' .star').addClass('stared').removeClass('glyphicon-star-empty').addClass('glyphicon-star');
                     } else {
                         console.log('net error');
                         that.notes[trueid] = '0';
                     }
+                    editor.refresh();
                 });
             } else if (this.notes[trueid].isStar === '1') {
                 this.notes[trueid].isStar = '0';
                 var mnote = getMysqlquery(this.notes[trueid], true);
                 updateTips('updatenote', mnote, function (data, status) {
                     if (status === 'success') {
-                        $('#itemid_' + listid + ' .star').removeClass('stared');
+                        $('#itemid_' + listid + ' .star').removeClass('stared').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
                     } else {
                         console.log('net error');
                         that.notes[trueid] = '0';
                     }
-
+                    editor.refresh();
                 });
             } else {
                 alert('starnote error');
@@ -101,6 +103,7 @@ $(window).ready(function () {
         };
         this.deletenote = function (id, thatLabel, r_id) { //从标签那里传过来
             const that = this; //后面的不给传递,要在这里缓存一下
+            console.log(thatLabel);
             if (confirm('确认要删除?')) {
                 //这里要向服务器端请求删除便签
                 $.get("ajax/deleteData.php?id=" + id + '&action=note', function (status) {
@@ -123,6 +126,7 @@ $(window).ready(function () {
                         // item.getlist(item.reaction);
                         // item.changesort(item.sortfor, 1);//等到服务器回应后才能删除成功
                         item.listrefresh();
+                        editor.setCurrentNote(item.lists[0]);
                     } else {
                         alert('Error, check out your Internet. ERROR CODE:' + status);
                     }
@@ -265,7 +269,43 @@ $(window).ready(function () {
 
 
         };
+        this.addAbook = function(){
+            const that = this;
+            var newbook = jQuery.extend(true, {}, this.books[0]);
+            var bookname = $('#Create_input').val();
+            var isoccupy = 0;
+            for(var i = 0;i < this.books.length;++i){
+                if(bookname === this.books[i].bookName){
+                    isoccupy = 1;
+                    break;
+                }
+            }
+            if(isoccupy === 1){
+                alert('笔记本名字重复,创建失败');
+                return;
+            }
 
+            newbook['id'] = 'null';
+            newbook['bookName']  = bookname;
+            newbook['isdelete'] = '0';
+            newbook['isShare'] = '0';
+            newbook['isStar'] = '0';
+            newbook['createTime'] = getNowFormatDate();
+            newbook['updateTime'] = getNowFormatDate();
+            newbook['sharedpeople'] = 'null';
+
+            var mysqlquery = getMysqlquery(newbook);
+            updateTips('newbook', mysqlquery, function(data, status){
+                //目前没有
+                id = data;
+                newbook.id = id;
+                that.books.push(newbook);
+                console.log('addAbook');
+                console.log(data);
+                console.log(newbook);
+                that.printbooks();
+            });
+        }
         this.deletebook = function (id, thatLabel) { //从标签那里传过来
             const that = this; //后面的不给传递,要在这里缓存一下
             if (confirm('确认要删除这个笔记本?')) {
@@ -293,6 +333,7 @@ $(window).ready(function () {
     function Marks() {
         //actually it's init
         //TODO: deletemark.把所有note里的mark删掉
+        const that = this;
         this.getmarks = function () {
             const that = this;
             $.post("ajax/getNBCL.php", {
@@ -301,11 +342,7 @@ $(window).ready(function () {
                 that.marks = $.parseJSON(data);
                 // that.printmarks();
                 for (var i = 0; i < that.marks.length; ++i) {
-                    that.marks[i].print_mark_to = Fprint_mark_to;
-                    that.marks[i].star = star;
-                    that.marks[i].lightme = lightme;
-                    that.marks[i].removemyself = removemyself;
-                    that.marks[i].alterName = alterName;
+                    that.addmethod(that.marks[i]);
                 }
                 that.marks.findmarkFrommarks = function (id) { //返回这个id的mark
                     for (var i = 0; i < this.length; ++i) {
@@ -319,7 +356,56 @@ $(window).ready(function () {
                 // that.marks[0].print_mark_to('#marks_list');
             })
         };
+        this.addmethod = function(mark){
+            mark.print_mark_to = Fprint_mark_to;
+            mark.star = star;
+            mark.lightme = lightme;
+            mark.removemyself = removemyself;
+            mark.alterName = alterName;
+        }
 
+        this.addAmark = function(){
+            const that = this;
+            var newmark = jQuery.extend(true, {}, this.marks[0]);
+            var markname = $('#Create_input').val();
+            var isoccupy = 0;
+            for(var i = 0;i < this.marks.length;++i){
+                console.log(markname);
+                console.log(this.marks[i].markName);
+
+                if(this.marks[i].isdelete === '0' && markname === this.marks[i].markName){
+                    isoccupy = 1;
+                    break;
+                }
+            }
+            if(isoccupy === 1){
+                alert('标签名字重复,创建失败');//TODO提示信息
+                console.log(1);
+                return;
+            }
+
+            newmark['id'] = 'null';
+            newmark['markName']  = markname;
+            newmark['isStar'] = '0';
+            newmark['isdelete'] = '0';
+            newmark['createTime'] = getNowFormatDate();
+            newmark['updateTime'] = getNowFormatDate();
+            newmark['notesnum'] = '0';
+
+            var mysqlquery = getMysqlquery(newmark);
+            updateTips('newmark', mysqlquery, function(data, status){
+                //目前没有
+                id = data;
+                newmark.id = id;
+                that.addmethod(newmark);
+                that.marks.push(newmark);
+                
+                console.log('addAmark');
+                console.log(data);
+                console.log(newmark);
+                that.printAllmark();
+            });
+        }
         function removemyself() {
             //REDO: send a request to server
             //interface: update(key, content);
@@ -343,12 +429,16 @@ $(window).ready(function () {
             this.marks[tid].star('0');
         }
 
-        function update(content) {
-            //TODO:server
+        // function update(content) {
+        //     //TODO:server
 
-            this.markName = content;
+        //     this.markName = content;
+
+        // }
+        this.calcnum = function(){
 
         }
+
 
         function star(ooe) { //one or zero '1' or '0'
         const that = this;
@@ -503,7 +593,7 @@ $(window).ready(function () {
         }
         this.sort = function () {
             this.list.sort(function (a, b) {
-                return -Date.parse(a.updateTime) + Date.parse(b.updateTime);
+                return Date.parse(a.updateTime) - Date.parse(b.updateTime);
             })
         };
         this.display = function () {
@@ -553,6 +643,7 @@ $(window).ready(function () {
 
                 } else if (type[2] === 'note') {
                     //TODO: notes.notes[i].display(1);//fullscreen:1 or 0
+                    editor.setCurrentNote(that.list[str]);
                     starHideItemIn();
 
                 }
@@ -567,6 +658,7 @@ $(window).ready(function () {
                 books.starbook(tid);
             } else if (itemStr === 'note') {
                 listid = IndexOf(item.lists, 'id', tid);
+
                 notes.starnote(listid, tid);
             } else if (itemStr === 'mark') {
                 //TODO:marks.star
@@ -642,14 +734,16 @@ $(window).ready(function () {
                 $('#items_title #title_content').html(bookname + ':');
 
             } else if (this.reaction === 'trash_noteAndLabel_show') {
-                $('##items_title #title_content').html('废纸篓');
+                $('#items_title #title_content').html('废纸篓');
             } else if (this.reaction === 'star_note_show') {
-                $('##items_title #title_content').html('标签 ' + this.notes_info);
+                $('#items_title #title_content').html('标签 ' + this.notes_info);
             }
         };
 
         this.deleteitem = function (id, thatlabel) {
+            console.log(id);
             notes.deletenote(this.lists[id]['id'], thatlabel, id);
+            
         }; //仅仅在books和notes时
 
         this.listinit = function (reaction, need_id, autodisplay) {
@@ -667,6 +761,8 @@ $(window).ready(function () {
             if (this.isinit === 0) { //第一次displaylist
                 this.isinit += 1;
                 this.listinit('notes_all_show', 0);
+            }else{
+                this.isinit += 1;
             }
             var i = 0;
             for (i = 0; i < this.lists.length; ++i) {
@@ -699,6 +795,10 @@ $(window).ready(function () {
             this.lightnotes();
             this.setTitle();
             this.setlist();
+            if(this.isinit === 1){//home刚打开显示第一条笔记
+                // editor.setCurrentNote(this.lists[0]);还要等到editor加载完
+
+            }
         };
         this.lightnotes = function () {
             $('#items_list .trash').click(function () { //删除笔记,标签,笔记本,星标
@@ -763,9 +863,9 @@ $(window).ready(function () {
             // this.changesort(this.sortfor, 1);
         }
         this.changesort = function (sortfor, autoDisplay) { //updateAsc,updateDec,createAsc,updateDec,nameAsc,nameDec;
-            var list = this.lists;
+            const list = this.lists;
             this.sortfor = sortfor;
-
+            
             if (sortfor === 'createAsc') {
                 list.sort(function (a, b) {
                     return Date.parse(a.createTime) - Date.parse(b.createTime);
@@ -794,8 +894,11 @@ $(window).ready(function () {
                 list.sort(function (a, b) {
                     return a.title < b.title;
                 });
-
             }
+            for(var i = 0;i < list.length; ++i){
+                list[i].listindex = i;
+            }
+
             if (autoDisplay === 1)
                 this.displaylist();
         }
@@ -804,13 +907,16 @@ $(window).ready(function () {
         this.setCurrentNote = function(note){
             this.currentNote = note;
             var editorArea = tinymce.get('mytextarea');
-            editorArea.setContent(this.currentNote.content);
             $('#note_input').val(this.currentNote.title);
+            editorArea.setContent(this.currentNote.content);
             this.refresh();
         }
         this.refresh = function(){
             if(this.currentNote.isStar === '1'){
-                $('#editor_function_bar #small_function glyphicon-star-empty').css('color', '#2dbe60');
+                $('#small_function .glyphicon-star-empty').css('color', '#2dbe60');
+            }else if(this.currentNote.isStar === '0'){
+                $('#small_function .glyphicon-star-empty').css('color', '#a5a4a3');
+
             }
         }
         this.complete = function(){
@@ -820,6 +926,15 @@ $(window).ready(function () {
             this.currentNote.title = $('#note_input').val();
             this.currentNote.content = editorArea.getContent();
             notes.updatenote(this.currentNote.id);
+        }
+        this.star = function(){
+            notes.starnote(IndexOf(item.lists, 'id', this.currentNote.id), this.currentNote.id);
+        }
+        this.trash = function(){
+            // item.deleteitem(IndexOf(item.lists, 'id', this.currentNote.id), $('#itemid_' + IndexOf(item.lists, 'id', this.currentNote.id) + " .glyphicon-trash"));//有时间还是要改一下...这是什么鬼代码
+
+            item.deleteitem(this.currentNote.listindex, $('#itemid_' + this.currentNote.listindex + " .glyphicon-trash"));
+            
         }
     }
 
@@ -835,6 +950,64 @@ $(window).ready(function () {
     marks.getmarks();
 
 
+
+
+
+
+
+
+    function createMarkOrBook(str){
+        if(str === 'book'){
+            $('#CreateBox_center .glyphicon').removeClass('glyphicon-bookmark').addClass('glyphicon-book');
+            $('#Create_name').html('创建笔记本');
+            $('#Create_input').attr('placeholder', '给笔记本起个名字');
+            $('#Create_input').val("");        
+            $('#mask').fadeIn();
+            $('#CreateComplete').click(function(){
+                if($(this).hasClass('input_ok')){
+                    $('#mask').fadeOut();
+                    books.addAbook();
+                }
+            })
+        }else if(str === 'mark'){
+            $('#CreateBox_center .glyphicon').removeClass('glyphicon-book').addClass('glyphicon-bookmark');
+            $('#Create_name').html('创建标签');
+            $('#Create_input').attr('placeholder', '给标签起个名字');
+            $('#Create_input').val("");        
+            $('#mask').fadeIn();
+            $('#CreateComplete').click(function(){
+                if($(this).hasClass('input_ok')){
+                    $('#mask').fadeOut();
+                    marks.addAmark();
+                    return false;
+                }
+            })
+        }
+    }
+    //给mask book new添加事件
+    $('#add_mark').click(function(){
+        createMarkOrBook('mark');
+    })
+    $('#add_book').click(function(){
+        createMarkOrBook('book');
+    })
+    $('#Create_cancel').click(function(){
+        $('#mask').fadeOut();
+    });
+    $('#Create_input').on('input', function(e){
+        e = e.delegateTarget.value;
+        if(e === ''){
+            $('#CreateComplete').removeClass("input_ok").addClass("Create_complete");
+        }else{
+            $('#CreateComplete').removeClass("Create_complete").addClass("input_ok");
+        }
+    });
+    $('#small_function .glyphicon-trash').click(function(){
+        editor.trash();
+    })
+    $('#small_function .glyphicon-star-empty').click(function(){
+        editor.star();
+    })
     $('.complete').click(function(){
         console.log('click');
         editor.complete();

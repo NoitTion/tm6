@@ -26,6 +26,8 @@
     <div id="mark_body">
         <div id="middle_top">
         <div id="marks_title"><span id="title_content" class="canoselected lead">标签</span></div>
+        <div id="add_mark"><span class="glyphicon glyphicon-plus"></span></div>
+        <hr class="clear">
         </div>
 
         

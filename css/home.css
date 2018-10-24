@@ -43,3 +43,111 @@ html{
  .clear{
      clear: both;
  }
+ #mask{
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    border: none;
+    filter: alpha(opacity=60);
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+#CreateBox{
+    display: table;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#CreateBox_remind{
+    display: table-row;
+    height: 89%;
+    display: table-cell;
+    vertical-align: middle;
+    width: 650px;
+    margin: auto;
+}
+#Create_name{
+}
+.createbhr{
+    width: 250px;
+    padding: 0 0 45px 0;
+}
+#CreateBox_center{
+    text-align: center;
+    font-size: 24px;
+}
+#Create_name{
+    font-size: 16px;
+    color: #878787;
+}
+#Create_input{
+    font-size: 36px;
+    outline: none;
+    border: none;
+    
+    text-align: center;
+}
+#Create_cancel{
+    background-color: #d1d1d1;
+    border: 1px #ececec solid;
+    border-radius: 5px;
+    margin-right: 5px;
+    color: #505050;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    padding: 9px 14px;
+    min-width: 160px;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0.8;
+}
+#Create_cancel:hover{
+    opacity: 1.0;
+
+}
+
+.Create_complete{
+    background-color: #2dbe60;
+    border: 1px #2dbe60 solid;
+    border-radius: 5px;
+    margin-right: 5px;
+    color: #606060;
+    font-size: 13px;
+    cursor: unset;
+    user-select: none;
+    text-decoration: none;
+    padding: 9px 14px;
+    min-width: 160px;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0.5;
+}
+.input_ok{
+    background-color: #2dbe60;
+    border: 1px #2dbe60 solid;
+    border-radius: 5px;
+    margin-right: 5px;
+    color: #606060;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    padding: 9px 14px;
+    min-width: 160px;
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.2s ease-in-out;
+}
+.input_ok:hover{
+    color: #606060;
+    opacity: 1.0;
+    
+}

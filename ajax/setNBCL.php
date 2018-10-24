@@ -18,13 +18,14 @@ function ssttrr($str){
 
 function update($type, $data){
     global $query;
-    if($data['content'] == ''){
-        $data['content'] = '\'\'';
-    }
-    if($data['markID'] == ''){
-        $data['markID'] = 'null';
-    }
+    
     if($type == 'newnote'){
+        if($data['content'] == ''){
+            $data['content'] = '\'\'';
+        }
+        if($data['markID'] == ''){
+            $data['markID'] = 'null';
+        }
         $query = 'insert into note (userid
                 , title
                 , content
@@ -53,6 +54,12 @@ function update($type, $data){
                 ', '.$data['sharedpeople'].');';
     }
     else if($type == 'updatenote'){
+        if($data['content'] == ''){
+            $data['content'] = '\'\'';
+        }
+        if($data['markID'] == ''){
+            $data['markID'] = 'null';
+        }
         $nullstr = 'null';
         if($data['remindTime'] == '')
         {
@@ -73,6 +80,7 @@ function update($type, $data){
         ', updateTime = '.$data['updateTime'].
         ', remindTime='.$data['remindTime'].
         ', isStar='.$data['isStar'].
+        ', markID='.$data['markID'].
         ', isShare='.$data['isShare'].
         ', sharedpeople='.$data['sharedpeople'].
         ' where id = ' .$data['id'];
@@ -97,7 +105,7 @@ function update($type, $data){
                 ', '.$data['updateTime'].
                 ', '.$data['isStar'].
                 ', '.$data['noteNumber'].
-                ', \''.$data['sharedpeople'].'\')';
+                ', '.$data['sharedpeople'].')';
     }else if($type == 'updatebook'){
         $query = 'update notebook set'.
         ' bookName=\''.$data['bookName'].
@@ -115,8 +123,7 @@ function update($type, $data){
             createTime,
             updateTime,
             isStar,
-            notesnum,
-            sharedpeople,'.
+            notesnum)'.
           'values('.
              $data['userid'].
         ', \''.$data['markName'].
@@ -124,8 +131,7 @@ function update($type, $data){
         ', '.$data['createTime'].
         ', '.$data['updateTime'].
         ', '.$data['isStar'].
-        ', '.$data['notesnum'].
-        ', \''.$data['sharedpeople'].'\')';
+        ', '.$data['notesnum'].')';
     }else if($type == 'updatemark'){
         $query = 'update mark set '.
         '  markName=\''.$data['markName'].
@@ -135,11 +141,13 @@ function update($type, $data){
         ' where id = ' .$data['id'];
     }
 }
-print_r($data);
 update($type, $data);
-echo $query;
 $result = mysqli_query($connection, $query);
-echo '\n' . $result;
+
+// print_r($data);
+// echo $query;
+// echo '\n' . $result;
+
 $query = 'SELECT LAST_INSERT_ID()';
 $result = mysqli_query($connection, $query);
 $row = mysqli_fetch_array($result);

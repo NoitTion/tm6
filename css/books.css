@@ -48,6 +48,8 @@ body{
     height: auto;
     /*要用js....*/
     user-select: none;
+    overflow: auto;
+    
 }
 .canoselected{
     user-select: none;
