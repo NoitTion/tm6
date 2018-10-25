@@ -2,15 +2,27 @@
 lastclicktip = '#itemid_0'; //上一次item被点击的id
 
 $(window).resize(function () {
-    $('.listScroll').css('height', $(window).height() - $('#items_list').offset().top) //给scroll设置高度
-    $('#edit').css('width', $(window).width() - 325);
+    // $('.listScroll').css('height', $(window).height() - $('.listScroll').offset().top) //给scroll设置高度
+    $('.listScroll').each(function(){
+        $(this).css('height', $(window).height() - $(this).offset().top);
+    })
+    // $('#edit').css('width', $(window).width() -  $('#edit').offset().left);
+    // var editorArea = tinymce.get('mytextarea');
+
+    console.log($('#mceu_20-body').offset().top);
 
 });
 
 $(document).ready(function () {
     itemsarr = "";
-    $('.listScroll').css('height', $(window).height() - $('#items_list').offset().top);
-    $('#edit').css('width', $(window).width() - 325);
+    // $('.listScroll').css('height', $(window).height() - $('.listScroll').offset().top);
+    $('.listScroll').each(function(){
+        $(this).css('height', $(window).height() - $(this).offset().top);
+    })
+    // $('#edit').css('width', $(window).width() - $('#edit').offset().left);
+    console.log($('#edit').offset().left);
+    // console.log($('#mceu_20-body').offset().top);//现在还没加载出来
+
 
     var xmlhttp;
 
@@ -928,12 +940,13 @@ $(document).ready(function () {
             notes.updatenote(this.currentNote.id);
         }
         this.star = function(){
-            notes.starnote(IndexOf(item.lists, 'id', this.currentNote.id), this.currentNote.id);
+            if(typeof this.currentNote !== 'undefined')
+                notes.starnote(IndexOf(item.lists, 'id', this.currentNote.id), this.currentNote.id);
         }
         this.trash = function(){
             // item.deleteitem(IndexOf(item.lists, 'id', this.currentNote.id), $('#itemid_' + IndexOf(item.lists, 'id', this.currentNote.id) + " .glyphicon-trash"));//有时间还是要改一下...这是什么鬼代码
-
-            item.deleteitem(this.currentNote.listindex, $('#itemid_' + this.currentNote.listindex + " .glyphicon-trash"));
+            if(typeof this.currentNote !== 'undefined')
+                item.deleteitem(this.currentNote.listindex, $('#itemid_' + this.currentNote.listindex + " .glyphicon-trash"));
             
         }
     }

@@ -20,7 +20,7 @@
             // toolbar: "insertfile undo redo | fontsizeselect styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent",
             // fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
             branding: false,
-            height: 580,
+            // height: 580,
             menubar: false,
             plugins: [
                 'advlist autolink lists link image charmap print preview anchor textcolor',
@@ -32,6 +32,7 @@
                 '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
                 '//www.tinymce.com/css/codepen.min.css']
         });
+        
     </script>
 </head>
 
@@ -57,11 +58,11 @@
     <div id="editor_note_title">
         <input type="text" id="note_input" placeholder="请输入您的标题">
     </div>
-        <div style="height:720px;overflow-x:hidden">
+        <!-- <div class="listScroll" style="overflow-x:hidden"> -->
             
-                <div id="mytextarea" style="height:660px;margin: 40px 40px;font-size:24px"></div>
+                <div id="mytextarea" class = "listScroll" style="margin: 40px 40px;font-size:24px"></div>
             
-        </div>
+        <!-- </div> -->
 </body>
 
 </html>

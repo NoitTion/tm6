@@ -17,7 +17,7 @@
 }
 body{
     margin: 0;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 
 #book_body{
@@ -48,7 +48,7 @@ body{
     height: auto;
     /*要用js....*/
     user-select: none;
-    overflow: auto;
+    overflow: hidden scroll;
     
 }
 .canoselected{

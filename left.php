@@ -59,6 +59,7 @@
             });
 
             function changetonormal() {
+                
                 $('#star_normal').attr('src', 'img/star_normal.png');
                 $('#notes_normal').attr('src', 'img/note_normal.png');
                 $('#label_normal').attr('src', 'img/label_normal.png');
@@ -70,11 +71,10 @@
             $('#star').click(function () {
                 changetonormal();
                 $('#star_normal').attr('src', 'img/star_selected.png');
-                
+
             });
             $('#notes').click(function () {
                 changetonormal();
-
                 $('#notes_normal').attr('src', 'img/notes_selected.png');
             });
             $('#label').click(function () {
@@ -102,6 +102,9 @@
                 });
                 //console.log('#middle_' + $(this).attr('id'));
                 thatMiddleDiv.fadeIn(250);
+                $('.listScroll').each(function(){
+                    $(this).css('height', $(window).height() - $(this).offset().top);
+                })
             })
         });
 
