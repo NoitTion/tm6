@@ -21,7 +21,6 @@
 <!--    <script src="js/bootstrap.min.js"></script>-->
     <title>Document</title>
     <link rel="stylesheet" href="css/item.css" type="text/css">
-    <script type="text/javascript" src="js/NBLS.js"></script>
 </head>
 <body>
     <div id="item_body">

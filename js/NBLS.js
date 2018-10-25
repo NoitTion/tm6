@@ -3,26 +3,21 @@ lastclicktip = '#itemid_0'; //上一次item被点击的id
 
 $(window).resize(function () {
     // $('.listScroll').css('height', $(window).height() - $('.listScroll').offset().top) //给scroll设置高度
-    $('.listScroll').each(function(){
-        $(this).css('height', $(window).height() - $(this).offset().top);
+    $('#mytextarea_ifr').addClass('listScroll');
+    $('.listScroll').each(function(){//任然有bug,放大比例后有异常
+        $(this).css('height', Math.abs($(window).height() - $(this).offset().top));
     })
-    // $('#edit').css('width', $(window).width() -  $('#edit').offset().left);
-    // var editorArea = tinymce.get('mytextarea');
-
-    console.log($('#mceu_20-body').offset().top);
-
+    $('#edit').css('width', $(window).width() - $('#middle').width() - $('#middle').offset().left - 5);
+    console.log($('#middle').width());
 });
 
 $(document).ready(function () {
     itemsarr = "";
-    // $('.listScroll').css('height', $(window).height() - $('.listScroll').offset().top);
+    $('#mytextarea_ifr').addClass('listScroll');
     $('.listScroll').each(function(){
         $(this).css('height', $(window).height() - $(this).offset().top);
     })
-    // $('#edit').css('width', $(window).width() - $('#edit').offset().left);
-    console.log($('#edit').offset().left);
-    // console.log($('#mceu_20-body').offset().top);//现在还没加载出来
-
+    $('#edit').css('width', $(window).width() - $('#middle').width() - $('#middle').offset().left - 5);
 
     var xmlhttp;
 
@@ -294,6 +289,7 @@ $(document).ready(function () {
             }
             if(isoccupy === 1){
                 alert('笔记本名字重复,创建失败');
+                // console.log("笔记本名字重复,创建失败");
                 return;
             }
 
@@ -382,9 +378,6 @@ $(document).ready(function () {
             var markname = $('#Create_input').val();
             var isoccupy = 0;
             for(var i = 0;i < this.marks.length;++i){
-                console.log(markname);
-                console.log(this.marks[i].markName);
-
                 if(this.marks[i].isdelete === '0' && markname === this.marks[i].markName){
                     isoccupy = 1;
                     break;
@@ -392,7 +385,6 @@ $(document).ready(function () {
             }
             if(isoccupy === 1){
                 alert('标签名字重复,创建失败');//TODO提示信息
-                console.log(1);
                 return;
             }
 
@@ -962,13 +954,7 @@ $(document).ready(function () {
     books.getbooks();
     marks.getmarks();
 
-
-
-
-
-
-
-
+    
     function createMarkOrBook(str){
         if(str === 'book'){
             $('#CreateBox_center .glyphicon').removeClass('glyphicon-bookmark').addClass('glyphicon-book');
@@ -976,6 +962,7 @@ $(document).ready(function () {
             $('#Create_input').attr('placeholder', '给笔记本起个名字');
             $('#Create_input').val("");        
             $('#mask').fadeIn();
+            $('#CreateComplete').unbind('click');
             $('#CreateComplete').click(function(){
                 if($(this).hasClass('input_ok')){
                     $('#mask').fadeOut();
@@ -988,6 +975,7 @@ $(document).ready(function () {
             $('#Create_input').attr('placeholder', '给标签起个名字');
             $('#Create_input').val("");        
             $('#mask').fadeIn();
+            $('#CreateComplete').unbind('click');
             $('#CreateComplete').click(function(){
                 if($(this).hasClass('input_ok')){
                     $('#mask').fadeOut();
