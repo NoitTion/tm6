@@ -25,7 +25,8 @@ $arr = array("username"=>"tion", "passwrod"=>"4399943");
 echo print_r($rows) . '<br/>';
 echo json_encode(($rows)).'<br/><br/>';
 echo '<br/><br/>' . print_r($arr);
-
+echo '<br/>';
+mysqli_real_escape_string()
 ?>
 
 </<!doctype html>

@@ -58,7 +58,7 @@
             <div class='clear'></div>
     </div>
     <div id="editor_note_title">
-        <input type="text" id="note_input" placeholder="请输入您的标题">
+        <input type="text" id="note_input" spellcheck="false" placeholder="请输入您的标题">
     </div>
         <!-- <div class="listScroll" style="overflow-x:hidden"> -->
             

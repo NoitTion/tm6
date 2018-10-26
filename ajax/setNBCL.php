@@ -11,6 +11,22 @@ $userid = 1;
 $data = $_POST['data'];
 $type = $_POST['type'];
 $query = '';
+// print_r($data);
+
+foreach($data as $key => $vl){
+    if($key == 'null'){
+        continue;
+    }
+    if($vl == '' && $key == 'content'){
+        $data[$key] = "''";
+    }else if($vl == ''){
+        $data[$key] = 'null';
+    }else if($key == 'createTime' or $key == 'updateTime'){
+        $data[$key] = "'" . $vl ."'";
+    }else if(!is_numeric($vl)){
+        $data[$key] = "'" . mysqli_real_escape_string($connection, $vl) . "'";
+    }
+}
 
 function ssttrr($str){
     return '\''.$str.'\'';
@@ -18,14 +34,7 @@ function ssttrr($str){
 
 function update($type, $data){
     global $query;
-    
     if($type == 'newnote'){
-        if($data['content'] == ''){
-            $data['content'] = '\'\'';
-        }
-        if($data['markID'] == ''){
-            $data['markID'] = 'null';
-        }
         $query = 'insert into note (userid
                 , title
                 , content
@@ -41,9 +50,9 @@ function update($type, $data){
                 )'.
                 'values('.
                 $data['userid'].
-                ', \''.$data['title'].
-                '\', \''.$data['content'].
-                '\', '.$data['createTime'].
+                ', '.$data['title'].
+                ', '.$data['content'].
+                ', '.$data['createTime'].
                 ', '.$data['updateTime'].
                 ','.$data['markID'].
                 ', '.$data['notebookID'].
@@ -54,29 +63,9 @@ function update($type, $data){
                 ', '.$data['sharedpeople'].');';
     }
     else if($type == 'updatenote'){
-        if($data['content'] == ''){
-            $data['content'] = '\'\'';
-        }
-        if($data['markID'] == ''){
-            $data['markID'] = 'null';
-        }
-        $nullstr = 'null';
-        if($data['remindTime'] == '')
-        {
-            $data['remindTime'] = $nullstr;
-        }
-        if($data['updateTime'] == ''){
-            $data['updateTime'] = $nullstr;
-        }
-        if($data['sharedpeople'] == ''){
-            $data['sharedpeople'] = $nullstr;
-        }else{
-            strstr($data['sharedpeople']);
-        }
-        
-        $query = 'update note set title=\''.$data['title'].
-        '\', content=\''.$data['content'].
-        '\', notebookID = '.$data['notebookID'].
+        $query = 'update note set title='.$data['title'].
+        ', content='.$data['content'].
+        ', notebookID = '.$data['notebookID'].
         ', updateTime = '.$data['updateTime'].
         ', remindTime='.$data['remindTime'].
         ', isStar='.$data['isStar'].
@@ -86,34 +75,17 @@ function update($type, $data){
         ' where id = ' .$data['id'];
     }
     else if($type == 'newbook'){
-        $query = 'insert into notebook (
-                    userid, 
-                    bookName, 
-                    isShare, 
-                    isdelete, 
-                    createTime,
-                    updateTime,
-                    isStar, 
-                    noteNumber,
-                    sharedpeople)'.
-                  'values'.'('.
-                     $data['userid'].
-                ', \''.$data['bookName'].
-                '\', '.$data['isShare'].
-                ', '.$data['isdelete'].
-                ', '.$data['createTime'].
-                ', '.$data['updateTime'].
-                ', '.$data['isStar'].
-                ', '.$data['noteNumber'].
-                ', '.$data['sharedpeople'].')';
+        $query = 'insert into notebook (userid, bookName, isShare, isdelete, createTime,updateTime,isStar, noteNumber,sharedpeople) values('.
+                     $data['userid'].', '.$data['bookName'].', '.$data['isShare'].', '.$data['isdelete'].', '.$data['createTime'].
+                ', '.$data['updateTime'].', '.$data['isStar'].', '.$data['noteNumber'].', '.$data['sharedpeople'].')';
     }else if($type == 'updatebook'){
         $query = 'update notebook set'.
-        ' bookName=\''.$data['bookName'].
-        '\', isStar='.$data['isStar'].
+        ' bookName='.$data['bookName'].
+        ', isStar='.$data['isStar'].
         ', isdelete='.$data['isdelete'].
         ', isShare='.$data['isShare'].
-        ', sharedpeople=\''.$data['sharedpeople'].
-        '\', noteNumber='.$data['noteNumber'].        
+        ', sharedpeople='.$data['sharedpeople'].
+        ', noteNumber='.$data['noteNumber'].        
         ' where id = ' .$data['id'];
     }else if($type == 'newmark'){
         $query = 'insert into mark (
@@ -126,16 +98,16 @@ function update($type, $data){
             notesnum)'.
           'values('.
              $data['userid'].
-        ', \''.$data['markName'].
-        '\', '.$data['isdelete'].
+        ', '.$data['markName'].
+        ', '.$data['isdelete'].
         ', '.$data['createTime'].
         ', '.$data['updateTime'].
         ', '.$data['isStar'].
         ', '.$data['notesnum'].')';
     }else if($type == 'updatemark'){
         $query = 'update mark set '.
-        '  markName=\''.$data['markName'].
-        '\', isStar='.$data['isStar'].
+        '  markName='.$data['markName'].
+        ', isStar='.$data['isStar'].
         ', isdelete='.$data['isdelete'].
         ', notesnum='.$data['notesnum'].        
         ' where id = ' .$data['id'];

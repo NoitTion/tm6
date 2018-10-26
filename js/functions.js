@@ -15,10 +15,10 @@ function getMysqlquery(instance, autoUpdateTime = false){
     if(autoUpdateTime)
         o.updateTime = getNowFormatDate();
     if(o.updateTime){
-        o.updateTime = '\'' + o.updateTime + '\'';
+        o.updateTime = o.updateTime;
     }
     if(o.createTime){
-        o.createTime = '\'' + o.createTime + '\'';
+        o.createTime = o.createTime;
     }//然后另外的都已经改过了在.php里,我并不是很清楚我为什么要写这个方法....为了增大维护难度么?
     return o;
 }

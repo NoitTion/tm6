@@ -34,15 +34,19 @@
         </div>
         <hr class="clear">
         <div id="books_list" class="listScroll">
-<!--            '<div id="book_' + this.books[i]['id'] + '" class="book">' +-->
-<!--                '<span id="book_title">' + this.books[i]['bookName'] + '</span>' +-->
-<!--                '<span class="glyphicon glyphicon-trash pull-right smallicon trash" style="color: rgb(255, 255, 255);"/>' +-->
-<!--                '<span class="glyphicon glyphicon-star-empty pull-right smallicon star" style="color: rgb(255, 255, 255);"/>' +-->
-<!--                '<br>' +-->
-<!--                '<p id="book_num">' + that.booklength(that.books[i]['id']) + '个笔记' +-->
-<!--                    '</div>' +-->
-<!--            '<hr>');-->
+           <div id="book_' + this.books[i]['id'] + '" class="book">
+               <span id="book_title">tilte</span>
+               <span class="glyphicon glyphicon-trash pull-right smallicon trash" style="color: rgb(255, 255, 255);"/>' 
+               <span class="glyphicon glyphicon-star-empty pull-right smallicon star" style="color: rgb(255, 255, 255);"/>'
+               <br>
+               <p id="book_num">个笔记
+            </div>
+           <hr>
 
+            <div id="trash">
+                <span class="glyphicon glyphicon-trash" style="color: rgb(173, 173, 173);"> 废纸篓</span>
+                <span id="trash_num">0</span>
+            </div>
         </div>
     </div>
 

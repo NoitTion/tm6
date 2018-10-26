@@ -55,9 +55,12 @@ $(document).ready(function () {
             that = this;
             if (this.notes[trueid].isStar === '0') {
                 this.notes[trueid].isStar = '1';
-                var mnote = getMysqlquery(this.notes[trueid], true);
+                // var mnote = getMysqlquery(this.notes[trueid], true, );
                 // note['updateTime'] = '\'' + note['updateTime'] + '\'';
-                updateTips('updatenote', mnote, function (data, status) {
+                var currenttime = getNowFormatDate();
+
+                this.notes[trueid].updatenote = currenttime;
+                updateTips('updatenote', this.notes[trueid], function (data, status) {
                     if (status === 'success') {
 
                         $('#itemid_' + listid + ' .star').addClass('stared').removeClass('glyphicon-star-empty').addClass('glyphicon-star');
@@ -69,8 +72,9 @@ $(document).ready(function () {
                 });
             } else if (this.notes[trueid].isStar === '1') {
                 this.notes[trueid].isStar = '0';
-                var mnote = getMysqlquery(this.notes[trueid], true);
-                updateTips('updatenote', mnote, function (data, status) {
+                // var mnote = getMysqlquery(this.notes[trueid], true);
+                this.notes[trueid].updateTime = getNowFormatDate();
+                updateTips('updatenote', this.notes[trueid], function (data, status) {
                     if (status === 'success') {
                         $('#itemid_' + listid + ' .star').removeClass('stared').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
                     } else {
@@ -95,8 +99,8 @@ $(document).ready(function () {
         };
         this.addAnote = function (newnote) { //新建笔记的时候用
             const that = this;
-            var mysqlquery = getMysqlquery(newnote);
-            updateTips('newnote', mysqlquery, function(data, status){
+            // var mysqlquery = getMysqlquery(newnote);
+            updateTips('newnote', newnote, function(data, status){
                 //目前没有
                 id = data;
                 newnote.id = id;
@@ -143,7 +147,7 @@ $(document).ready(function () {
         this.updatenote = function(id){
             var note = this.notes[IndexOf(this.notes, 'id', id)];
             note.updateTime = getNowFormatDate();
-            updateTips('updatenote', getMysqlquery(note), function(data, status){
+            updateTips('updatenote', note, function(data, status){
                 if(status === 'success'){
                     console.log(data);
                     item.getlist('notes_all_show');
@@ -177,7 +181,7 @@ $(document).ready(function () {
             return counts;
         };
         this.printbooks = function () {
-
+            var isdelete = 0;
             $('#books_list').html('');
             that = this;
             for (var i = 0; i < this.books.length; ++i) {
@@ -198,8 +202,16 @@ $(document).ready(function () {
                         '<p id="book_num">' + that.booklength(that.books[i]['id']) + '个笔记' +
                         '</div>' +
                         '<hr class = "clear">');
+                }else{
+                    isdelete += 1;
                 }
             }
+            $('#books_list').append('<div id="trash">'+
+            '<span class="glyphicon glyphicon-trash"> 废纸篓</span>'+
+            '<span id="trash_num">0</span>'+
+            '</div>'+
+            '<hr class = "clear">');
+            $('#trash_num').html(isdelete);
             this.lightBooks();
         };
 
@@ -262,7 +274,7 @@ $(document).ready(function () {
                     $(this).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
             });
 
-            $('#books_list .glyphicon-trash').hover(function () {
+            $('#books_list .book .glyphicon-trash').hover(function () {
                 $(this).removeClass('glyphicon-trash').addClass('glyphicon-remove');
             }, function () {
                 $(this).removeClass('glyphicon-remove').addClass('glyphicon-trash');
@@ -302,8 +314,8 @@ $(document).ready(function () {
             newbook['updateTime'] = getNowFormatDate();
             newbook['sharedpeople'] = 'null';
 
-            var mysqlquery = getMysqlquery(newbook);
-            updateTips('newbook', mysqlquery, function(data, status){
+            // var mysqlquery = getMysqlquery(newbook);
+            updateTips('newbook', newbook, function(data, status){
                 //目前没有
                 id = data;
                 newbook.id = id;
@@ -396,8 +408,8 @@ $(document).ready(function () {
             newmark['updateTime'] = getNowFormatDate();
             newmark['notesnum'] = '0';
 
-            var mysqlquery = getMysqlquery(newmark);
-            updateTips('newmark', mysqlquery, function(data, status){
+            // var mysqlquery = getMysqlquery(newmark);
+            updateTips('newmark', newmark, function(data, status){
                 //目前没有
                 id = data;
                 newmark.id = id;
@@ -415,8 +427,9 @@ $(document).ready(function () {
             //interface: update(key, content);
             this.isdelete = '1';
             const that = this;
-            var tb = getMysqlquery(that)
-            updateTips('updatemark', tb, function(data, status) {
+            // var tb = getMysqlquery(that)
+            that.updateTime = getNowFormatDate();
+            updateTips('updatemark', that, function(data, status) {
                 if(status === 'success'){
                   $('#markid_' + that.id).parent().remove();
                   console.log(data);
@@ -449,8 +462,9 @@ $(document).ready(function () {
             if (ooe === '1') {
                 //REDO:向服务器发送请求 if success:
                 this.isStar = '1';
-                var tb = getMysqlquery(that)
-                updateTips('updatemark', tb, function(data, status) {
+                // var tb = getMysqlquery(that)
+                that.updateTime = getNowFormatDate();
+                updateTips('updatemark', that, function(data, status) {
                     if(status === 'success'){
                         //pass
                     }else{
@@ -462,8 +476,8 @@ $(document).ready(function () {
             } else if (ooe === '0') {
                 //REDO:向服务器发送请求 if success:
                 this.isStar = '0';
-                var tb = getMysqlquery(that)
-                updateTips('updatemark', tb, function(data, status) {
+                that.updateTime = getNowFormatDate();
+                updateTips('updatemark', that, function(data, status) {
                     if(status === 'success'){
                         //pass
                     }else{
@@ -483,8 +497,9 @@ $(document).ready(function () {
             const that = this;
             var tdmarkname = this.markName;//td都是副本的意思
             this.markName = str;
-                var tb = getMysqlquery(that)
-                updateTips('updatemark', tb, function(data, status) {
+                // var tb = getMysqlquery(that)
+                this.updateTime = getNowFormatDate();
+                updateTips('updatemark', this, function(data, status) {
                     if(status === 'success'){
                         $('#markid_' + that.id + '  .mark_name').html(str);
                     }else{
@@ -678,6 +693,96 @@ $(document).ready(function () {
 
     };
 
+    function Trash() {
+        this.list = [];
+        this.getIsdeletes = function () {
+            this.list = [];
+            getstarlist(notes.notes, this.list);
+            getstarlist(books.books, this.list);
+            getstarlist(marks.marks, this.list);
+        }
+        this.sort = function () {
+            this.list.sort(function (a, b) {
+                return Date.parse(a.updateTime) - Date.parse(b.updateTime);
+            })
+        };
+        this.display = function () {
+            $('#stars_list').html('');
+
+            for (var i = 0; i < this.list.length; ++i) {
+                var iconType = typeofStars(this.list[i]);
+                $('#stars_list').html($('#stars_list').html() +
+                    '<div id="starid_' + i + '" class="star_single canoselected">' +
+                    '<span class="glyphicon ' + iconType[1] + ' pull-left">&nbsp</span>' +
+                    '<div id="star_name" class="pull-left">' + iconType[0] + '</div>' +
+                    '<span class="glyphicon glyphicon-remove-circle pull-right"></span>' +
+                    '<div class="clear"></div>' +
+                    '</div>'
+                );
+            }
+        }
+
+        this.fresh = function () {
+            this.getstars();
+            this.sort();
+            this.display();
+            this.lightStar();
+        }
+        this.lightStar = function () {
+            const that = this;
+            for (var i = 0; i < this.list.length; ++i) {
+                $('#starid_' + i + ' .glyphicon-remove-circle').click(i, function (event) {
+                    var i = event.data;
+                    console.log('#starid_' + i + ' .glyphicon-remove-circle');
+                    console.log(i);
+
+                    that.deletestar(i);
+                    $(this).parent().remove();
+                });
+            }
+            $('.star_single').click(function () {
+                var str = $(this).attr('id').split('_')[1];
+                var type = typeofStars(that.list[str]);
+                console.log(type);
+                if (type[2] === 'book') {
+                    item.listinit('book_note_show', type[3], 1);
+                    starHideItemIn();
+                } else if (type[2] === 'mark') {
+                    item.listinit('mark_note_show', type[3], 1);
+                    starHideItemIn();
+
+                } else if (type[2] === 'note') {
+                    //TODO: notes.notes[i].display(1);//fullscreen:1 or 0
+                    editor.setCurrentNote(that.list[str]);
+                    starHideItemIn();
+
+                }
+            })
+        }
+        this.deletestar = function (listid) {
+
+            var itemStr = typeofStars(this.list[listid])[2];
+            console.log('type of star is ' + itemStr);
+            var tid = this.list[listid]['id'];
+            if (itemStr === 'book') {
+                books.starbook(tid);
+            } else if (itemStr === 'note') {
+                listid = IndexOf(item.lists, 'id', tid);
+
+                notes.starnote(listid, tid);
+            } else if (itemStr === 'mark') {
+                //TODO:marks.star
+                marks.unstar(this.list[listid]['id']);
+            }
+        }
+
+        function delete_page_label(thatlabel) {
+            thatlabel.parent().remove();
+
+        }
+
+
+    };
 
     function ItemsContainer() { 
         this.reaction = 'notes_all_show'; //mark_note_show, book_note_show, star_note_show, trash_note_show
@@ -714,12 +819,14 @@ $(document).ready(function () {
                     }
                 }
             } else if (reaction === 'trash_note_show') {
-                for (i = 0; i < this.notes.notes.length; ++i) {
-                    if (this.notes.notes[i]['isdelete'] === '0') {
-                        this.lists.push(this.notes.notes[i]);
-                    }
-                }
-            } else {}
+                // for (i = 0; i < this.notes.notes.length; ++i) {
+                //     if (this.notes.notes[i]['isdelete'] === '0') {
+                //         this.lists.push(this.notes.notes[i]);
+                //     }
+                // }TODO:trash,想的太简单了
+            } else {
+                alert('名称错了');   
+            }
         };
         this.setlist = function () {
             $('#items_num').html(this.lists.length + '条笔记');
@@ -800,7 +907,8 @@ $(document).ready(function () {
             this.setTitle();
             this.setlist();
             if(this.isinit === 1){//home刚打开显示第一条笔记
-                // editor.setCurrentNote(this.lists[0]);还要等到editor加载完
+                editor.setCurrentNote(this.lists[0]);
+                // 还要等到editor加载完
 
             }
         };
@@ -913,6 +1021,7 @@ $(document).ready(function () {
             var editorArea = tinymce.get('mytextarea');
             $('#note_input').val(this.currentNote.title);
             editorArea.setContent(this.currentNote.content);
+            console.log(editorArea);
             this.refresh();
         }
         this.refresh = function(){
@@ -954,7 +1063,7 @@ $(document).ready(function () {
     books.getbooks();
     marks.getmarks();
 
-    
+
     function createMarkOrBook(str){
         if(str === 'book'){
             $('#CreateBox_center .glyphicon').removeClass('glyphicon-bookmark').addClass('glyphicon-book');

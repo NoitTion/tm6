@@ -27,7 +27,7 @@ require_once 'include/session.php';
                     <br>
                     <p id="Create_name">创建笔记本</p>
                     <hr class="createbhr">
-                    <input type="text" id="Create_input" placeholder="给笔记本起个名字">
+                    <input type="text" id="Create_input" spellcheck="false" placeholder="给笔记本起个名字">
                     <br><br>
                     <br><br>
 
