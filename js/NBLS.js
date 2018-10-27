@@ -8,10 +8,22 @@ $(window).resize(function () {
         $(this).css('height', Math.abs($(window).height() - $(this).offset().top));
     })
     $('#edit').css('width', $(window).width() - $('#middle').width() - $('#middle').offset().left - 5);
-    console.log($('#middle').width());
 });
 
 $(document).ready(function () {
+    isAllRight = 0;
+    function isallright(){
+        if(isAllRight >= 2){
+            item.displaylist(); //有延迟啊小老弟
+            books.printbooks();
+            // stars.fresh(); //maybe there will be better method
+            marks.printAllmark();
+            stars.fresh(); //maybe there are more good method
+                // that.marks[0].print_mark_to('#marks_list');
+        }else{
+            isAllRight+=1;
+        }
+    }
     itemsarr = "";
     $('#mytextarea_ifr').addClass('listScroll');
     $('.listScroll').each(function(){
@@ -38,7 +50,8 @@ $(document).ready(function () {
             if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
                 var nnotes = $.parseJSON(xmlhttp.responseText);
                 notes.getnotes(nnotes);
-                item.displaylist(); //有延迟啊小老弟
+                isallright()
+                // item.displaylist(); //有延迟啊小老弟
             }
         });
     }
@@ -121,6 +134,24 @@ $(document).ready(function () {
                 item.changesort(item.sortfor, 1);
             });
         };
+        this.noteAddMark = function(note, index){
+            note.markID += "_" + marks.marks[index].id;
+            this.updatenote(note.id, 1);
+        };
+        function strRemoveMark(markstr, id){
+            var arr = markstr.split('_');
+            var index = arr.indexOf(id);
+            arr.splice(index, 1);
+            var newstr = '';
+            for(var i = 0;i < arr.length;++i){
+                newstr += '_'+arr[i];
+            }
+            return newstr;
+        }
+        this.removeMark = function(note, markindex){
+            note.markID = strRemoveMark(note.markID, marks.marks[markindex].id);
+            this.updatenote(note, 1);
+        }
         this.deletenote = function (id, thatLabel, r_id) { //从标签那里传过来
             const that = this; //后面的不给传递,要在这里缓存一下
             console.log(thatLabel);
@@ -155,8 +186,11 @@ $(document).ready(function () {
         };
         this.realdelete = function(note){
             id = note.id;
-            realdeleteNBLS('notebook', id, function(){
-                console.log('notebook is deleted');
+            realdeleteNBLS('note', id, function(data, status){
+                console.log('note is deleted');
+                console.log(data);
+                console.log(status);
+
             })
         }
         this.updatenote = function(id, autodisplay=1){
@@ -186,8 +220,9 @@ $(document).ready(function () {
                 action: 'notebook'
             }, function (data, status) {
                 that.books = $.parseJSON(data);
-                that.printbooks();
-                stars.fresh(); //maybe there will be better method
+                isallright()
+                // that.printbooks();
+                // stars.fresh(); //maybe there will be better method
             })
         };
         this.booklength = function (id) {
@@ -417,9 +452,10 @@ $(document).ready(function () {
                         }
                     }
                 }
-                that.printAllmark();
-                stars.fresh(); //maybe there are more good method
-                // that.marks[0].print_mark_to('#marks_list');
+                isallright()
+                // that.printAllmark();
+                // stars.fresh(); //maybe there are more good method
+                // // that.marks[0].print_mark_to('#marks_list');
             })
         };
         this.addmethod = function(mark){
@@ -881,19 +917,18 @@ $(document).ready(function () {
             notes.realdelete(this.lists[str1]);
         }
         this.lightnotes = function () {
-            console.log(this.reaction);
-                if(this.reaction === 'trash_note_show'){
-                    $('.normal_option').each(function(){
-                        console.log('note_notrmal_optino display none!!!!!!!!!!');
-                        $(this).removeClass('inln').addClass('hid');
-                    });
-                    $('.trash_option').each(function(){
-                        // this.css('display', 'inline');
-                        $(this).removeClass('hid').addClass('inln');
-                        console.log('trash_option display inline!!!!!!!!!!')
-                        }
-                    );
-                }
+            if(this.reaction === 'trash_note_show'){
+                $('.normal_option').each(function(){ 
+                    console.log('note_notrmal_optino display none');
+                    $(this).removeClass('inln').addClass('hid');
+                });
+                $('.trash_option').each(function(){
+                    // this.css('display', 'inline');
+                    $(this).removeClass('hid').addClass('inln');
+                    console.log('trash_option display inline')
+                    }
+                );
+            }
             
             $('.reuse').each(function(){
                 $(this).click(function(){
@@ -912,7 +947,7 @@ $(document).ready(function () {
                 })
             });
             $('#items_list .trash').click(function () { //删除笔记,标签,笔记本,星标
-                var id = $(this).parent().attr('id');
+                var id = $(this).parent().parent().attr('id');
                 id = id.split('_');
                 if (id[0] === 'itemid') {
                     item.deleteitem(id[1], $(this));
@@ -922,7 +957,7 @@ $(document).ready(function () {
                 return false; //阻止事件冒泡,阻止事件默认行为
             });
             $('#items_list .star').click(function () {
-                var id = $(this).parent().attr('id');
+                var id = $(this).parent().parent().attr('id');
                 id = id.split('_');
                 if (id[0] === 'itemid') {
                     item.star(id[1]);
@@ -1013,16 +1048,75 @@ $(document).ready(function () {
                 this.displaylist();
         }
     };
+    function numstr2str(str){
+        var arr = [];
+        if(str !== null){
+            arr = str.split();
+        }
+        var str = '';
+        for(var i = 0;i < arr.length;++i){
+            str += ',' + marks.marks[IndexOf(marks.marks, 'id', arr[i])];
+        }
+        return str;
+    }
+    function strs2markstrs(str){
+        if(str === null)
+        {
+            return [];
+        }
+        var arr = str.split('_');
+        var markstrs = [];
+        for(var i = 0;i < arr.length;i++){
+            if(isNaN(arr[i]) && marks.marks[i].isdelete === '0' && arr[i]!='null'){
+                console.log(IndexOf(marks.marks, 'id', arr[i]));
+                markstrs.push(marks.marks[IndexOf(marks.marks, 'id', arr[i])].markName);
+            }
+        }
+        return markstrs;
+    }
+    function isinarr(arr, it){
+        for(var i = 0;i < arr.length;++i){
+            if(arr[i] === it){
+                return true;
+            }
+        }
+        return false;
+    }
     function Editor(){
+        this.currmarks = [];
         this.setCurrentNote = function(note){
             this.currentNote = note;
             var editorArea = tinymce.get('mytextarea');
             $('#note_input').val(this.currentNote.title);
-            var oldindex = IndexOf(books.books, 'id', editor.currentNote.notebookID);
-            // console.log(editor.currentNote.notebookID);
+            var oldindex = IndexOf(books.books, 'id', this.currentNote.notebookID);
             $('#note_book_name').html(books.books[oldindex].bookName);
+            this.getcurrmarks();
+            $('#marks_show').html('');
             editorArea.setContent(this.currentNote.content);
             this.refresh();
+        }
+        this.getcurrmarks = function(){
+            var arr = [];
+            if(this.currentNote.markID != ''){
+                arr = this.currentNote.markID.split('_');
+            }
+            for(var i = 0;i < marks.marks.length;i++){
+                for(var j = 0;j < arr.length;++i){
+                    if(arr[j] === marks.marks[i].id){
+                        this.currmarks.push(marks.marks[i]);
+                    }
+                }
+            }
+        }
+        this.getmarknames = function(){
+            var str = '';
+            for(var i = 0;i < this.currmarks.length-1;++i){
+                str += this.currmarks[i].markName + ',';
+            }
+            if(this.currmarks.length >= 1){
+                str += this.currmarks[this.currmarks.length];
+            }
+            return str;
         }
         this.refresh = function(){
             if(this.currentNote.isStar === '1'){
@@ -1057,6 +1151,12 @@ $(document).ready(function () {
             books.books[oldindex].noteNumber -= 1;
             books.updateAbook(newindex);
             books.updateAbook(oldindex);
+        }
+        this.currNotAddMark = function(markindex){
+            notes.noteAddMark(this.currentNote, markindex);
+        }
+        this.currentRemoveMark = function(markid){
+            notes.removeMark(this.currentNote, IndexOf(marks.marks, 'id', markid));
         }
     }
 
@@ -1104,9 +1204,66 @@ $(document).ready(function () {
     }
 
     //给 "+创建新笔记"加事件
-    $('#note_prop_book_top').click(function(){
 
-        
+    $('#mark_select_add').click(function(){
+        // console.log(2332);
+        $('#add_mark').click();
+        $('#note_prop_mark_select').css("visibility","hidden");
+    });
+
+    $('#note_prop_mark_top').click(function(){
+        if($('#note_prop_mark_select').css("visibility") === 'hidden'){            
+            // $('#note_prop_mark_select').html('');
+            $('#notePs_marks_area').html('');
+            $('#preinstall_marks').html('');
+            var markstrs = strs2markstrs(editor.currentNote.markID);
+            var marksarr = [];
+            if(editor.currentNote.markID !== null)
+                var marksarr = editor.currentNote.markID.split();
+            for(var i = 0;i < markstrs.length && i < 6;++i){
+                $('notePs_marks_area').append(
+                    '<span id = "selectmarkid_'+ i +'" class="selectmark">'+ markstrs[i] +'</span>'
+                )
+            }
+            for(var i = 0;i < marks.marks.length;i++){
+                if(marks.marks[i].isdelete === '0'){
+                    $('#preinstall_marks').append(
+                        '<span id = "selectmarkid_'+ i +'" class="selectmark">'+ marks.marks[i].markName +'</span>');
+                }
+            }
+            $('#notePs_marks_area .selectmark').click(function(){
+                var arrindex = $(this).attr('id').split('_')[1];
+                var markid = marksarr[i];
+                marksarr.splice(arrindex, 1);
+                editor.currentRemoveMark(markid);
+                $(this).remove();
+
+            })
+            
+            $('#preinstall_marks .selectmark').click(function(){
+                markindex = $(this).attr('id').split('_')[1];
+                if(!isinarr(marksarr, marks.marks[markindex].id) && markstrs.length <= 6){
+                    console.log(markindex);
+                    editor.currNotAddMark(markindex);
+                    marksarr.push(marks.marks[markindex].id);
+                    markstrs.push(marks.marks[markindex].markName);
+                    $('notePs_marks_area').append(
+                        '<span id = "selectmarkid_'+ marksarr.length +'" class="selectmark">'+ marks.marks[index].markName +'</span>'
+                    )
+                }else if(markstrs.length == 6){
+                    alert("一个笔记只能有6个标签");
+                }else{
+                    alert("undifjdis error");
+                }
+            });
+            $('#note_prop_mark_select').css("visibility","visible");
+        }
+            else {
+            $('#note_prop_mark_select').css("visibility","hidden");
+            }
+    });
+
+    $('#note_prop_book_top').click(function(){
         if($('#note_prop_book_select').css("visibility") === 'hidden'){            
             $('#note_prop_book_select').html('');
             $('#note_prop_book_select').append('<div id="Create_A_new_notebook">'+

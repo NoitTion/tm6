@@ -39,8 +39,9 @@ body{
     color: #787878;
 }
 .clear{
-    width: 276px;
+    width: auto;
     clear: both;
+
     margin: 0;
 }
 #marks_list{

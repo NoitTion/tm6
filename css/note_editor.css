@@ -115,6 +115,9 @@ iframe{
 #note_book_name{
     color: #606060;
 }
+#note_prop{
+    min-width: 200px;
+}
 #note_prop *{
     user-select: none;
 }
@@ -129,6 +132,7 @@ iframe{
     background-color: white;
     z-index: 1;
     max-height: 520px;
+    top: 35px;
 }
 #Create_A_new_notebook{
     padding: 8px 26px;
@@ -149,4 +153,76 @@ iframe{
 .abook:hover{
     color: #ffffff;
     background-color: #2dbe60;
+}
+#note_prop_book_top{
+    float: left;
+    margin: 0 0 0 10px;
+}
+#note_prop_mark{
+    float: left;
+    margin: 0 0 0 14px;
+}
+#note_prop_mark_select{
+    position: absolute;
+    visibility: visible;
+    /* padding: 16px 16px 16px 16px; */
+    width: 260px;
+    border: 3px solid rgba(217, 217, 217, 0.4);
+    border-top: 1px solid rgba(217, 217, 217, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04), -6px 8px 15px rgba(0, 0, 0, 0.04), 6px 8px 15px rgba(0, 0, 0, 0.04);
+    background-color: white;
+    z-index: 1;
+    max-height: 520px;
+    top: 35px;
+    cursor: initial;
+}
+#mark_select_center{
+    text-align: center;
+}
+#mark_select_name{
+    display: block;
+    float: left;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+}
+#mark_select_add{
+    float: right;
+    border: #d0cdcd 1px solid;
+    border-radius:5px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+#mark_select_add:hover{
+    color: #eeeeee;
+    background-color: #2dbe60;
+}
+#notePs_marks_area{
+    text-align: initial;
+    height: 60px;
+}
+.selectmark{
+    text-align: center;
+    display:block;
+    float: left;
+    width: 74px;
+    text-overflow: ellipsis;
+    height: 30px;
+    overflow: hidden;
+    border: 1px solid white;
+    background-color: beige;
+    padding: 2px 3px 3px 3px;
+    border-radius:5px;
+    font-size: 17px;
+    cursor: pointer;
+}
+.selectmark:hover{
+    background-color: #f3f3d0;
+}
+#preinstall_marks{
+    max-height: 320px;
+    overflow: hidden auto;
+    margin-left: 10px;
 }

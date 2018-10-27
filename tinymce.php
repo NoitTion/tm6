@@ -65,6 +65,43 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="note_prop_mark">
+                    <div id="note_prop_mark_top">
+                        <span class="glyphicon glyphicon-bookmark"></span>
+                        <span id="marks_show">mark1</span>
+                    </div>
+
+                    <div id="note_prop_mark_select">
+                        <div id="mark_select_center">
+                            <span id="mark_select_name">&nbsp&nbsp标签</span>
+                            <span id="mark_select_add">添加标签</span>
+                            <hr class="clear">
+
+                            <div id="notePs_marks_area">
+                                <!-- <span id = "selectmarkid_n" class="selectmark">666</span>
+                                <span id = "selectmarkid_n" class="selectmark">月亮</span>
+                                <span id = "selectmarkid_n" class="selectmark">太想</span>
+                                <span id = "selectmarkid_n" class="selectmark">吃饭</span>
+                                <span id = "selectmarkid_n" class="selectmark">招待费</span> -->
+                                <div class="clear"></div>
+                            </div>
+                            <br>
+                            <hr class="clear">
+                            <br>
+                            <div id="preinstall_marks">
+                                <!-- <span id = "selectmarkid_n" class="selectmark">招待费</span>
+                                <span id = "selectmarkid_n" class="selectmark">666</span>
+                                <span id = "selectmarkid_n" class="selectmark">月亮</span>
+                                <span id = "selectmarkid_n" class="selectmark">太想</span>
+                                <span id = "selectmarkid_n" class="selectmark">吃饭</span>
+                                <span id = "selectmarkid_n" class="selectmark">招待费</span> -->
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id='small_function_right'>

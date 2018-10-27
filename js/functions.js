@@ -197,7 +197,7 @@ function ismousin(divmark, e) {
             func(data, status);
         })
     }
-
+    
 
     function lightit() {
         $('.glyphicon-star-empty').hover(function () {

@@ -16,18 +16,22 @@ $userid = 1;
      * @param {func} func 
      */
 
-function getinfo($tab, $connection, $userid){
+function getinfo($tab, $connection, $userid, $id){
     $query = 'delete from ' . $tab . ' where userid = ' . $userid .' and id='.$id;
     $result = mysqli_query($connection, $query);
-    echo $result;
+    echo $query;
+    echo '\n' . $result;
 }
 
 
-if(isset($_POST['action'])){
+if(isset($_POST['type'])){
 //    $id = $_SESSION['userid'];
-    $action = $_POST['action'];
-    $itemId = $_post['data'];
-    $id = '1';
+    $action = $_POST['type'];
+    $itemId = $_POST['data'];
+    echo $action;
+    // $action = 'notebook';
+    // $itemId = '18';
+
     getinfo($action, $connection, $userid, $itemId);
 
 }

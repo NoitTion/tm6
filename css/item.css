@@ -40,7 +40,7 @@ body{
     color: #787878;
 }
 .clear{
-    width: 270px;
+    width: auto;
     clear: both;
     margin: 0;
 }

@@ -70,6 +70,7 @@ function update($type, $data){
         ', remindTime='.$data['remindTime'].
         ', isStar='.$data['isStar'].
         ', markID='.$data['markID'].
+        ', isdelete='.$data['isdelete'].
         ', isShare='.$data['isShare'].
         ', sharedpeople='.$data['sharedpeople'].
         ' where id = ' .$data['id'];
@@ -116,9 +117,9 @@ function update($type, $data){
 update($type, $data);
 $result = mysqli_query($connection, $query);
 
-// print_r($data);
-// echo $query;
-// echo '\n' . $result;
+print_r($data);
+echo $query;
+echo '\n' . $result;
 
 $query = 'SELECT LAST_INSERT_ID()';
 $result = mysqli_query($connection, $query);
