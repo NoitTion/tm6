@@ -49,6 +49,23 @@
                 <span class="glyphicon glyphicon-trash"></span>
                 <div class='clear'></div>
             </div>
+            <div id="note_prop">
+                <div id="note_prop_book">
+                    <div id="note_prop_book_top">
+                        <span class="glyphicon glyphicon-book" style="color: rgb(177, 175, 172);"></span>&nbsp
+                        <span id="note_book_name">fdsafsda</span>&nbsp
+                        <span class="glyphicon glyphicon-chevron-down" style="color: rgb(177, 175, 172);"></span>
+                    </div>
+                    <div id="note_prop_book_select">
+                        <div id="Create_A_new_notebook">
+                            <span class="glyphicon glyphicon-plus">&nbsp创建新笔记</span>
+                        </div>
+                        <div id="n" class="abook">
+                            123
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div id='small_function_right'>
                 <span class="glyphicon glyphicon-fullscreen"> </span>
