@@ -164,7 +164,7 @@ iframe{
 }
 #note_prop_mark_select{
     position: absolute;
-    visibility: visible;
+    visibility: hidden;
     /* padding: 16px 16px 16px 16px; */
     width: 260px;
     border: 3px solid rgba(217, 217, 217, 0.4);

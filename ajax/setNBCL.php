@@ -14,6 +14,10 @@ $query = '';
 // print_r($data);
 
 foreach($data as $key => $vl){
+    if($key == 'remindTime' && $vl=='null'){
+        $data[$key] = 'null';
+        continue;
+    }
     if($key == 'null'){
         continue;
     }
@@ -117,9 +121,9 @@ function update($type, $data){
 update($type, $data);
 $result = mysqli_query($connection, $query);
 
-print_r($data);
-echo $query;
-echo '\n' . $result;
+// print_r($data);
+// echo $query;
+// echo '\n' . $result;
 
 $query = 'SELECT LAST_INSERT_ID()';
 $result = mysqli_query($connection, $query);

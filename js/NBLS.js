@@ -129,6 +129,7 @@ $(document).ready(function () {
                 that.notes.push(newnote);
                 console.log('addAnote');
                 console.log(newnote);
+                console.log(data);
                 editor.setCurrentNote(newnote);
                 item.getlist('notes_all_show');
                 item.changesort(item.sortfor, 1);
@@ -468,7 +469,9 @@ $(document).ready(function () {
 
         this.addAmark = function(){
             const that = this;
-            var newmark = jQuery.extend(true, {}, this.marks[0]);
+            var newmark = jQuery.extend(true, {}, JSON.parse('{"id":"1","userid":"1","markName":"bj","isStar":"0","createTime":"2018-10-09 21:05:04","updateTime":"2018-10-24 00:37:33","isdelete":"0","notesnum":"0","namebb":"#marks_list"}'));
+
+
             var markname = $('#Create_input').val();
             var isoccupy = 0;
             for(var i = 0;i < this.marks.length;++i){
@@ -988,8 +991,8 @@ $(document).ready(function () {
         };
 
         this.addEmptyitem = function(){
-            var newnote = jQuery.extend(true, {}, notes.notes[0]);
-
+            var newnote = jQuery.extend(true, {}, JSON.parse('{"id":"1","userid":"1","title":"1","content":"j","createTime":"2018-10-06 10:05:08","updateTime":"2018-10-27 10:02:26","markID":"1_2_3","notebookID":"1","remindTime":"2018-10-09 01:57:12","isStar":"0","isShare":"0","isdelete":"0","sharedpeople":null,"listindex":11}'));
+            console.log(newnote);
             newnote['id'] = 'null';
             newnote['title']  = '无标题';
             newnote['content'] = '<p><br data-mce-bogus="1"></p>';
@@ -1091,17 +1094,19 @@ $(document).ready(function () {
             var oldindex = IndexOf(books.books, 'id', this.currentNote.notebookID);
             $('#note_book_name').html(books.books[oldindex].bookName);
             this.getcurrmarks();
-            $('#marks_show').html('');
+            $('#marks_show').html(this.getmarknames);
             editorArea.setContent(this.currentNote.content);
             this.refresh();
         }
         this.getcurrmarks = function(){
             var arr = [];
-            if(this.currentNote.markID != ''){
+            console.log(marks.marks);
+
+            if(this.currentNote.markID != '' && this.currentNote.markID != null){
                 arr = this.currentNote.markID.split('_');
             }
-            for(var i = 0;i < marks.marks.length;i++){
-                for(var j = 0;j < arr.length;++i){
+            for(var i = 0;i < (marks.marks.length - 1);++i){
+                for(var j = 0;j < arr.length;++j){
                     if(arr[j] === marks.marks[i].id){
                         this.currmarks.push(marks.marks[i]);
                     }
@@ -1110,6 +1115,7 @@ $(document).ready(function () {
         }
         this.getmarknames = function(){
             var str = '';
+            if(typeof(this.currmarks) !== 'undefined'){
             for(var i = 0;i < this.currmarks.length-1;++i){
                 str += this.currmarks[i].markName + ',';
             }
@@ -1117,6 +1123,8 @@ $(document).ready(function () {
                 str += this.currmarks[this.currmarks.length];
             }
             return str;
+        }
+        return '无标签';
         }
         this.refresh = function(){
             if(this.currentNote.isStar === '1'){
