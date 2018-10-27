@@ -89,8 +89,10 @@
             });
             $('#new').click(function () {
                 changetonormal();
-
             });
+            $('#user_info').click(function(){
+                $(location).attr('href', 'logout.php');
+            })
 
             $('.leftTable').click(function () {
                 var thatMiddleDiv = $('#middle_' + $(this).attr('id'));

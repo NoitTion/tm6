@@ -11,14 +11,28 @@ $(window).resize(function () {
 });
 
 $(document).ready(function () {
+    userid = -1;
+    $.post("ajax/getuserid.php", {
+    }, function (data, status) {
+        userid = data;
+        console.log(userid);
+        isallright();
+    })
+
     isAllRight = 0;
     function isallright(){
-        if(isAllRight >= 2){
+        if(isAllRight >= 3){
+            if(notes.notes.length >= 1){
             item.displaylist(); //有延迟啊小老弟
+            }
+            if(books.books.length >= 1)
             books.printbooks();
             // stars.fresh(); //maybe there will be better method
+            if(marks.marks.length >= 1)
             marks.printAllmark();
-            stars.fresh(); //maybe there are more good method
+            if(notes.notes.length >= 1)
+            stars.fresh();
+             //maybe there are more good method
                 // that.marks[0].print_mark_to('#marks_list');
         }else{
             isAllRight+=1;
@@ -220,6 +234,7 @@ $(document).ready(function () {
             $.post("ajax/getNBCL.php", {
                 action: 'notebook'
             }, function (data, status) {
+                console.log(data);
                 that.books = $.parseJSON(data);
                 isallright()
                 // that.printbooks();
@@ -371,7 +386,7 @@ $(document).ready(function () {
         }
         this.addAbook = function(){
             const that = this;
-            var newbook = jQuery.extend(true, {}, this.books[0]);
+            var newbook = jQuery.extend(true, {}, JSON.parse('{"id":"1","userid":"1","bookName":"笔记本1","isShare":"0","isdelete":"0","createTime":"2018-10-06 10:05:00","updateTime":"2018-10-27 23:17:47","isStar":"0","noteNumber":"0","sharedpeople":null}'));
             var bookname = $('#Create_input').val();
             var isoccupy = 0;
             for(var i = 0;i < this.books.length;++i){
@@ -385,7 +400,7 @@ $(document).ready(function () {
                 // console.log("笔记本名字重复,创建失败");
                 return;
             }
-
+            newbook['userid'] = userid;
             newbook['id'] = 'null';
             newbook['bookName']  = bookname;
             newbook['isdelete'] = '0';
@@ -484,7 +499,7 @@ $(document).ready(function () {
                 alert('标签名字重复,创建失败');//TODO提示信息
                 return;
             }
-
+            newmark['userid'] = userid;
             newmark['id'] = 'null';
             newmark['markName']  = markname;
             newmark['isStar'] = '0';
@@ -993,6 +1008,7 @@ $(document).ready(function () {
         this.addEmptyitem = function(){
             var newnote = jQuery.extend(true, {}, JSON.parse('{"id":"1","userid":"1","title":"1","content":"j","createTime":"2018-10-06 10:05:08","updateTime":"2018-10-27 10:02:26","markID":"1_2_3","notebookID":"1","remindTime":"2018-10-09 01:57:12","isStar":"0","isShare":"0","isdelete":"0","sharedpeople":null,"listindex":11}'));
             console.log(newnote);
+            newnote['userid']=userid;
             newnote['id'] = 'null';
             newnote['title']  = '无标题';
             newnote['content'] = '<p><br data-mce-bogus="1"></p>';
@@ -1088,15 +1104,27 @@ $(document).ready(function () {
     function Editor(){
         this.currmarks = [];
         this.setCurrentNote = function(note){
-            this.currentNote = note;
-            var editorArea = tinymce.get('mytextarea');
-            $('#note_input').val(this.currentNote.title);
-            var oldindex = IndexOf(books.books, 'id', this.currentNote.notebookID);
-            $('#note_book_name').html(books.books[oldindex].bookName);
-            this.getcurrmarks();
-            $('#marks_show').html(this.getmarknames);
-            editorArea.setContent(this.currentNote.content);
-            this.refresh();
+            if(note != null){
+                this.currentNote = note;
+                var editorArea = tinymce.get('mytextarea');
+                $('#note_input').val(this.currentNote.title);
+                var oldindex = IndexOf(books.books, 'id', this.currentNote.notebookID);
+                console.log(oldindex);
+                console.log(this.currentNote.notebookID);
+                console.log(books.books);
+                console.log(typeof books.books[oldindex]);
+
+                
+                if(!(typeof(books.books[oldindex]) === 'undefined')){
+                    $('#note_book_name').html(books.books[oldindex].bookName);
+                }else{
+                    $('#note_book_name').html('无笔记本');
+                }
+                this.getcurrmarks();
+                $('#marks_show').html(this.getmarknames);
+                editorArea.setContent(this.currentNote.content);
+                this.refresh();
+            }
         }
         this.getcurrmarks = function(){
             var arr = [];
@@ -1135,9 +1163,12 @@ $(document).ready(function () {
             }
         }
         this.complete = function(){
+            if(this.currentNote == null){
+                alert("无效操作");
+                return;
+            }
             var editorArea = tinymce.get('mytextarea');
             console.log(this.currentNote);  
-                    
             this.currentNote.title = $('#note_input').val();
             this.currentNote.content = editorArea.getContent();
             notes.updatenote(this.currentNote.id);
@@ -1156,9 +1187,12 @@ $(document).ready(function () {
             editor.currentNote.notebookID = books.books[newindex].id;
             notes.updatenote(editor.currentNote.id);
             books.books[newindex].noteNumber = parseInt(books.books[newindex].noteNumber) + 1;
-            books.books[oldindex].noteNumber -= 1;
+            console.log(oldindex);
+            if(oldindex !== 0){
+                books.books[oldindex].noteNumber -= 1;
+                books.updateAbook(oldindex);
+            }
             books.updateAbook(newindex);
-            books.updateAbook(oldindex);
         }
         this.currNotAddMark = function(markindex){
             notes.noteAddMark(this.currentNote, markindex);

@@ -8,13 +8,13 @@
  */
 require_once "../include/session.php";
 require_once '../include/connection.php';
-// if(isset($_SESSION['userid']))
-// confirm_logged_in();
-// $userid = $_SESSION['user_id'];
-//else
-//echo 'error, please login first
-//
-$userid = 1;
+// if(isset($_SESSION['userid'])){
+confirm_logged_in();
+$userid = $_SESSION['user_id'];
+// }
+// else echo 'error, please login first';
+
+// $userid = 1;
 
 function getinfo($tab, $connection, $userid){
     $query = 'select * from ' . $tab . ' where userid = ' . $userid;
@@ -30,7 +30,7 @@ function getinfo($tab, $connection, $userid){
 if(isset($_POST['action'])){
 //    $id = $_SESSION['userid'];
     $action = $_POST['action'];
-    $id = '1';
+    // $id = '1';
     getinfo($action, $connection, $userid);
 
 }

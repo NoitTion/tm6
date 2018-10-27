@@ -7,7 +7,7 @@
  */
 require_once 'include/session.php';
 // echo $_SESSION['user_id'];
-//confirm_logged_in();
+confirm_logged_in();
 
 ?>
 <!DOCTYPE html>

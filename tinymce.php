@@ -43,9 +43,9 @@
         <!-- 工具栏 -->
         <div id="editor_function_bar">
             <div id="small_function">
-                <span class="glyphicon glyphicon-time"></span>
+                <!-- <span class="glyphicon glyphicon-time"></span> -->
                 <span class="glyphicon glyphicon-star-empty"></span>
-                <span class="glyphicon glyphicon-info-sign"></span>
+                <!-- <span class="glyphicon glyphicon-info-sign"></span> -->
                 <span class="glyphicon glyphicon-trash"></span>
                 <div class='clear'></div>
             </div>
@@ -105,7 +105,7 @@
             </div>
 
             <div id='small_function_right'>
-                <span class="glyphicon glyphicon-fullscreen"> </span>
+                <!-- <span class="glyphicon glyphicon-fullscreen"> </span> -->
                 <div class="complete">完成</div>
             </div>
 

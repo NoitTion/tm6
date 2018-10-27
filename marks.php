@@ -37,14 +37,14 @@
         <div id="marks_list" class="listScroll">
 
             <div id="mark_wrap">
-                <div id="markid_1" class="mark">
+                <!-- <div id="markid_1" class="mark">
                     <div class="mark_name">
                     mark_name
                     </div>
                     <div class="mark_note_num">
                     23
                     </div>
-                </div>
+                </div> -->
                 <div id="mark_operate">
                     <span class="glyphicon glyphicon-star mark_smallicon pull-left"></span>
                     <span class="glyphicon glyphicon-pencil mark_smallicon pull-left"></span>
