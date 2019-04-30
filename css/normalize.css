@@ -1,0 +1,64 @@
+*{
+    padding:0px;
+    margin:0px;
+    font-family:"微软雅黑";
+}
+body{
+    background-image: url(../img/bg.png);
+    text-align: center;
+}
+h1{
+    font-size:2.5em;
+    font-weight: 300;
+    letter-spacing: -3px;
+}
+/* 登陆注册的标题 */
+.intro{
+    max-width: 380px;
+    margin: 40px auto;
+    margin-top: 100px;
+    text-align: center;
+}
+/* 登陆注册的表单 */
+.form-wrapper{
+
+    margin: 0 auto;
+    max-width: 380px;
+}
+.box{
+    border-style: groove;
+    border-width: 3px;
+    padding: 13px;
+    background-color: #fff;
+    border-radius: 10px 10px;
+}
+input{
+    margin-top: 5px;
+    padding: 6px;
+    width: 100%;
+    border-radius: 2px 2px;
+}
+.box button{
+    background-color: rgb(89, 209, 93);
+    color: white;
+    text-align: center;
+    display: inline-block;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px 5px;
+    cursor: pointer;
+}
+.box button:hover{
+    background-color: rgb(32, 200, 122);
+}
+a:link{
+    text-decoration: none;
+}
+/* 悬停加下划线 */
+a:hover{
+    text-decoration: underline;
+}
+#error_box, #checkName_box{
+    color: red;
+    
+}
